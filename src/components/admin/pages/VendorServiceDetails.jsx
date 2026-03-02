@@ -23,7 +23,6 @@ export default function VendorServiceDetails({ backButton }) {
     const [loading, setLoading] = useState(false);
     const [AssignUserService, setAssignUserService] = useState(false);
     const [editService, setEditService] = useState(null);
-    const [updateVendor, setUpdateVendor] = useState(false);
     const [selectedVendor, setSelectedVendor] = useState("");
 
     // -----------------------
@@ -49,7 +48,7 @@ export default function VendorServiceDetails({ backButton }) {
     //                 VendorCode: "",
     //                 url: "Admin/VendorServiceName",
     //             });
-    //             if (assignRes.status) setServicesAssignList(assignRes.getVendorLists) ;setUpdateVendor(false);
+    //             if (assignRes.status) setServicesAssignList(assignRes.getVendorLists) ;
 
     //         } catch (error) {
     //             toast.error("Failed to load data");
@@ -87,35 +86,45 @@ export default function VendorServiceDetails({ backButton }) {
                 toast.error("Failed to load data");
             } finally {
                 setLoading(false);
-                setUpdateVendor(false);
             }
         };
 
         fetchData();
-    }, [AssignUserService, updateVendor]);
+    }, [AssignUserService]);
 
 
     const handleToggle = async (id, isActive) => {
-        // Placeholder toggle logic
-        isActive = !isActive;
+        const newStatus = !isActive;
+
         try {
             setLoading(true);
 
             const payload = {
                 Id: id,
-                IsActive: isActive,
+                IsActive: newStatus,
                 Type: "AssignService",
-                url: 'User/UpdateStatus'
+                url: "User/UpdateStatus"
             };
+
             const res = await vendorUpdateRegistration(payload);
-            if (res.Status) setUpdateVendor(true);
-            else toast.error(res.message);
+
+            if (res.Status) {
+                // ✅ Update only that row locally
+                setServicesAssignList(prev =>
+                    prev.map(item =>
+                        item.ServiceID === id
+                            ? { ...item, IsActive: newStatus }
+                            : item
+                    )
+                );
+            } else {
+                toast.error(res.message);
+            }
         } catch (err) {
             toast.error(err.message);
         } finally {
             setLoading(false);
         }
-
     };
 
     const columns = [
@@ -159,7 +168,6 @@ export default function VendorServiceDetails({ backButton }) {
     );
 
     const handleEdit = (service) => {
-
         setEditService(service);
         setAssignUserService(true);
     };

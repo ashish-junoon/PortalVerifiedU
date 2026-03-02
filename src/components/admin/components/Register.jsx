@@ -18,6 +18,7 @@ const Register = ({ cancelClose, userUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [isReport, setIsReport] = useState(false);
   const [res, setRes] = useState({});
+  const [isChecked, setIsChecked] = useState(false);
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -57,7 +58,7 @@ const Register = ({ cancelClose, userUpdate }) => {
           value => value ? /\.[a-zA-Z]{2,}$/.test(value) : false
         )
         .required("Email is required"),
-      username: Yup.string().required("Username is required").min(4,"Username must be at least 4 characters"),
+      username: Yup.string().required("Username is required").min(4, "Username must be at least 4 characters"),
       companyName: Yup.string().required("Company name is required"),
       panNumber: Yup.string().required('PAN Number is required'),
       gender: Yup.string().required("Gender is required"),
@@ -169,6 +170,28 @@ const Register = ({ cancelClose, userUpdate }) => {
       formik.setTouched({});
     }
   }, [userUpdate]);
+
+  const handleSelectChange = (e) => {
+    console.log(e.target.checked)
+
+    const fields = ["address", "city", "state", "zipCode"];
+    // assign home to office address if checked
+    if (e.target.checked == true) {
+      setIsChecked(true);
+      fields.forEach((field) => {
+        formik.setFieldValue(
+          `officeAddress.${field}`,
+          formik.values.address[field]
+        );
+      });
+    } else {
+      setIsChecked(false);
+      fields.forEach((field) => {
+        formik.setFieldValue(`officeAddress.${field}`, "");
+      });
+    }
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
 
@@ -257,7 +280,7 @@ const Register = ({ cancelClose, userUpdate }) => {
             <input
               type="text"
               name="username"
-              readOnly = {userUpdate}
+              readOnly={userUpdate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.username}
@@ -411,7 +434,15 @@ const Register = ({ cancelClose, userUpdate }) => {
           {/* OFFICE ADDRESS TITLE */}
           <div className="md:col-span-2 mt-4">
             <h3 className="text-lg font-semibold text-gray-800">Office Address</h3>
+            <input
+              type="checkbox"
+              id="check"
+              // checked={true}
+              onChange={handleSelectChange}
+              className="cursor-pointer accent-blue-600 mr-2"
+            /> <label htmlFor="check">Same as Home Address</label>
           </div>
+
 
           {/* OFFICE ADDRESS FIELDS */}
           {["address", "city", "state", "zipCode"].map((field) => (
@@ -425,6 +456,7 @@ const Register = ({ cancelClose, userUpdate }) => {
                 value={formik.values.officeAddress[field]}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                disabled={isChecked}
                 className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2
                        focus:ring-2 focus:ring-blue-500"
               />

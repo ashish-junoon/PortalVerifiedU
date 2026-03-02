@@ -7,12 +7,14 @@ import { FaServicestack } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import Icon from "../utils/Icon"; // If you want custom icons
+import { TbFile } from "react-icons/tb";
 
 const menuItems = [
-    { name: "Service Type", path: "/admin/service-type", icon: <FaServicestack size={20} /> },
-    { name: "Service Master", path: "/admin/service-master", icon: <MdMiscellaneousServices size={20} /> },
-    { name: "Users Master", path: "/admin/user-list", icon: <FiUsers size={20} /> },
     { name: "User Assign Service", path: "/admin/user-assign", icon: <FiHome size={20} /> },
+    { name: "Service Master", path: "/admin/service-master", icon: <MdMiscellaneousServices size={20} /> },
+    { name: "Service Type", path: "/admin/service-type", icon: <FaServicestack size={20} /> },
+    { name: "Users Master", path: "/admin/user-list", icon: <FiUsers size={20} /> },
+    { name: "Reports", path: "/admin/service-report", icon: <TbFile size={20} /> },
 ];
 
 export default function Sidebar({ children }) {

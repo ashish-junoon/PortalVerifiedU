@@ -94,7 +94,7 @@ function UpiVerify() {
     return (
         <div>
             <Helmet>
-                <title>VerifiedU Login</title>
+                <title>VerifiedU</title>
             </Helmet>
 
             <div className="flex">

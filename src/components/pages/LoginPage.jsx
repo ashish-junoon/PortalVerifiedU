@@ -39,7 +39,7 @@ function LoginPage() {
                 const response = await VendorLogin(payload);
                 if (response.status === true) {
                     // response.allowedUrls= ["transunion","crif", "userprefill"]
-                    response.role="user";
+                    response.role = "user";
                     login(response);
                     setIsAuthenticated(true);
                     window.location.reload();
@@ -75,7 +75,7 @@ function LoginPage() {
     return (
         <div>
             <Helmet>
-                <title>VerifiedU loginUser</title>
+                <title>VerifiedU User Login</title>
             </Helmet>
             <Background />
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -105,7 +105,7 @@ function LoginPage() {
                             />
                             <span className="text-red-500 text-xs italic">{loginUser.touched.username && loginUser.errors.username}</span>
                         </div>
-                        <div className="mb-6">
+                        <div className="mb-1">
                             {/* <label className="block text-gray-700 font-bold mb-2" htmlFor="password">
                                 Password
                             </label> */}
@@ -120,7 +120,18 @@ function LoginPage() {
                             />
                             <span className="text-red-500 text-xs italic">{loginUser.touched.password && loginUser.errors.password}</span>
                         </div>
-                        <div className="flex items-center justify-center my-8">
+                        {/* forgot password link  */}
+                        <div className="flex justify-end gap-2 mb-4">
+                            <button
+                                className="hover:green-100 text-green-700 font-semibold py-1 px-0 cursor-pointer"
+                                type="button"
+                                onClick={() => navigate('/reset-password')}
+                            >
+                                Forgot Password?
+                            </button>
+                        </div>
+
+                        <div className="flex items-center justify-center my-8 mt-2">
                             <button
                                 className="w-full bg-green-600 hover:bg-green-700 shadow-md text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline cursor-pointer"
                                 type="submit"

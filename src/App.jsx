@@ -45,6 +45,8 @@ import PaymentGateway from "./components/payment/PaymentGateway";
 import CreatePaymentLink from "./components/payment/CreatePaymentLink";
 import CreatePaymentQR from "./components/payment/CreatePaymentQR";
 import QuickTransfer from "./components/payment/QuickTransfer";
+import ForgotPassword from "./components/pages/ForgotPassword";
+import AdminReports from "./components/admin/pages/AdminReports";
 
 // import UserLocation from "./components/kyc/UserLocation";
 
@@ -65,15 +67,15 @@ function AppContent() {
   //   setIsAuthenticated(!!(token?.data?.vendorLogin?.token && token?.data?.status));
   //   setIsAdminAuthenticated(!!(adminToken?.token || adminToken?.data?.Token));
   // }, [path]);
-const [isAuthenticated, setIsAuthenticated] = useState(() => {
-  const token = JSON.parse(localStorage.getItem("authData"));
-  return !!(token?.data?.vendorLogin?.token && token?.data?.status);
-});
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const token = JSON.parse(localStorage.getItem("authData"));
+    return !!(token?.data?.vendorLogin?.token && token?.data?.status);
+  });
 
-const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
-  const adminToken = JSON.parse(localStorage.getItem("authAdminData"));
-  return !!(adminToken?.token || adminToken?.data?.Token);
-});
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    const adminToken = JSON.parse(localStorage.getItem("authAdminData"));
+    return !!(adminToken?.token || adminToken?.data?.Token);
+  });
   //  Admin Routes
   if (isAdminRoute) {
     return (
@@ -85,6 +87,7 @@ const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
             <Route path="/admin/service-master" element={<ServiceMaster />} />
             <Route path="/admin/user-list" element={<UserList />} />
             <Route path="/admin/user-assign" element={<AdminHome />} />
+            <Route path="/admin/service-report" element={<AdminReports />} />
             <Route path="*" element={<Navigate to="/admin" />} />
           </>
         ) : (
@@ -104,7 +107,7 @@ const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Home />} />
           {/* <Route path="/bureau/experian" element={<Experian />} /> */}
-          <Route path="/bureau/experian" element={<ProtectedRoute><Experian /></ProtectedRoute>} /> 
+          <Route path="/bureau/experian" element={<ProtectedRoute><Experian /></ProtectedRoute>} />
           <Route path="/bureau/crif" element={<ProtectedRoute><CrifReport /></ProtectedRoute>} />
           <Route path="/bureau/equifax" element={<ProtectedRoute><Equifax /></ProtectedRoute>} />
           {/* <Route path="/bureau/transunion" element={ <TransUnion />}/> */}
@@ -117,9 +120,9 @@ const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
           <Route path="/bureau/aadhar-verification" element={<ProtectedRoute><AadhaarKyc /></ProtectedRoute>} />
           <Route path="/bureau/driving-license" element={<ProtectedRoute><DrivingLicence /></ProtectedRoute>} />
           <Route path="/bureau/gst" element={<ProtectedRoute><Gst /></ProtectedRoute>} />
-          <Route path="/bureau/ifsc" element={<ProtectedRoute><IfscVerify/></ProtectedRoute>} />
-          <Route path="/bureau/upi" element={<ProtectedRoute><UpiVerify/></ProtectedRoute>} />
-          <Route path="/bureau/aadhar-masked" element={<ProtectedRoute><AadhaarMasked/></ProtectedRoute>} />
+          <Route path="/bureau/ifsc" element={<ProtectedRoute><IfscVerify /></ProtectedRoute>} />
+          <Route path="/bureau/upi" element={<ProtectedRoute><UpiVerify /></ProtectedRoute>} />
+          <Route path="/bureau/aadhar-masked" element={<ProtectedRoute><AadhaarMasked /></ProtectedRoute>} />
           <Route path="/enach/register" element={<ProtectedRoute><Enach /></ProtectedRoute>} />
           <Route path="/enach/cancel-enach" element={<ProtectedRoute><CancleEnach /></ProtectedRoute>} />
           <Route path="/enach/pull-payment" element={<ProtectedRoute><PullPayement /></ProtectedRoute>} />
@@ -129,14 +132,16 @@ const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
           <Route path="/payment/quick-transfer" element={<ProtectedRoute><QuickTransfer /></ProtectedRoute>} />
           <Route path="/profile" element={<ProfilePage />} />
           {/* <Route path="/location" element={<UserLocation />} /> */}
-          <Route path="/success" element={<SuccessPage fromAction={location.state?.fromAction}/>} />
-          <Route path="/failure" element={<FailurePage fromAction={location.state?.fromAction}/>} />
+          <Route path="/success" element={<SuccessPage fromAction={location.state?.fromAction} />} />
+          <Route path="/failure" element={<FailurePage fromAction={location.state?.fromAction} />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>
       ) : (
         <>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset-password" element={<ForgotPassword />} />
+
           <Route path="*" element={<Navigate to="/login" />} />
         </>
       )}

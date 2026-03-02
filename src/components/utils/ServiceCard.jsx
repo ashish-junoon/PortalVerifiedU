@@ -29,16 +29,15 @@ const ServiceCard = ({ service }) => {
                 return service[0][serviceKey].map((serviceItem, index) => (
                   <tr
                     key={index}
-                    className={`border-b transition duration-300 ease-in-out ${
-                      index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                    } hover:bg-green-100/70`}
+                    className={`border-b transition duration-300 ease-in-out ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                      } hover:bg-green-100/70`}
                   >
                     <td className="px-6 py-2 text-gray-800 font-semibold">{serviceItem.service_name}</td>
                     <td className="px-6 py-2 text-gray-600">{serviceItem.success_count}</td>
                     <td className="px-6 py-2 text-gray-600">{serviceItem.failed_count}</td>
                     <td className="px-6 py-2 text-gray-600">{(serviceItem.success_count * serviceItem.service_amount).toFixed(2)}
 
-</td>
+                    </td>
                   </tr>
                 ));
               })}

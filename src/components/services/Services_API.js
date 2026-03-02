@@ -47,6 +47,51 @@ export const VendorLogin = async (req) => {
         throw error;
     }
 };
+
+//Forget Password
+export const ForgetPasswordOTP = async (req) => {
+    try {
+        const response = await api.post("/User/SendForgotPasswordOtp", req);
+        return response.data; // Return the API response data
+    } catch (error) {
+        console.error("Forget password error:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+//Resend OTP
+export const resendOTP = async (req) => {
+    try {
+        const response = await api.post("/User/ResendMobileOTP", req);
+        return response.data;
+    } catch (error) {
+        console.error("Resend OTP:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+//Verify Email OTP
+export const verifyEmailOTP = async (req) => {
+    try {
+        const response = await api.post("/User/VerifyForgotPasswordOtp", req);
+        return response.data;
+    } catch (error) {
+        console.error("Verify Email OTP:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+// Applicant Account Password Creation
+export const CreatePassword = async (req) => {
+    try {
+        const response = await api.post("/User/ResetPassword", req);
+        return response.data; // Return the API response data
+    } catch (error) {
+        console.error("Password creation error:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
 export const GetVendorAmount = async (req) => {
     
     try {

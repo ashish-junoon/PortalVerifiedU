@@ -1,6 +1,8 @@
 import { wrap } from "framer-motion";
 import React from "react";
 import DataTable from "react-data-table-component";
+import AdharCard from "../utils/AdharCard";
+import AdharBack from "../utils/AdharBack";
 
 
 
@@ -88,7 +90,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
         name: 'Value',
         selector: row => row.value,
         // sortable: true,
-        cell: row => typeof row.value == "boolean"? (
+        cell: row => typeof row.value == "boolean" ? (
           <span
             style={{
               color: row.value ? "green" : "red",
@@ -97,7 +99,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
           >
             {row.value ? "Yes" : "No"}
           </span>
-        ):row.value,
+        ) : row.value,
       },
     ];
 
@@ -110,11 +112,11 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
     // ];
 
     const formattedData = [
-      { field: 'Is Valid', value: report?.is_valid ?? "N/A"},
+      { field: 'Is Valid', value: report?.is_valid ?? "N/A" },
       { field: 'PAN Number', value: report?.pan_number || "N/A", },
-      { field: 'Full Name', value: report?.name || "N/A"|| "N/A"},
+      { field: 'Full Name', value: report?.name || "N/A" || "N/A" },
       // { field: 'Category', value: report?.category || "N/A"},
-      { field: 'Date of Birth', value: report?.dob || "N/A"},
+      { field: 'Date of Birth', value: report?.dob || "N/A" },
       // { field: 'Father Name', value: report?.father_name || 'N/A' },
       // { field: 'GST Amount', value: report?.gst_amount || "N/A"},
       // { field: 'Service Charge', value: report?.service_charge || "N/A"},
@@ -220,7 +222,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
         name: 'Value',
         selector: row => row.value,
         // sortable: true,
-        cell: row => typeof row.value == "boolean"? (
+        cell: row => typeof row.value == "boolean" ? (
           <span
             style={{
               color: row.value ? "green" : "red",
@@ -229,25 +231,25 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
           >
             {row.value ? "Yes" : "No"}
           </span>
-        ):row.value,
+        ) : row.value,
       },
     ];
     const formattedData = [
       // { field: 'Client ID', value: report.client_id },
       { field: 'Aadhaar Number', value: report?.aadhaar_uid || "N/A" },
-      { field: 'Status', value: report?.status || "N/A"},
-      { field: 'Is Valid', value: report?.is_valid ?? "N/A"},
-      { field: 'Name', value: report?.name || "N/A"},
-      { field: 'DOB (Masked)', value: report?.date_of_birth_masked || "N/A"},
+      { field: 'Status', value: report?.status || "N/A" },
+      { field: 'Is Valid', value: report?.is_valid ?? "N/A" },
+      { field: 'Name', value: report?.name || "N/A" },
+      { field: 'DOB (Masked)', value: report?.date_of_birth_masked || "N/A" },
       // { field: 'Age Range', value: report?.age_range || "N/A"},
-      { field: 'Gender', value: report?.gender || "N/A"},
+      { field: 'Gender', value: report?.gender || "N/A" },
       // { field: 'Mobile Masking', value: report?.last_digits || "N/A"},
     ];
 
     return (
       <div className="px-6">
         <h1 className="text-2xl font-bold mb-4">Adhar KYC Report</h1>
-        <DataTable
+        {/* <DataTable
           columns={columns}
           data={formattedData}
 
@@ -265,7 +267,25 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
               },
             },
           }}
-        />
+        /> */}
+        <div className="flex justify-center gap-24 my-12">
+          <AdharCard
+            name={report?.name || "N/A"}
+            dob={report?.date_of_birth_masked || "N/A"}
+            gender={report?.gender || "N/A"}
+            aadhaarNumber={report?.aadhaar_uid || "N/A"}
+            image={report?.image || "N/A"}
+          />
+
+          <AdharBack
+            name={report?.name || "N/A"}
+            dob={report?.date_of_birth_masked || "N/A"}
+            gender={report?.gender || "N/A"}
+            aadhaarNumber={report?.aadhaar_uid || "N/A"}
+            image={report?.image || "N/A"}
+            address={report?.addresses[0]}
+          />
+        </div>
         <div className="flex flex-col sm:flex-row gap-4 mt-8">
 
           <button
@@ -291,7 +311,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
         name: 'Value',
         selector: row => row.value,
         // sortable: true,
-        cell: row => typeof row.value == "boolean"? (
+        cell: row => typeof row.value == "boolean" ? (
           <span
             style={{
               color: row.value ? "green" : "red",
@@ -300,15 +320,15 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
           >
             {row.value ? "Yes" : "No"}
           </span>
-        ):row.value,
+        ) : row.value,
       },
     ];
     const formattedData = [
       { field: "Aadhaar Number", value: report.aadhaar_uid },
       { field: "PAN Number", value: report.pan_number_masked },
       { field: "Status", value: report.status },
-      { field: "Is Valid", value: report?.is_valid ?? "N/A"},
-      { field: "Is Linked", value: report.is_linked},
+      { field: "Is Valid", value: report?.is_valid ?? "N/A" },
+      { field: "Is Linked", value: report.is_linked },
       // { field: "Service Charge", value: report.service_charge },
       // { field: "GST Amount", value: report.gst_amount },
       // { field: "Total (With GST)", value: report.service_charge_with_gst },
@@ -364,7 +384,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
       // { field: "GST Amount", value: report.gst_amount },
       // { field: "Total (With GST)", value: report.service_charge_with_gst },
       { field: "Pincode", value: report.pincode || "N/A" },
-      { field: "Authority", value: report.dl_rto_details?.authority || "N/A"  },
+      { field: "Authority", value: report.dl_rto_details?.authority || "N/A" },
       { field: "State", value: report.dl_rto_details?.state || "N/A" },
       { field: "Current Address", value: report.addresses[0]?.complete_address || "N/A" },
       { field: "Parmanent Address", value: report.addresses[1]?.complete_address || "N/A" },
@@ -397,7 +417,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
         selector: (row) => row.value,
         grow: 2,
         wrap: true,
-        cell: row => typeof row.value == "boolean"? (
+        cell: row => typeof row.value == "boolean" ? (
           <span
             style={{
               color: row.value ? "green" : "red",
@@ -406,7 +426,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
           >
             {row.value ? "Yes" : "No"}
           </span>
-        ):row.value,
+        ) : row.value,
 
       },
     ];
