@@ -17,7 +17,7 @@ export const SidebarProvider = ({ children }) => {
       }
     };
 
-    if (window.innerWidth < 1024) {a
+    if (window.innerWidth < 1024) {
       setIsOpenSidebar(false);
     }
 
