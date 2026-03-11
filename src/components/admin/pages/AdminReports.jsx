@@ -61,7 +61,7 @@ export default function AdminReports() {
         },
     ];
 
-    const filteredData = data.filter((item) => {
+    const filteredData = data??((item) => {
         const matchesSearch =
             `${item.vendorname} ${item.vendorcode} ${item.vendoremail} ${item.username} ${item.mobile}`
                 .toLowerCase()
@@ -78,8 +78,8 @@ export default function AdminReports() {
     });
 
     // something for ux
-    const activeCount = data.filter(user => user.isactive === true).length;
-    const inactiveCount = data.filter(user => user.isactive === false).length;
+    const activeCount = data?.filter(user => user.isactive === true).length;
+    const inactiveCount = data?.filter(user => user.isactive === false).length;
     const totalUsers = data.length;
 
     const activePercentage = totalUsers

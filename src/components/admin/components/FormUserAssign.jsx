@@ -12,7 +12,7 @@ const FormUserAssign = ({ user = [], servicesTypeList = [], servicesList = [], c
     const [price, setPrice] = useState([]);
     const handleServiceTypeChange = (e) => {
         const selectedId = e.target.value;
-        const filteredNames = servicesList.filter(
+        const filteredNames = servicesList?.filter(
             (item) => item.service_type_id === Number(selectedId)
         );
 
@@ -95,7 +95,7 @@ const FormUserAssign = ({ user = [], servicesTypeList = [], servicesList = [], c
         );
 
         // 3. Filter service list for dropdown
-        const filtered = servicesList.filter(
+        const filtered = servicesList?.filter(
             i => i.service_type_id === type?.service_type_id
         );
         setList(filtered);

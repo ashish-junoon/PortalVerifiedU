@@ -161,7 +161,7 @@ export default function VendorServiceDetails({ backButton }) {
         },
     ];
 
-    const filteredData = servicesAssignList.filter(item =>
+    const filteredData = servicesAssignList?.filter(item =>
         `${item.vendor_code} ${item.service_type} ${item.service_name} ${item.price}`
             .toLowerCase()
             .includes(filterText.toLowerCase())

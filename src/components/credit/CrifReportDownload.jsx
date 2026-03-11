@@ -34,7 +34,7 @@ function CRIFReportData({ response }) {
 
   const factorCodes = data?.scores?.score?.scorE_FACTORS
     ?.split("|")
-    .filter(Boolean); // removes empty values
+    ?.filter(Boolean); // removes empty values
 
   function NameVariations({ data, ispan }) {
     const variations = Array.isArray(data["variation"])
