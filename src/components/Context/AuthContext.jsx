@@ -139,7 +139,7 @@ export const AuthProvider = ({ children }) => {
 
         if (response.status === true) {
             setServiceHistory(response.dashboardVendors);
-            console.log(response.dashboardVendors)
+            // console.log(response.dashboardVendors)
         } else {
             console.error(response.message);
         }

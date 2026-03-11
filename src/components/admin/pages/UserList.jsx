@@ -163,14 +163,14 @@ const handleToggle = async (id, isActive) => {
     return (
         <div className="flex">
             <Sidebar />
-            <div className="flex-1 bg-gray-100 min-h-screen">
+            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden">
                 <Navbar />
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
+                        <h2 className="text-lg md:text-2xl font-bold text-gray-800">User Management</h2>
                         <button
                             onClick={handleCreateUser}
-                            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                            className="bg-blue-600 text-white md:px-5 px-3 py-2 rounded-lg shadow hover:bg-blue-700 transition"
                         >
                             + Create User
                         </button>

@@ -11,6 +11,7 @@ import { CreatePassword, ForgetPasswordOTP, resendOTP, UserLogin, VendorLogin, v
 import { AuthContext } from '../Context/AuthContext';
 import { toast } from 'react-toastify';
 import Loader from '../utils/Loader';
+import Images from "../content/Images"
 
 function ForgotPassword() {
 
@@ -208,8 +209,12 @@ function ForgotPassword() {
                 <div className="bg-white rounded-lg shadow-md py-8 px-8 md:px-10 md:w-sm w-xs ">
                     {/* Logo and Text */}
                     <div className="flex items-center space-x-2 justify-center mt-5">
-                        <img src="/logo.svg" alt="VerifiedU Logo" className="h-8 w-auto" />
-                        <div className="text-black text-2xl italic font-semibold tracking-tight ">Verified<span className="text-green-600 font-bold">U</span></div>
+                        <img src={Images.logo} alt="VerifiedU Logo" className="h-8 w-auto" />
+                        {/* <div className="text-black text-2xl italic font-semibold tracking-tight ">Verified<span className="text-green-600 font-bold">U</span></div> */}
+                    </div>
+
+                    <div className="flex items-center justify-center">
+                        <div className="text-center text-gray-600 italic ">Enter email to reset password.</div>
                     </div>
 
                     {/* Mobile Number Form */}
@@ -235,7 +240,7 @@ function ForgotPassword() {
 
                             <div className="flex items-center justify-center my-8 mt-2">
                                 <button
-                                    className={`w-full ${mobileFormik.isSubmitting ? "bg-green-700":"bg-green-600"} hover:bg-green-700 shadow-md text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline cursor-pointer`}
+                                    className={`w-full ${mobileFormik.isSubmitting ? "bg-gray-300":"bg-primary hover:bg-primarydark"} shadow-md text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline cursor-pointer`}
                                     type="submit"
                                     disabled={mobileFormik.isSubmitting}
                                 >

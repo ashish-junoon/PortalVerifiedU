@@ -130,13 +130,13 @@ export default function ServiceMaster() {
             <Sidebar />
 
             {/* Main Content */}
-            <div className="flex-1 bg-gray-100 min-h-screen">
+            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden">
                 <Navbar />
 
-                <div className="p-6">
+                <div className="md:p-6 p-3">
                     {/* Header + Action */}
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-semibold text-gray-800">
+                        <h2 className="md:text-2xl text-xl font-semibold text-gray-800">
                             Service Master Management
                         </h2>
                         <button
@@ -145,7 +145,7 @@ export default function ServiceMaster() {
                                 setEditService(null);
                                 setOpenForm(true);
                             }}
-                            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                            className="bg-blue-600 text-white px-5 max-md:px-3 py-2 rounded-lg shadow hover:bg-blue-700 transition"
                         >
                             + Add Service
                         </button>

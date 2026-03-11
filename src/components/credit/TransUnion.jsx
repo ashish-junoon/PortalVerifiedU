@@ -183,12 +183,13 @@ function TransUnion() {
                 {isOpenSidebar && <Sidebar />}
                 <div className={`${isOpenSidebar && "lg:ml-64"} md:p-6 p-2 flex-1`}>
                     {!isReport && Object.keys(res).length === 0 && (
-                        <div className="md:w-full mx-auto text-black  mt-2">
-                            <div className="border border-green-300  md:w-2/3 mx-auto p-4 md:p-8 shadow-md rounded">
+                        <div className="md:w-full mx-auto text-black mt-2">
+                            <div className="relative overflow-hidden border border-gray-100  md:w-full max-w-[1400px] mx-auto p-4 md:p-8 shadow-md rounded">
+                                <div className="absolute bg-primary/10 w-50 h-50 md:top-[-60px] max-md:top-[-100px] right-[-60px] rounded-full"></div>
                                 <div className="mb-4">
-                                    <h2 className="text-xl font-semibold italic text-green-600">TransUnion</h2>
+                                    <h2 className="text-xl font-semibold italic text-primary">TransUnion</h2>
                                     <p className="text-xs italic mb-1">TransUnion Credit Bureau</p>
-                                    <div className="border w-full border-green-300 " />
+                                    <div className="border w-full border-primary/50" />
                                 </div>
 
                                 <form onSubmit={report.handleSubmit}>
@@ -329,7 +330,7 @@ function TransUnion() {
                                     <div className="flex gap-4 items-center justify-center my-5">
                                         <button
                                             type="submit"
-                                            className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300 ease-in-out text-md font-semibold cursor-pointer    "
+                                            className="w-full px-4 py-2 bg-primary text-white rounded hover:bg-primarydark transition duration-300 ease-in-out text-md font-semibold cursor-pointer    "
                                         >
                                             Get Report
                                         </button>
@@ -337,7 +338,7 @@ function TransUnion() {
                                         <button
                                             type="reset"
                                             onClick={report.handleReset}
-                                            className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-300 ease-in-out     cursor-pointer font-semibold text-md"
+                                            className="w-full px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition duration-300 ease-in-out     cursor-pointer font-semibold text-md"
                                         >
                                             Reset Form
                                         </button>

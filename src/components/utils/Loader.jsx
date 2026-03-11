@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const Loader = ({
     message = 'Loading...',
-    color = '#4fa94d',
+    color = '#04bd8c',
     height = 100,
     width = 100,
     visible = true,

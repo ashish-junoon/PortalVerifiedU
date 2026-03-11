@@ -15,7 +15,7 @@ function SelectInput({ label, name, id, value, onChange, disabled, onBlur, optio
                 onChange={onChange}
                 onBlur={onBlur}
                 disabled={disabled || false}
-                className={`w-full border px-3 py-2 rounded focus:outline-none border-green-200 shadow-sm focus:border-green-500 italic font-semibold text-gray-800 
+                className={`w-full border px-3 py-2 rounded focus:outline-none border-gray-200 shadow-sm focus:border-green-500 italic font-semibold text-gray-800 
                     ${disabled ? "bg-gray-200" : ""}`}
             >
                 <option className=" " value="">Select an option</option>

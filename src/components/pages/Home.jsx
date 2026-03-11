@@ -6,6 +6,8 @@ import ServiceCard from "../utils/ServiceCard";
 import { AuthContext } from "../Context/AuthContext";
 import Sidebar from "../Sidebar";
 import { useSidebar } from "../Context/SidebarContext";
+import Dashcards from "../utils/Dashcards";
+import DashboardCharts from "../utils/DashboardCharts";
 function Home() {
   const { isOpenSidebar } = useSidebar();
   const { wallet, vendorDetails, serviceHistory } = useContext(AuthContext);
@@ -17,12 +19,25 @@ function Home() {
     }
   }, [token]);
 
- const services = Object.values(serviceHistory?.[0] || {}).flat();
+  const services = Object.values(serviceHistory?.[0] || {}).flat();
 
   const tillused = services.reduce(
     (sum, item) => sum + (item.success_count || 0) * (item.service_amount || 0),
-    0
+    0,
   );
+  const totals = serviceHistory
+    ?.flatMap((vendor) => Object.values(vendor))
+    ?.flat()
+    ?.reduce(
+      (acc, item) => {
+        acc.success_count += item.success_count;
+        acc.failed_count += item.failed_count;
+        acc.total_services += 1;
+
+        return acc;
+      },
+      { success_count: 0, failed_count: 0, total_services: 0 },
+    );
 
   // const services = {
   //     users: {
@@ -55,6 +70,7 @@ function Home() {
 
   //     ],
   // };
+
   return (
     <div>
       <Helmet>
@@ -76,18 +92,38 @@ function Home() {
             </div>
           )}
 
-          <div className="flex justify-center items-center">
+          <div className="my-3">
+            <div className="bg-white md:py-4 px-2 py-6 shadow-xs w-full max-md:w-full m-auto rounded-md">
+              <Dashcards wallet={wallet} service={totals} />
+            </div>
+
+            {/* <div className="my-5 px-2">
+              <DashboardCharts data={serviceHistory} />
+            </div> */}
+
+            <div className=" bg-gray-100 md:px-6 md:py-3 px-3 py-3 rounded-xl">
+              <h1 className="text-2xl font-bold text-gray-800">Services</h1>
+
+              {serviceHistory?.length === 0 ? (
+                <p className="text-gray-500 text-center">
+                  No services available
+                </p>
+              ) : (
+                <div className="">
+                  <ServiceCard service={serviceHistory} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* <div className="flex justify-center items-center">
             <div className="bg-white md:p-6 px-2 py-6 shadow-xs  w-[90%] max-md:w-full m-auto rounded-md">
               <h1 className="text-2xl font-bold text-gray-900  mb-2">
                 Credit Bureau
               </h1>
 
-              {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"> */}
-
               <UserCard vendorDetails={vendorDetails} tillused={tillused} />
 
-              {/* </div> */}
-              {/* Cards Container */}
               <div className=" bg-gray-100 md:px-8 md:py-1 px-3 py-2">
                 <h1 className="text-3xl font-semibold text-gray-800">Services</h1>
 
@@ -102,7 +138,7 @@ function Home() {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

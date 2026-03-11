@@ -130,15 +130,16 @@ function CreatePaymentQR() {
         {isOpenSidebar && <Sidebar />}
         <div className={`${isOpenSidebar && "lg:ml-64"} md:p-6 p-2 flex-1`}>
           {!paymentQRData?.success && (
-            <div className="md:w-full w-full mx-auto text-black  mt-10">
-              <div className="border border-green-300  md:w-2/3 mx-auto p-8 shadow-md rounded">
-                <h2 className="text-xl font-semibold italic text-green-600">
+            <div className="md:w-full w-full mx-auto text-black  mt-5">
+              <div className="relative overflow-hidden border border-gray-100  md:w-full max-w-[1400px] mx-auto p-8 shadow-md rounded">
+                <div className="absolute bg-primary/10 w-50 h-50 md:top-[-60px] max-md:top-[-100px] right-[-60px] rounded-full"></div>
+                <h2 className="text-xl font-semibold italic text-primary">
                   Create Payment QR
                 </h2>
                 <p className="text-xs italic mb-1">
                   Enter all required fields below
                 </p>
-                <div className="border w-full mb-5 border-green-300 " />
+                <div className="border w-full mb-5 border-primary/50" />
 
                 {/* FORM */}
                 <form onSubmit={form.handleSubmit}>
@@ -225,7 +226,7 @@ function CreatePaymentQR() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300 font-semibold"
+                      className="w-full px-4 py-2 bg-primary text-white rounded hover:bg-primarydark transition duration-300 font-semibold"
                     >
                       {loading ? "Submiting..." : "Submit"}
                     </button>
@@ -233,7 +234,7 @@ function CreatePaymentQR() {
                     <button
                       type="reset"
                       onClick={form.handleReset}
-                      className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-300 font-semibold"
+                      className="w-full px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition duration-300 font-semibold"
                     >
                       Reset Form
                     </button>

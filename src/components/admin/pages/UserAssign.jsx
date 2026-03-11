@@ -39,7 +39,7 @@ export default function UserAssign() {
                 const serviceRes = await vendorGetServiceNameTypeList({
                     url: "Admin/GetServiceName"
                 });
-                console.log(serviceRes)
+                // console.log(serviceRes)
                 if (serviceRes.status) setServicesList(serviceRes.serviceNames);
 
             } catch (error) {
@@ -183,7 +183,7 @@ export default function UserAssign() {
     if (loading) return <Loader />;
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="p-6 max-md:p-3 bg-gray-100 min-h-screen">
 
             {!vendorService && (
                 <>
@@ -235,11 +235,11 @@ export default function UserAssign() {
 
                             <Form>
 
-                                <div className="flex gap-4 mb-4">
+                                <div className="flex gap-4 mb-4 max-md:flex-col max-md:gap-1">
 
                                     <input
                                         type="text"
-                                        className="border px-4 py-2 rounded-lg w-1/2"
+                                        className="border px-4 py-2 rounded-lg md:w-1/2 max-md:w-full"
                                         placeholder="Search service..."
                                         value={filterText}
                                         onChange={e => setFilterText(e.target.value)}
@@ -290,7 +290,7 @@ export default function UserAssign() {
                                                 toast.error("Failed to fetch vendor services");
                                             }
                                         }}
-                                        className="border px-4 py-2 rounded-lg w-1/2"
+                                        className="border px-4 py-2 rounded-lg md:w-1/2 max-md:w-full"
                                     >
                                         <option value="">Select Vendor</option>
                                         {users.map((u, idx) => (
@@ -306,12 +306,12 @@ export default function UserAssign() {
                                     <p className="text-red-600 text-sm mb-2">{errors.vendorCode}</p>
                                 )}
 
-                                <div className="flex gap-4 mb-6">
+                                <div className="flex gap-4 max-md:gap-1 mb-6 max-md:flex-col w-full">
                                     {/* Assign Services Button */}
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="flex items-center gap-2 bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out focus:outline-none"
+                                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out focus:outline-none"
                                     >
                                         <span className="text-lg font-semibold">{loading?"Assigning...":"Assign Services"}</span>
                                     </button>
@@ -320,7 +320,7 @@ export default function UserAssign() {
                                     <button
                                         type="button"
                                         onClick={() => setVendorService(true)}
-                                        className="flex items-center gap-2 bg-gradient-to-r from-gray-300 to-gray-500 text-black px-6 py-3 rounded-full shadow-lg hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
+                                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-gray-300 to-gray-500 text-black px-6 py-3 rounded-full shadow-lg hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
                                     >
                                         <span className="text-lg font-semibold">Edit Vendor Services Details</span>
                                     </button>
