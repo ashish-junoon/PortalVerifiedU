@@ -97,9 +97,9 @@ function Home() {
               <Dashcards wallet={wallet} service={totals} />
             </div>
 
-            <div className="my-5 px-2">
+            {/* <div className="my-5 px-2">
               <DashboardCharts data={serviceHistory} />
-            </div>
+            </div> */}
 
             <div className=" bg-gray-100 md:px-6 md:py-3 px-3 py-3 rounded-xl">
               <h1 className="text-2xl font-bold text-gray-800">Services</h1>

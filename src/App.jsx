@@ -121,7 +121,7 @@ function AppContent() {
           <Route path="/bureau/driving-license" element={<ProtectedRoute><DrivingLicence /></ProtectedRoute>} />
           <Route path="/bureau/gst" element={<ProtectedRoute><Gst /></ProtectedRoute>} />
           <Route path="/bureau/ifsc" element={<ProtectedRoute><IfscVerify /></ProtectedRoute>} />
-          <Route path="/bureau/upi" element={<ProtectedRoute><UpiVerify /></ProtectedRoute>} />
+          {/* <Route path="/bureau/upi" element={<ProtectedRoute><UpiVerify /></ProtectedRoute>} /> */}
           <Route path="/bureau/aadhar-masked" element={<ProtectedRoute><AadhaarMasked /></ProtectedRoute>} />
           <Route path="/enach/register" element={<ProtectedRoute><Enach /></ProtectedRoute>} />
           <Route path="/enach/cancel-enach" element={<ProtectedRoute><CancleEnach /></ProtectedRoute>} />

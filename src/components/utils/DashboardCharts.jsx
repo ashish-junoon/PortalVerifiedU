@@ -15,24 +15,24 @@ import {
 const DashboardCharts = ({ data }) => {
 
   const apiData = data?.[0] || {};
-  const services = Object.values(apiData).map((item) => item[0]);
+  const services = Object.values(apiData)?.map((item) => item[0]);
 
-  const totalSuccess = services.reduce((sum, s) => sum + (s.success_count || 0), 0);
-  const totalFailed = services.reduce((sum, s) => sum + (s.failed_count || 0), 0);
+  const totalSuccess = services?.reduce((sum, s) => sum + (s?.success_count || 0), 0);
+  const totalFailed = services?.reduce((sum, s) => sum + (s?.failed_count || 0), 0);
 
   const total = totalSuccess + totalFailed;
 
-  const successPercent = total ? ((totalSuccess / total) * 100).toFixed(1) : 0;
-  const failedPercent = total ? ((totalFailed / total) * 100).toFixed(1) : 0;
+  const successPercent = total ? ((totalSuccess / total) * 100)?.toFixed(1) : 0;
+  const failedPercent = total ? ((totalFailed / total) * 100)?.toFixed(1) : 0;
 
   const donutData = [
     { name: "Success", value: totalSuccess },
     { name: "Failed", value: totalFailed },
   ];
 
-  const barData = services.map((s) => ({
-    name: s.service_name,
-    value: s.success_count + s.failed_count,
+  const barData = services?.map((s) => ({
+    name: s?.service_name,
+    value: s?.success_count + s?.failed_count,
   }));
 
   return (

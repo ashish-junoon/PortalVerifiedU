@@ -288,7 +288,7 @@ const Sidebar = () => {
                                 </li>
                             </Link>
 
-                            <Link onClick={closeOnMobile} to="/bureau/upi">
+                            {/* <Link onClick={closeOnMobile} to="/bureau/upi">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
                                     ${hasService("UPI") ? "text-primary" : "text-red-600"} 
@@ -296,7 +296,7 @@ const Sidebar = () => {
                                 >
                                     UPI Verify
                                 </li>
-                            </Link>
+                            </Link> */}
 
                         </ul>
                     )}
