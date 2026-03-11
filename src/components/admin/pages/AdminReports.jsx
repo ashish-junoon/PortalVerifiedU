@@ -94,10 +94,10 @@ export default function AdminReports() {
     return (
         <div className="flex">
             <Sidebar />
-            <div className="flex-1 bg-gray-100 min-h-screen">
+            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden">
                 <div className="-mt-1"></div>
                 <Navbar />
-                <div className="p-6 bg-gray-100 min-h-screen">
+                <div className="p-3 md:p-6 bg-gray-100 min-h-screen">
 
                     {/* FILTER BAR */}
                     <div className="bg-white shadow-md rounded-xl p-4 mb-4">
@@ -178,7 +178,7 @@ export default function AdminReports() {
                     </div>
 
                     {/* TABLE CARD */}
-                    <div className="bg-white shadow-lg rounded-xl p-4 w-[980px]">
+                    <div className="bg-white shadow-lg rounded-xl p-4 w-full">
                         <DataTable
                             columns={columns}
                             data={filteredData}

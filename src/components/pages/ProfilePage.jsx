@@ -27,7 +27,7 @@ export default function ProfilePage() {
                 {/* Main Content */}
                 <div className={`${isOpenSidebar && "lg:ml-64"} w-full min-h-screen bg-gray-100 p-2 md:p-8`}>
 
-                    <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-3 md:p-6">
+                    <div className="w-full max-w-[1400px] mx-auto bg-white rounded-lg shadow-lg p-3 md:p-6">
 
                         {/* Page Title */}
                         {/* Page Title and Wallet Button */}
@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
                             <button
                                 onClick={() => setActiveTab("wallet")}
-                                className="flex items-center md:gap-2 bg-green-600 text-white md:px-4 px-2 py-2 rounded-lg shadow hover:bg-green-700 transition-all cursor-pointer"
+                                className="flex items-center md:gap-2 bg-primary text-white md:px-4 px-2 py-2 rounded-lg shadow hover:bg-primarydark transition-all cursor-pointer"
                             >
                                 {/* Optional icon */}
                                 <svg
@@ -66,7 +66,7 @@ export default function ProfilePage() {
                         </div>
 
                         {/* Tabs */}
-                        <div className="flex gap-4 border-b border-gray-300 pb-2 mb-4">
+                        <div className="flex gap-4 border-b border-gray-300 pb-0 mb-4">
 
                             {["profile", "services", "transactions"].map((tab) => (
                                 <button
@@ -74,8 +74,8 @@ export default function ProfilePage() {
                                     onClick={() => setActiveTab(tab)}
                                     className={`pb-2 text-lg font-medium transition-all cursor-pointer
                                         ${activeTab === tab
-                                            ? "text-green-600 border-b-2 border-green-600"
-                                            : "text-gray-500 hover:text-gray-700"
+                                            ? "text-primary border-b-3 border-primary"
+                                            : "text-gray-500 hover:text-gray-700 border-b-3 border-transparent"
                                         }`}
                                 >
                                     {tab === "password" ? "Password Reset" : tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -144,13 +144,13 @@ function ProfileTab({ vendorDetails }) {
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-2">Profile Information</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">Profile Information</h2>
 
-            <div className="space-y-2">
+            <div className="space-y-2 grid grid-cols-4 gap-x-5 gap-y-2 max-xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-x-2 max-md:gap-y-0 max-md:grid-cols-1">
                 {profileFields.map((field, idx) => (
-                    <div key={idx} className="flex">
+                    <div key={idx} className="flex flex-col">
                         <span className="w-60 text-gray-500 font-medium">{field.label}</span>
-                        <span className="text-gray-800">{field.value}</span>
+                        <span className="text-gray-800 border border-gray-100 bg-gray-100/70 shadow-sm px-2 py-1 rounded-md">{field.value}</span>
                     </div>
                 ))}
             </div>
@@ -174,11 +174,11 @@ function ServiceListTab({ servicesDetails }) {
         <div>
             <h2 className="text-xl font-semibold text-gray-700 mb-2">Your Services</h2>
 
-            <div className="border border-gray-300 rounded-lg shadow-sm overflow-y-auto max-h-96">
-                {servicesDetails.map((s) => (
+            <div className="border border-gray-100 rounded-lg shadow-sm overflow-y-auto max-h-96">
+                {servicesDetails.map((s, index) => (
                     <div
                         key={s.id}
-                        className="flex justify-between items-center px-4 py-2 border-b border-gray-300 last:border-none hover:bg-gray-50 transition"
+                        className={`flex justify-between items-center px-4 py-1 border-b border-gray-200 last:border-none hover:bg-gray-50 transition ${(index % 2 === 0) ? "bg-gray-100" : ""}`}
                     >
                         <span className="text-gray-700">{s.servicename}</span>
                         <span
@@ -278,7 +278,7 @@ function WalletRecharge() {
     return (
         <div className="max-w-md mx-auto bg-white border border-gray-200 rounded-xl shadow-lg p-6 mt-6">
             {/* Wallet Heading */}
-            <h2 className="text-2xl font-bold text-green-600 text-center mb-4">
+            <h2 className="text-2xl font-bold text-primary text-center mb-4">
                 Wallet Recharge
             </h2>
 
@@ -319,7 +319,7 @@ function WalletRecharge() {
             <div className="mt-6 text-center">
                 <button
                     onClick={handleWallet}
-                    className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+                    className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primarydark transition"
                 >
                     {loading ? "Processing..." : "Submit"}
                 </button>
@@ -354,7 +354,7 @@ function ForgotPasswordTab() {
             </div>
 
             <button
-                className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition"
+                className="bg-primary hover:bg-primarydark text-white px-5 py-2 rounded-lg transition"
                 onClick={() => alert("Reset link sent")}
             >
                 Send Reset Link

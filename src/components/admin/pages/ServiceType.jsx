@@ -104,16 +104,16 @@ export default function ServiceTypeMaster() {
         <div className="flex">
             <Sidebar />
 
-            <div className="flex-1 bg-gray-100 min-h-screen">
+            <div className="flex-1 bg-gray-100 min-h-screen overflow-hidden w-full">
                 <Navbar />
 
-                <div className="p-6">
+                <div className="p-3 md:p-6">
                     {/* Header + Add button */}
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-semibold text-gray-800">Service Type Management</h2>
+                        <h2 className="text-lg md:text-2xl font-semibold text-gray-800">Service Type Management</h2>
                         <button
                             onClick={() => { form.resetForm(); setEditService(null); setOpenForm(true); }}
-                            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                            className="bg-blue-600 text-white md:px-5 px-3 py-2 rounded-lg shadow hover:bg-blue-700 transition"
                         >
                             + Add Service Type
                         </button>

@@ -38,7 +38,7 @@ function TextInput({
                 disabled={disabled || false}
                 maxLength={maxLength || "25"}
                 placeholder={placeholder}
-                className={`w-full border px-3 py-2 rounded focus:outline-none border-green-200 shadow-sm focus:border-green-500 italic font-semibold text-gray-900  ${transformClass} placeholder:normal-case ${disabled ? "bg-gray-200" : ""}`}
+                className={`w-full border px-3 py-2 rounded focus:outline-none border-gray-200 shadow-sm focus:border-primary italic font-semibold text-gray-900  ${transformClass} placeholder:normal-case ${disabled ? "bg-gray-200" : ""}`}
             />
             {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>

@@ -34,7 +34,7 @@ const DateInput = ({ label, name, id, value, onChange, disabled, onBlur, placeho
                 disabled={disabled || false}
                 placeholder={placeholder}
                 min={min}
-                className={`w-full border px-3 py-2 rounded focus:outline-none border-green-200 shadow-sm focus:border-green-500 italic font-semibold text-gray-800  ${disabled ? "bg-gray-200" : ""}`}
+                className={`w-full border px-3 py-2 rounded focus:outline-none border-gray-200 shadow-sm focus:border-green-500 italic font-semibold text-gray-800  ${disabled ? "bg-gray-200" : ""}`}
             />
             {error && <span className="text-red-500 text-xs mt-1">{error}</span>}
         </div>

@@ -6,6 +6,7 @@ import * as Gi from 'react-icons/gi';
 import * as Pi from 'react-icons/pi';
 import * as Go from 'react-icons/go'
 import * as Ci from 'react-icons/ci';
+import * as Fa from 'react-icons/fa';
 // Import other icon sets as needed
 
 const Icon = ({ name, size = 24, color = 'currentColor', style = {} }) => {
@@ -25,6 +26,8 @@ const Icon = ({ name, size = 24, color = 'currentColor', style = {} }) => {
         IconComponent = Go[name];
     } else if (name.startsWith('Ci')) {
         IconComponent = Ci[name];
+    } else if (name.startsWith('Fa')) {
+        IconComponent = Fa[name];
     }
     // Add more conditions for other icon sets
 

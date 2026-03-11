@@ -197,12 +197,13 @@ function AadhaarKyc() {
                 {isOpenSidebar && <Sidebar />}
                 <div className={`${isOpenSidebar && "lg:ml-64"} p-3 flex-1`}>
 
-                    {!isReport && <div className="w-full mx-auto text-black  mt-10">
-                        <div className="border border-green-300  md:w-2/3 mx-auto p-3 md:p-8 shadow-md rounded">
+                    {!isReport && <div className="w-full mx-auto text-black  mt-5">
+                        <div className="relative overflow-hidden border border-gray-100  md:w-full mx-auto p-3 md:p-8 shadow-md rounded">
+                            <div className="absolute bg-primary/10 w-50 h-50 md:top-[-60px] max-md:top-[-100px] right-[-60px] rounded-full"></div>
                             <div className="mb-6">
-                                <h2 className="text-xl font-semibold italic text-green-600">Aadhaar Kyc</h2>
+                                <h2 className="text-xl font-semibold italic text-primary">Aadhaar Kyc</h2>
                                 <p className="text-xs italic mb-1">Aadhaar Kyc Report</p>
-                                <div className="border w-full border-green-300 " />
+                                <div className="border w-full border-primary/50 " />
                             </div>
 
                             {!loading && !aadhaarDetails.length > 0 && (
@@ -285,7 +286,7 @@ function AadhaarKyc() {
                                     <div className="flex gap-4 items-center justify-center my-5">
                                         <button
                                             type="submit"
-                                            className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300 ease-in-out text-md font-semibold cursor-pointer    "
+                                            className="w-full px-4 py-2 bg-primary text-white rounded hover:bg-primarydark transition duration-300 ease-in-out text-md font-semibold cursor-pointer    "
                                         >
                                             Submit
                                         </button>
@@ -293,7 +294,7 @@ function AadhaarKyc() {
                                         <button
                                             type="reset"
                                             onClick={report.handleReset}
-                                            className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-300 ease-in-out     cursor-pointer font-semibold text-md"
+                                            className="w-full px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition duration-300 ease-in-out     cursor-pointer font-semibold text-md"
                                         >
                                             Reset Form
                                         </button>
@@ -339,7 +340,7 @@ function AadhaarKyc() {
                         <div className="w-full mx-auto text-black  mt-10">
                             <p>{aadhaarDetails.message}</p>
                             <p>Please try again</p>
-                            <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300 ease-in-out    ">Try Again</button>
+                            <button className="px-4 py-2 bg-primary text-white rounded hover:bg-green-700 transition duration-300 ease-in-out    ">Try Again</button>
                             <pre>{JSON.stringify(aadhaarDetails, null, 2)}</pre>
                         </div>
                     )}
@@ -353,10 +354,10 @@ function AadhaarKyc() {
                                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 border-b border-gray-100">
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                            {/* <LinkIcon className="text-green-600" /> */}
+                                            {/* <LinkIcon className="text-primary" /> */}
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-6 w-6 text-green-600 "
+                                                className="h-6 w-6 text-primary "
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -408,7 +409,7 @@ function AadhaarKyc() {
 
                                         <button
                                             onClick={() => handleCopy(aadhaarLinkData?.data?.url)}
-                                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition shadow hover:shadow-md hover:cursor-pointer"
+                                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-primary hover:to-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition shadow hover:shadow-md hover:cursor-pointer"
                                         >
                                             Copy Verification Link
                                         </button>

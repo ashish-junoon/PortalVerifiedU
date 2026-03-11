@@ -295,10 +295,11 @@ function Enach() {
 
                     {!enachLinkData?.status && (
                         <div className="md:w-full w-full mx-auto text-black  mt-2">
-                            <div className="border border-green-300  md:w-2/3 mx-auto p-8 shadow-md rounded">
-                                <h2 className="text-xl font-semibold italic text-green-600">User Enach Link</h2>
+                            <div className="relative overflow-hidden border border-gray-100  md:w-full mx-auto p-8 shadow-md rounded">
+                                <div className="absolute bg-primary/10 w-50 h-50 md:top-[-60px] max-md:top-[-100px] right-[-60px] rounded-full"></div>
+                                <h2 className="text-xl font-semibold italic text-primary">User Enach Link</h2>
                                 <p className="text-xs italic mb-1">Enter all required fields below</p>
-                                <div className="border w-full mb-5 border-green-300 " />
+                                <div className="border w-full mb-5 border-primary/50" />
 
                                 {/* FORM */}
                                 <form onSubmit={form.handleSubmit}>
@@ -528,7 +529,7 @@ function Enach() {
                                     <div className="flex gap-4 items-center justify-center my-5">
                                         <button
                                             type="submit"
-                                            className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300 font-semibold"
+                                            className="w-full px-4 py-2 bg-primary text-white rounded hover:bg-primarydark transition duration-300 font-semibold"
                                         >
                                             Submit
                                         </button>
@@ -536,7 +537,7 @@ function Enach() {
                                         <button
                                             type="reset"
                                             onClick={form.handleReset}
-                                            className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-300 font-semibold"
+                                            className="w-full px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition duration-300 font-semibold"
                                         >
                                             Reset Form
                                         </button>
@@ -556,7 +557,7 @@ function Enach() {
                                             {/* <LinkIcon className="text-green-600" /> */}
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-6 w-6 text-green-600 "
+                                                className="h-6 w-6 text-green-600"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
