@@ -14,6 +14,7 @@ import Background from '../../utils/Background';
 import { toast } from 'react-toastify';
 import Loader from '../../utils/Loader';
 import { UserLogin } from '../../services/Services_API';
+import Images from '../../content/Images';
 // import Loader from '../utils/Loader';
 
 function AdminLoginPage() {
@@ -90,8 +91,8 @@ function AdminLoginPage() {
                 <div className="bg-white rounded-lg shadow-md py-8 px-8 md:px-10 md:w-sm w-xs ">
                     {/* Logo and Text */}
                     <div className="flex items-center space-x-2 justify-center mt-5">
-                        <img src="/logo.svg" alt="VerifiedU Logo" className="h-8 w-auto" />
-                        <div className="text-black text-2xl italic font-semibold tracking-tight ">Verified<span className="text-green-600 font-bold">U</span></div>
+                        <img src={Images.logo} alt="VerifiedU Logo" className="h-8 w-auto" />
+                        {/* <div className="text-black text-2xl italic font-semibold tracking-tight ">Verified<span className="text-green-600 font-bold">U</span></div> */}
                     </div>
                     <div className="flex items-center justify-center">
                         <div className="text-center text-gray-600 italic ">Please loginAdmin to Continue.</div>
@@ -103,7 +104,7 @@ function AdminLoginPage() {
                                 Username
                             </label> */}
                             <input
-                                className="shadow border border-green-300 rounded w-full py-2 px-3 text-gray-700 outline-green-200 leading-tight focus:outline-green-300 focus:shadow-outline   "
+                                className="shadow border border-primary rounded w-full py-2 px-3 text-gray-700 outline-primary/20 leading-tight focus:outline-primary focus:shadow-outline   "
                                 id="username"
                                 type="userName"
                                 value={loginUser.values.username}
@@ -118,7 +119,7 @@ function AdminLoginPage() {
                                 Password
                             </label> */}
                             <input
-                                className="shadow appearance-none border border-green-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline   "
+                                className="shadow appearance-none border border-primary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline   "
                                 id="password"
                                 type="password"
                                 value={loginUser.values.password}
@@ -130,7 +131,7 @@ function AdminLoginPage() {
                         </div>
                         <div className="flex items-center justify-center my-8">
                             <button
-                                className="w-full bg-green-600 hover:bg-green-700 shadow-md text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline cursor-pointer"
+                                className="w-full bg-primary hover:bg-primarydark shadow-md text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline cursor-pointer"
                                 type="submit"
                             >
                                 Login

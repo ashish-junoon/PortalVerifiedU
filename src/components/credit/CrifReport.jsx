@@ -23,54 +23,53 @@ function CrifReport() {
   const [crifReport, setCrifReport] = useState(false); // State to control the rendering of CRIFReportData
   const [res, setRes] = useState({});
   const [pdfurl, setpdfurl] = useState(null);
-  const personal = res?.data;
-  const score = res?.data?.credit_score;
+  const personal = res?.DATA;
+  const score = res?.DATA?.CREDIT_SCORE;
   // const personal = res?.data?.request;
   //   const score = res?.data?.request?.scores?.score?.["scorE_VALUE"];
   const token = JSON.parse(localStorage.getItem("authData"));
   const { isOpenSidebar } = useSidebar();
 
-
   const stateList = [
-        { code: "01", name: "Jammu & Kashmir" },
-        { code: "02", name: "Himachal Pradesh" },
-        { code: "03", name: "Punjab" },
-        { code: "04", name: "Chandigarh" },
-        { code: "05", name: "Uttarakhand" },
-        { code: "06", name: "Haryana" },
-        { code: "07", name: "Delhi" },
-        { code: "08", name: "Rajasthan" },
-        { code: "09", name: "Uttar Pradesh" },
-        { code: "10", name: "Bihar" },
-        { code: "11", name: "Sikkim" },
-        { code: "12", name: "Arunachal Pradesh" },
-        { code: "13", name: "Nagaland" },
-        { code: "14", name: "Manipur" },
-        { code: "15", name: "Mizoram" },
-        { code: "16", name: "Tripura" },
-        { code: "17", name: "Meghalaya" },
-        { code: "18", name: "Assam" },
-        { code: "19", name: "West Bengal" },
-        { code: "20", name: "Jharkhand" },
-        { code: "21", name: "Odisha" },
-        { code: "22", name: "Chhattisgarh" },
-        { code: "23", name: "Madhya Pradesh" },
-        { code: "24", name: "Gujarat" },
-        { code: "25", name: "Daman and Diu" },
-        { code: "26", name: "Dadra and Nagar Haveli" },
-        { code: "27", name: "Maharashtra" },
-        { code: "28", name: "Andhra Pradesh" },
-        { code: "29", name: "Karnataka" },
-        { code: "30", name: "Goa" },
-        { code: "31", name: "Lakshadweep" },
-        { code: "32", name: "Kerala" },
-        { code: "33", name: "Tamil Nadu" },
-        { code: "34", name: "Puducherry" },
-        { code: "35", name: "Andaman and Nicobar Islands" },
-        { code: "36", name: "Telangana" },
-        { code: "97", name: "Other Territory" },
-        { code: "99", name: "Centre Jurisdiction" },
-    ];
+    { code: "01", name: "Jammu & Kashmir" },
+    { code: "02", name: "Himachal Pradesh" },
+    { code: "03", name: "Punjab" },
+    { code: "04", name: "Chandigarh" },
+    { code: "05", name: "Uttarakhand" },
+    { code: "06", name: "Haryana" },
+    { code: "07", name: "Delhi" },
+    { code: "08", name: "Rajasthan" },
+    { code: "09", name: "Uttar Pradesh" },
+    { code: "10", name: "Bihar" },
+    { code: "11", name: "Sikkim" },
+    { code: "12", name: "Arunachal Pradesh" },
+    { code: "13", name: "Nagaland" },
+    { code: "14", name: "Manipur" },
+    { code: "15", name: "Mizoram" },
+    { code: "16", name: "Tripura" },
+    { code: "17", name: "Meghalaya" },
+    { code: "18", name: "Assam" },
+    { code: "19", name: "West Bengal" },
+    { code: "20", name: "Jharkhand" },
+    { code: "21", name: "Odisha" },
+    { code: "22", name: "Chhattisgarh" },
+    { code: "23", name: "Madhya Pradesh" },
+    { code: "24", name: "Gujarat" },
+    { code: "25", name: "Daman and Diu" },
+    { code: "26", name: "Dadra and Nagar Haveli" },
+    { code: "27", name: "Maharashtra" },
+    { code: "28", name: "Andhra Pradesh" },
+    { code: "29", name: "Karnataka" },
+    { code: "30", name: "Goa" },
+    { code: "31", name: "Lakshadweep" },
+    { code: "32", name: "Kerala" },
+    { code: "33", name: "Tamil Nadu" },
+    { code: "34", name: "Puducherry" },
+    { code: "35", name: "Andaman and Nicobar Islands" },
+    { code: "36", name: "Telangana" },
+    { code: "97", name: "Other Territory" },
+    { code: "99", name: "Centre Jurisdiction" },
+  ];
 
   // console.log(res?.data?.request);
   // console.log(res?.data?.scores?.score?.scorE_VALUE);
@@ -198,85 +197,70 @@ function CrifReport() {
   // });
 
   const report = useFormik({
-          initialValues: {
-              fullName: '',
-              lastName: '',
-              mobile: '',
-              panNumber: '',
-              Address: '',
-              city: '',
-              state: '',
-              village: '',
-              pin: '',
-              dob: '',
-              email: '',
-          },
-          validationSchema: Yup.object({
-              fullName: Yup.string().required('First Name is required'),
-              lastName: Yup.string().required('Last Name is required'),
-              mobile: Yup.string()
-                              .matches(/^[6-9]\d{9}$/, 'Enter a valid mobile number')
-                              .required('Mobile number is required'),
-              panNumber: Yup.string().required('PAN Number is required'),
-              Address: Yup.string().required('Address is required'),
-              city: Yup.string().required('City is required'),
-              state: Yup.string().required('State is required'),
-              pin: Yup.string().required('PIN Code is required'),
-              dob: Yup.string().required('Date of Birth is required'),
-              village: Yup.string().required('village is required'),
-              email: Yup.string()
-                      .email('Invalid email')
-                      .test(
-                        'has-tld',
-                        'Email must include a valid domain',
-                        value => value ? /\.[a-zA-Z]{2,}$/.test(value) : false
-                      )
-                      .required("Email is required"),
-          }),
-          onSubmit: async (values, {resetForm}) => {
+    initialValues: {
+      fullName: "",
+      lastName: "",
+      mobile: "",
+      pan_number: "",
+      aadhaar_number: "",
+      dob: "",
+    },
+    validationSchema: Yup.object({
+      fullName: Yup.string().required("First Name is required").min(3),
+      lastName: Yup.string().required("Last Name is required"),
+      mobile: Yup.string()
+        .matches(/^[6-9]\d{9}$/, "Enter a valid mobile number")
+        .required("Mobile number is required"),
+      aadhaar_number: Yup.string()
+        .matches(/^\d{12}$/, "Aadhaar must be 12 digits")
+        .required("Aadhaar Number is required"),
 
-              const date = values.dob;
-              const formatted = date.split("-").reverse().join("-");
-              // console.log(formatted);
+      pan_number: Yup.string()
+        .matches(/[A-Z]{5}[0-9]{4}[A-Z]{1}/, "Invalid PAN format")
+        .required("PAN Number is required"),
+      // dob: Yup.string().required('Date of Birth is required'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      // const date = values.dob;
+      // const formatted = date.split("-").reverse().join("-");
+      // console.log(formatted);
 
-              const payload = {
-                first_name: values.fullName,
-                middle_name: "",
-                last_name: values.lastName,
-                dob: formatted,
-                pan_number: values.panNumber,
-                email: values.email,
-                mobile_number: values.mobile,
-                address: values.Address,
-                village: values.village,
-                city: values.city,
-                state: values.city,
-                pincode: values.pin
-              }
+      const payload = {
+        first_name: values.fullName?.trim(),
+        last_name: values.lastName?.trim(),
+        aadhaar_number: values.aadhaar_number?.trim(),
+        // dob: formatted,
+        pan_number: values.pan_number?.trim(),
+        mobile_number: values.mobile?.trim(),
+      };
 
-              try {
-                  setLoading(true);
-                  const response = await GetCrifReport(payload);
-                  console.log(response);
-                  
-                  if (response?.status) {
-                      setRes(response);
-                      setIsReport(true);
-                      setpdfurl(response.data?.credit_report_link)
-                      resetForm()
-                  } else {
-                      toast.error(response?.message || response?.error_message || "Failed to get report.");
-                      setRes({});
-                      setIsReport(false);
-                  }
-              } catch (error) {
-                  toast.error("Something went wrong while fetching report.");
-              } finally {
-                  setLoading(false);
-              }
-              updateWallet();
-          },
-      });
+      try {
+        setLoading(true);
+        const response = await GetCrifReport(payload);
+        // console.log(response);
+
+        if (response?.STATUS) {
+          setRes(response);
+          setIsReport(true);
+          setpdfurl(response.DATA?.CREDIT_REPORT_LINK);
+          resetForm();
+        } else {
+          toast.error(
+            response?.MESSAGE ||
+              response?.ERROR_MESSAGE ||
+              "Failed to get report.",
+          );
+          setRes({});a
+          setIsReport(false);
+        }
+      } catch (error) {
+        toast.error("Something went wrong while fetching report.");
+      } finally {
+        setLoading(false);
+      }
+      updateWallet();
+    },
+  });
 
   if (loading) return <Loader message="Getting Report..." color="#63BB89" />;
 
@@ -306,52 +290,6 @@ function CrifReport() {
               </div>
 
               {!loading && !res.length > 0 && (
-                // <form onSubmit={report.handleSubmit}>
-                //   <div className="grid grid-cols-2 gap-4">
-                //     <TextInput
-                //       label="Full Name"
-                //       name="fullName"
-                //       id="fullName"
-                //       maxLength={50}
-                //       textTransform="capitalize"
-                //       value={report.values.fullName}
-                //       onChange={report.handleChange}
-                //       onBlur={report.handleBlur}
-                //       placeholder="Enter your full name"
-                //       error={report.touched.fullName && report.errors.fullName}
-                //     />
-
-                //     <TextInput
-                //       label="Mobile Number"
-                //       name="mobile"
-                //       id="mobile"
-                //       maxLength={10}
-                //       value={report.values.mobile}
-                //       onChange={report.handleChange}
-                //       onBlur={report.handleBlur}
-                //       placeholder="Enter your mobile number"
-                //       error={report.touched.mobile && report.errors.mobile}
-                //     />
-                //   </div>
-
-                //   <div className="flex gap-4 items-center justify-center my-5">
-                //     <button
-                //       type="submit"
-                //       className="w-full px-4 py-2 bg-primary text-white rounded hover:bg-green-700 transition duration-300 ease-in-out text-md font-semibold cursor-pointer    "
-                //     >
-                //       Get Report
-                //     </button>
-
-                //     <button
-                //       type="reset"
-                //       onClick={report.handleReset}
-                //       className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-300 ease-in-out     cursor-pointer font-semibold text-md"
-                //     >
-                //       Reset Form
-                //     </button>
-                //   </div>
-                // </form>
-
                 <form onSubmit={report.handleSubmit}>
                   <div className="grid grid-cols-3 gap-2">
                     <TextInput
@@ -382,96 +320,37 @@ function CrifReport() {
 
                     <TextInput
                       label="PAN Number"
-                      name="panNumber"
-                      id="panNumber"
-                      maxLength={10}
+                      name="pan_number"
+                      id="pan_number"
+                      maxLength={10}a
                       textTransform="uppercase"
-                      value={report.values.panNumber}
-                      onChange={report.handleChange}
+                      value={report.values.pan_number}
+                      // onChange={report.handleChange}
+                      onChange={(e) => {
+                        const value = e.target.value.toUpperCase();
+                        report.setFieldValue("pan_number", value);
+                      }}
                       onBlur={report.handleBlur}
                       placeholder="Enter your PAN number"
                       error={
-                        report.touched.panNumber && report.errors.panNumber
+                        report.touched.pan_number && report.errors.pan_number
                       }
                     />
 
                     <TextInput
-                      label="Email"
-                      name="email"
-                      id="email"
-                      maxLength={50}
-                      // textTransform="capitalize"
-                      value={report.values.email}
+                      label="Aadhaar Number"
+                      name="aadhaar_number"
+                      id="aadhaar_number"
+                      maxLength={12}
+                      textTransform="uppercase"
+                      value={report.values.aadhaar_number}
                       onChange={report.handleChange}
                       onBlur={report.handleBlur}
-                      placeholder="Enter your email"
-                      error={report.touched.email && report.errors.email}
-                    />
-
-                    <div className="col-span-2">
-                      <TextInput
-                        label="Address"
-                        name="Address"
-                        id="Address"
-                        maxLength={50}
-                        textTransform="capitalize"
-                        value={report.values.Address}
-                        onChange={report.handleChange}
-                        onBlur={report.handleBlur}
-                        placeholder="Enter your address"
-                        error={report.touched.Address && report.errors.Address}
-                      />
-                    </div>
-
-                    <TextInput
-                      label="City"
-                      name="city"
-                      id="city"
-                      maxLength={50}
-                      textTransform="capitalize"
-                      value={report.values.city}
-                      onChange={report.handleChange}
-                      onBlur={report.handleBlur}
-                      placeholder="Enter your city"
-                      error={report.touched.city && report.errors.city}
-                    />
-
-                    <SelectInput
-                      label="State"
-                      name="state"
-                      id="state"
-                      value={report.values.state}
-                      onChange={report.handleChange}
-                      onBlur={report.handleBlur}
-                      placeholder="Select"
-                      options={stateList.map((state) => ({
-                        value: state.code,
-                        label: state.name,
-                      }))}
-                      error={report.touched.state && report.errors.state}
-                    />
-                    <TextInput
-                      label="Village"
-                      name="village"
-                      id="village"
-                      maxLength={50}
-                      textTransform="capitalize"
-                      value={report.values.village}
-                      onChange={report.handleChange}
-                      onBlur={report.handleBlur}
-                      placeholder="Enter your village"
-                      error={report.touched.village && report.errors.village}
-                    />
-                    <TextInput
-                      label="PIN Code"
-                      name="pin"
-                      id="pin"
-                      maxLength={6}
-                      value={report.values.pin}
-                      onChange={report.handleChange}
-                      onBlur={report.handleBlur}
-                      placeholder="Enter your pin code"
-                      error={report.touched.pin && report.errors.pin}
+                      placeholder="Enter your Aadhaar number"
+                      error={
+                        report.touched.aadhaar_number &&
+                        report.errors.aadhaar_number
+                      }
                     />
 
                     <TextInput
@@ -486,7 +365,7 @@ function CrifReport() {
                       error={report.touched.mobile && report.errors.mobile}
                     />
 
-                    <DateInput
+                    {/* <DateInput
                       label="Date of Birth"
                       name="dob"
                       id="dob"
@@ -496,21 +375,6 @@ function CrifReport() {
                       onBlur={report.handleBlur}
                       placeholder="Enter your DOB"
                       error={report.touched.dob && report.errors.dob}
-                    />
-
-                    {/* <SelectInput
-                      label="Gender"
-                      name="gender"
-                      id="gender"
-                      value={report.values.gender}
-                      onChange={report.handleChange}
-                      onBlur={report.handleBlur}
-                      placeholder="Select"
-                      options={[
-                        { value: "Male", label: "Male" },
-                        { value: "Female", label: "Female" },
-                      ]}
-                      error={report.touched.gender && report.errors.gender}
                     /> */}
                   </div>
 
@@ -535,18 +399,20 @@ function CrifReport() {
             </div>
           )}
 
-          {isReport && Object.keys(res).length > 0 && res.status == true && (
+          {isReport && Object.keys(res).length > 0 && res.STATUS == true && (
             <div className="w-full mx-auto text-black  mt-0">
               <ExperianReport
                 providerName="CRIF Highmark"
-                applicantName={personal?.name}
-                mobileNumber={personal?.mobile}
-                panNumber={personal?.pan}
+                applicantName={personal?.NAME}
+                mobileNumber={personal?.MOBILE}
+                panNumber={personal?.UID_NUMBER}
                 creditScore={score}
-                onDownloadReport={()=> window.open(personal?.credit_report_link, "_blank")}
+                onDownloadReport={() =>
+                  window.open(personal?.CREDIT_REPORT_LINK, "_blank")
+                }
                 // onDownloadReport={() =>
                 //   !pdfurl ? window.open(pdfurl, "_blank") : handleDownload()
-                // } 
+                // }
                 // Trigger download report
                 onGetNewReport={handleNewReport}
               />
@@ -555,9 +421,9 @@ function CrifReport() {
 
           {/* Display CRIFReportData when download is triggered */}
 
-          {isReport && Object.keys(res).length > 0 && res.status == "error" && (
+          {isReport && Object.keys(res).length > 0 && res.STATUS == "error" && (
             <div className="w-full mx-auto text-black  mt-10">
-              <p>{res.message}</p>
+              <p>{res.MESSAGE}</p>
               <p>Please try again</p>
               <button
                 className="px-4 py-2 bg-primary text-white rounded hover:bg-green-700 transition duration-300 ease-in-out    "

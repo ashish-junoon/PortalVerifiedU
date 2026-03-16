@@ -265,7 +265,7 @@ export default function UserAssign() {
                                                 });
 
                                                 if (res.status) {
-                                                    const assigned = res.getVendorLists || [];
+                                                    const assigned = res.getVendorLists || res.vendorServiceLists || [];
                                                     setSelectedServices(
                                                         assigned.map(s => ({
                                                             service_type: s.service_type,

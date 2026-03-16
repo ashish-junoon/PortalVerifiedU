@@ -45,7 +45,7 @@ function PullPayement() {
                 setLoading(false);
             }
         };
-        fetchBankList();
+        // fetchBankList();
     }, []);
 
     // ------------------ FORM START ------------------------

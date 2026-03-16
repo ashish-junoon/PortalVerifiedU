@@ -319,31 +319,31 @@ const Sidebar = () => {
                     {openMenu === "enach" && (
                         <ul className="ml-8 mt-1 space-y-1">
 
-                            <Link onClick={closeOnMobile} to="/enach/register">
+                            <Link onClick={closeOnMobile} to="/bureau/registeremandate">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
                                     ${hasService("RegisterEMandate") ? "text-primary" : "text-red-600"} 
-                                    ${isActive("/enach/register")}`}
+                                    ${isActive("/bureau/registeremandate")}`}
                                 >
                                     Register ENach
                                 </li>
                             </Link>
 
-                            <Link onClick={closeOnMobile} to="/enach/cancel-enach">
+                            <Link onClick={closeOnMobile} to="/bureau/cancelemandate">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
                                     ${hasService("cancelEMandate") ? "text-primary" : "text-red-600"} 
-                                    ${isActive("/enach/cancel-enach")}`}
+                                    ${isActive("/bureau/cancelemandate")}`}
                                 >
                                     Cancel ENach
                                 </li>
                             </Link>
 
-                            <Link onClick={closeOnMobile} to="/enach/pull-payment">
+                            <Link onClick={closeOnMobile} to="/bureau/pullpaymentusingemandate">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
-                                    ${hasService("PULL PAYMENT") ? "text-primary" : "text-red-600"} 
-                                    ${isActive("/enach/pull-payment")}`}
+                                    ${hasService("Pullpaymentusingemandate") ? "text-primary" : "text-red-600"} 
+                                    ${isActive("/bureau/pullpaymentusingemandate")}`}
                                 >
                                     Pull Payment
                                 </li>
@@ -380,31 +380,31 @@ const Sidebar = () => {
                                 </li>
                             </Link> */}
 
-                            <Link onClick={closeOnMobile} to="/payment/payment-link">
+                            <Link onClick={closeOnMobile} to="/bureau/createpaymentlink">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
                                     ${hasService("createPaymentLink") ? "text-primary" : "text-red-600"} 
-                                    ${isActive("/payment/payment-link")}`}
+                                    ${isActive("/bureau/createpaymentlink")}`}
                                 >
                                     Payment Link
                                 </li>
                             </Link>
 
-                            <Link onClick={closeOnMobile} to="/payment/payment-qr">
+                            <Link onClick={closeOnMobile} to="/bureau/createpaymentqr">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
                                     ${hasService("createPaymentQR") ? "text-primary" : "text-red-600"} 
-                                    ${isActive("/payment/payment-qr")}`}
+                                    ${isActive("/bureau/createpaymentqr")}`}
                                 >
                                     Payment QR
                                 </li>
                             </Link>
                             
-                            <Link onClick={closeOnMobile} to="/payment/quick-transfer">
+                            <Link onClick={closeOnMobile} to="/bureau/initiatequicktransfer">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
                                     ${hasService("InitiateQuickTransfer") ? "text-primary" : "text-red-600"} 
-                                    ${isActive("/payment/quick-transfer")}`}
+                                    ${isActive("/bureau/initiatequicktransfer")}`}
                                 >
                                     Quick Transfer
                                 </li>

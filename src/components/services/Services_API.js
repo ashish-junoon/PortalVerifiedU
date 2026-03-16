@@ -138,13 +138,36 @@ export const GetExprianReport = async (req) => {
 
 export const GetCrifReport = async (req) => {
     try {
-        const response = await api.post("Crif/Credit-Report/Individual-pdf", req);
+        const response = await api.post("/Crif/Credit-Report/credit-report-crif-pdf-v1", req);
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);
         throw error;
     }
 };
+
+
+export const GetCrifReportUid = async (req) => {
+    try {
+        const response = await api.post("/Crif/Credit-Report/credit-report-crif-pdf", req);
+        return response.data;
+    } catch (error) {
+        console.error("Login error:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+
+
+// export const GetCrifReport = async (req) => {
+//     try {
+//         const response = await api.post("Crif/Credit-Report/Individual-pdf", req);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Login error:", error.response?.data || error.message);
+//         throw error;
+//     }
+// };
 
 
 export const GetTransUnionReport = async (req) => {

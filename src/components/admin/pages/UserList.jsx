@@ -46,7 +46,7 @@ useEffect(() => {
             const res = await vendorGetServiceNameTypeList(payload);
 
             if (res.status) {
-                setData(res.getVendorLists);
+                setData(res.getVendorLists || res.vendorServiceLists);
             } else {
                 toast.error(res.message);
             }

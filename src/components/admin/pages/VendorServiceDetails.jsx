@@ -79,7 +79,7 @@ export default function VendorServiceDetails({ backButton }) {
                     url: "Admin/VendorServiceName",
                 });
                 if (assignRes.status) {
-                    setServicesAssignList(assignRes.getVendorLists);
+                    setServicesAssignList(assignRes?.getVendorLists || assignRes?.vendorServiceLists);
                 }
 
             } catch (error) {
@@ -233,7 +233,7 @@ export default function VendorServiceDetails({ backButton }) {
                                 });
 
                                 if (res.status) {
-                                    setServicesAssignList(res.getVendorLists || []);
+                                    setServicesAssignList(res.getVendorLists || res?.vendorServiceLists || []);
                                 } else {
                                     setServicesAssignList([]);
                                 }

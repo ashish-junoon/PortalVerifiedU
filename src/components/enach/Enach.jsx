@@ -61,9 +61,9 @@ function Enach() {
             const res = await getBankCodeList({ url: "verifiedu/BankcodeListByCode?BankCode=" + selectedId });
             if (res.success) {
                 const labelMap = {
-                    netbankFlag: "Net Banking",
-                    adharFlag: "Aadhar",
-                    cardFlag: "Card",
+                    netbank_flag: "Net Banking",
+                    adhar_flag: "Aadhar",
+                    card_flag: "Card",
                     // custidFlag: "Customer ID",
                 };
 
@@ -168,14 +168,14 @@ function Enach() {
 
         onSubmit: async (values) => {
             const authMap = {
-                netbankFlag: "NetBanking",
-                adharFlag: "Aadhaar",
-                cardFlag: "DebitCard",
+                netbank_flag: "NetBanking",
+                adhar_flag: "Aadhaar",
+                card_flag: "DebitCard",
             };
 
             // Correct: declare mandateType and get mapped value safely
             const mandateType = authMap[values.mandate_type] || "";
-
+            
             // making date to required formate
             const formateedDate = values.expiry_date.split("-").reverse().join("-");
             const collectionFormatedDate = values.final_collection_date.split("-").reverse().join("-");
@@ -350,8 +350,8 @@ function Enach() {
                                             onBlur={form.handleBlur}
                                             placeholder="Select Bank"
                                             options={bankCode?.map((item) => ({
-                                                value: item.bankId,
-                                                label: item.bankName,
+                                                value: item.bank_id,
+                                                label: item.bank_name,
                                             }))}
                                             error={form.touched.bank_code && form.errors.bank_code}
                                         />

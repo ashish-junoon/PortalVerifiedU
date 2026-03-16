@@ -92,7 +92,7 @@ const ExperianReport = ({
                     </div>
 
                     <div className="space-y-1">
-                        <p className="text-xs font-semibold text-gray-500  uppercase tracking-wider">PAN Number</p>
+                        <p className="text-xs font-semibold text-gray-500  uppercase tracking-wider">UID Number</p>
                         <p className="text-lg font-medium text-gray-800 ">{panNumber?.toUpperCase()}</p>
                     </div>
 

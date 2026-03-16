@@ -47,6 +47,7 @@ import CreatePaymentQR from "./components/payment/CreatePaymentQR";
 import QuickTransfer from "./components/payment/QuickTransfer";
 import ForgotPassword from "./components/pages/ForgotPassword";
 import AdminReports from "./components/admin/pages/AdminReports";
+import CrifReportUID from "./components/credit/CrifReportUid";
 
 // import UserLocation from "./components/kyc/UserLocation";
 
@@ -108,7 +109,8 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           {/* <Route path="/bureau/experian" element={<Experian />} /> */}
           <Route path="/bureau/experian" element={<ProtectedRoute><Experian /></ProtectedRoute>} />
-          <Route path="/bureau/crif" element={<ProtectedRoute><CrifReport /></ProtectedRoute>} />
+          {/* <Route path="/bureau/crif" element={<ProtectedRoute><CrifReport /></ProtectedRoute>} /> */}
+          <Route path="/bureau/crif" element={<ProtectedRoute><CrifReportUID /></ProtectedRoute>} />
           <Route path="/bureau/equifax" element={<ProtectedRoute><Equifax /></ProtectedRoute>} />
           {/* <Route path="/bureau/transunion" element={ <TransUnion />}/> */}
           <Route path="/bureau/transunion" element={<ProtectedRoute> <TransUnion /></ProtectedRoute>} />
@@ -123,13 +125,13 @@ function AppContent() {
           <Route path="/bureau/ifsc" element={<ProtectedRoute><IfscVerify /></ProtectedRoute>} />
           {/* <Route path="/bureau/upi" element={<ProtectedRoute><UpiVerify /></ProtectedRoute>} /> */}
           <Route path="/bureau/aadhar-masked" element={<ProtectedRoute><AadhaarMasked /></ProtectedRoute>} />
-          <Route path="/enach/register" element={<ProtectedRoute><Enach /></ProtectedRoute>} />
-          <Route path="/enach/cancel-enach" element={<ProtectedRoute><CancleEnach /></ProtectedRoute>} />
-          <Route path="/enach/pull-payment" element={<ProtectedRoute><PullPayement /></ProtectedRoute>} />
+          <Route path="/bureau/registeremandate" element={<ProtectedRoute><Enach /></ProtectedRoute>} />
+          <Route path="/bureau/cancelemandate" element={<ProtectedRoute><CancleEnach /></ProtectedRoute>} />
+          <Route path="/bureau/pullpaymentusingemandate" element={<ProtectedRoute><PullPayement /></ProtectedRoute>} />
           {/* <Route path="/payment/payment-gateway" element={<PaymentGateway />} /> */}
-          <Route path="/payment/payment-link" element={<ProtectedRoute><CreatePaymentLink /></ProtectedRoute>} />
-          <Route path="/payment/payment-qr" element={<ProtectedRoute><CreatePaymentQR /></ProtectedRoute>} />
-          <Route path="/payment/quick-transfer" element={<ProtectedRoute><QuickTransfer /></ProtectedRoute>} />
+          <Route path="/bureau/createpaymentlink" element={<ProtectedRoute><CreatePaymentLink /></ProtectedRoute>} />
+          <Route path="/bureau/createpaymentqr" element={<ProtectedRoute><CreatePaymentQR /></ProtectedRoute>} />
+          <Route path="/bureau/initiatequicktransfer" element={<ProtectedRoute><QuickTransfer /></ProtectedRoute>} />
           <Route path="/profile" element={<ProfilePage />} />
           {/* <Route path="/location" element={<UserLocation />} /> */}
           <Route path="/success" element={<SuccessPage fromAction={location.state?.fromAction} />} />
