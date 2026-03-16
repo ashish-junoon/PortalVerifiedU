@@ -118,7 +118,7 @@ export default function ServiceMaster() {
         },
     ];
 
-    const filteredData = allServices.filter(item =>
+    const filteredData = allServices?.filter(item =>
         `${item.service_type} ${item.service_name} ${item.description} ${item.price}`
             .toLowerCase()
             .includes(filterText.toLowerCase())

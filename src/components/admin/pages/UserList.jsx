@@ -154,7 +154,7 @@ const handleToggle = async (id, isActive) => {
         }
     ];
 
-    const filteredData = data.filter(item =>
+    const filteredData = data?.filter(item =>
         `${item.vendorname} ${item.vendorcode} ${item.vendoremail} ${item.username} ${item.mobile}`
             .toLowerCase()
             .includes(filterText.toLowerCase())

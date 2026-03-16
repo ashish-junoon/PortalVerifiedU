@@ -96,7 +96,7 @@ export default function ServiceTypeMaster() {
         },
     ];
 
-    const filteredData = services.filter(item =>
+    const filteredData = services?.filter(item =>
         `${item.service_type} ${item.description}`.toLowerCase().includes(filterText.toLowerCase())
     );
 

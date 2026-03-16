@@ -68,7 +68,7 @@ function Enach() {
                 };
 
                 const trueFlags = Object.entries(res.data)
-                    .filter(([key, value]) => value === true && labelMap[key])
+                    ?.filter(([key, value]) => value === true && labelMap[key])
                     .map(([key]) => ({
                         key,
                         label: labelMap[key] || key,

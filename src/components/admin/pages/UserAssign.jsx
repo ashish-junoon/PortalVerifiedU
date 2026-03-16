@@ -67,7 +67,7 @@ export default function UserAssign() {
         setSelectedServices(prev => {
             const exists = prev.find(item => item.service_name_id === service.service_name_id);
             if (exists) {
-                return prev.filter(item => item.service_name_id !== service.service_name_id);
+                return prev?.filter(item => item.service_name_id !== service.service_name_id);
             }
             return [
                 ...prev,
@@ -105,7 +105,7 @@ export default function UserAssign() {
         vendorCode: Yup.string().required("Vendor is required"),
     });
 
-    const filteredData = servicesList.filter(item =>
+    const filteredData = servicesList?.filter(item =>
         `${item.service_type} ${item.service_name} ${item.price}`
             .toLowerCase()
             .includes(filterText.toLowerCase())
