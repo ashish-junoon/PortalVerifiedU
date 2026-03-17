@@ -13,6 +13,7 @@ export default function AdminReports() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [userStatus, setUserStatus] = useState("");
+    // const [userType, setUserType] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,7 +53,7 @@ export default function AdminReports() {
             name: 'Status',
             cell: row => (
                 <label className="inline-flex items-center cursor-pointer">
-                    <span className={`text-sm font-medium ${row.isactive ? 'text-green-800' : 'text-red-800'}`}>
+                    <span className={`text-sm font-medium ${row.isactive ? 'text-green-500' : 'text-red-500'}`}>
                         {row.isactive ? 'Active' : 'Inactive'}
                     </span>
                 </label>
@@ -61,7 +62,7 @@ export default function AdminReports() {
         },
     ];
 
-    const filteredData = data??((item) => {
+    const filteredData = data?.filter((item) => {
         const matchesSearch =
             `${item.vendorname} ${item.vendorcode} ${item.vendoremail} ${item.username} ${item.mobile}`
                 .toLowerCase()
@@ -73,6 +74,11 @@ export default function AdminReports() {
                 : userStatus === "active"
                     ? item.isactive === true
                     : item.isactive === false;
+
+        // const matchesType =
+        //     userType === ""
+        //         ? true
+        //         : item.vendortype === userType;
 
         return matchesSearch && matchesStatus;
     });
@@ -123,9 +129,9 @@ export default function AdminReports() {
                                 <CSVLink
                                     data={filteredData}
                                     filename={"user_report.csv"}
-                                    className="px-4 mr-4 py-1.5 bg-primary text-green text-semibold rounded flex items-center gap-2 shadow"
+                                    className="px-4 mr-4 py-1.5 bg-primarydark text-white font-semibold rounded flex items-center gap-2 shadow"
                                 >
-                                    <Icon name="RiFileExcel2Line" size={16} color="green" />
+                                    <Icon name="RiFileExcel2Line" size={16} color="white" />
                                     Export
                                 </CSVLink>
 

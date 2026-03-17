@@ -239,7 +239,7 @@ export default function UserAssign() {
 
                                     <input
                                         type="text"
-                                        className="border px-4 py-2 rounded-lg md:w-1/2 max-md:w-full"
+                                        className="border border-gray-300 px-4 py-2 rounded-lg md:w-1/2 max-md:w-full"
                                         placeholder="Search service..."
                                         value={filterText}
                                         onChange={e => setFilterText(e.target.value)}
@@ -290,7 +290,7 @@ export default function UserAssign() {
                                                 toast.error("Failed to fetch vendor services");
                                             }
                                         }}
-                                        className="border px-4 py-2 rounded-lg md:w-1/2 max-md:w-full"
+                                        className="border border-gray-300 px-4 py-2 rounded-lg md:w-1/2 max-md:w-full"
                                     >
                                         <option value="">Select Vendor</option>
                                         {users.map((u, idx) => (
@@ -311,18 +311,18 @@ export default function UserAssign() {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out focus:outline-none"
+                                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-2 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out focus:outline-none"
                                     >
-                                        <span className="text-lg font-semibold">{loading?"Assigning...":"Assign Services"}</span>
+                                        <span className="text-md font-semibold">{loading?"Assigning...":"Assign Services"}</span>
                                     </button>
 
                                     {/* Vendor Services Button */}
                                     <button
                                         type="button"
                                         onClick={() => setVendorService(true)}
-                                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-gray-300 to-gray-500 text-black px-6 py-3 rounded-full shadow-lg hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
+                                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-gray-300 to-gray-500 text-black px-6 py-2 rounded-lg shadow-lg hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
                                     >
-                                        <span className="text-lg font-semibold">Edit Vendor Services Details</span>
+                                        <span className="text-md font-semibold">Edit Vendor Services Details</span>
                                     </button>
                                 </div>
 

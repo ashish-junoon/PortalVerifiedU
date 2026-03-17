@@ -218,7 +218,7 @@ const Register = ({ cancelClose, userUpdate }) => {
         </h2>
 
         {/* FORM */}
-        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-2">
 
           {/* FIRST NAME */}
           <div>
@@ -473,7 +473,7 @@ const Register = ({ cancelClose, userUpdate }) => {
           <button
             type="submit"
             disabled={loading}
-            className="md:col-span-2 bg-blue-600 text-white py-3 rounded-lg mt-6 
+            className="md:col-span-2 bg-blue-600 text-white py-3 rounded-lg mt-6  cursor-pointer
                    font-semibold hover:bg-blue-700 transition"
           >
             {loading ? "Registering..." : "Register User"}

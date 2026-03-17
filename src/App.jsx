@@ -48,6 +48,7 @@ import QuickTransfer from "./components/payment/QuickTransfer";
 import ForgotPassword from "./components/pages/ForgotPassword";
 import AdminReports from "./components/admin/pages/AdminReports";
 import CrifReportUID from "./components/credit/CrifReportUid";
+import AdminDashboard from "./components/admin/pages/AdminDashboard";
 
 // import UserLocation from "./components/kyc/UserLocation";
 
@@ -83,7 +84,7 @@ function AppContent() {
       <Routes>
         {isAdminAuthenticated ? (
           <>
-            <Route path="/admin" element={<AdminHome />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/service-type" element={<ServiceType />} />
             <Route path="/admin/service-master" element={<ServiceMaster />} />
             <Route path="/admin/user-list" element={<UserList />} />

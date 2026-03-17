@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiHome, FiUsers, FiMenu } from "react-icons/fi";
 import { MdMiscellaneousServices } from "react-icons/md";
@@ -8,12 +8,18 @@ import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import Icon from "../utils/Icon"; // If you want custom icons
 import { TbFile } from "react-icons/tb";
+import { GrServices } from "react-icons/gr";
 
 const menuItems = [
   {
+    name: "Dashboard",
+    path: "/admin",
+    icon: <FiHome size={20} />,
+  },
+  {
     name: "User Assign Service",
     path: "/admin/user-assign",
-    icon: <FiHome size={20} />,
+    icon: <GrServices size={20} />,
   },
   {
     name: "Service Master",
@@ -39,6 +45,7 @@ const menuItems = [
 
 export default function Sidebar({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useContext(AuthContext);
 
   const [isOpen, setIsOpen] = useState(true);
@@ -89,26 +96,28 @@ export default function Sidebar({ children }) {
       {/* SIDEBAR */}
       <div className={`flex ${isOpen ? "md:block" : "hidden"}`}>
         <motion.div
-          initial={{ width: isOpen ? "250px" : "0px" }}
+          initial={{ width: isOpen ? "270px" : "0px" }}
           animate={{
-            width: isHovered || isOpen ? "250px" : "0px",
+            width: isHovered || isOpen ? "270px" : "0px",
           }}
           transition={{ duration: 0.3 }}
-          className="fixed left-0 top-[50px] min-h-[calc(100vh-50px)] bg-white shadow-lg p-4 overflow-y-auto"
+          className="fixed left-0 top-[50px] min-h-[calc(100vh-50px)] bg-[#0b1120] shadow-lg p-4 overflow-y-auto"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           {/* LOGO */}
           <div className="flex items-center mb-6">
-            <img
+            {/* <img
               src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
-              className="w-10 h-10 rounded-full"
+              className="w-9 h-9 rounded-full"
               alt="logo"
-            />
+            /> */}
             {(isHovered || isOpen) && (
-              <h2 className="ml-3 text-xl font-bold text-gray-700">Admin</h2>
+              <h2 className="ml-3 text-xl font-bold text-gray-100">Admin Panel</h2>
             )}
           </div>
+
+          {/* <hr className="text-gray-700" /> */}
 
           {/* MENU LIST */}
           <div>
@@ -116,9 +125,9 @@ export default function Sidebar({ children }) {
               <div
                 key={index}
                 className={`group flex items-center px-3 py-[10px] my-2 rounded-md cursor-pointer 
-                                    ${activePath === item.path ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-500 hover:text-white"}`}
+                  ${location.pathname === item.path ? "bg-primary text-white" : "text-gray-300 hover:bg-primary hover:text-white"}`}
                 onClick={() => {
-                  setActivePath(item.path);
+                  // setActivePath(item.path);
                   navigate(item.path);
                 }}
               >
@@ -132,7 +141,7 @@ export default function Sidebar({ children }) {
 
             {/* LOGOUT */}
             <div
-              className="group flex items-center px-3 py-[10px] my-4 rounded-md cursor-pointer text-red-600 hover:bg-red-500 hover:text-white"
+              className="group flex items-center px-3 py-[10px] my-4 rounded-md cursor-pointer text-amber-600 bg-amber-100/30 font-bold hover:bg-amber-500 hover:text-white"
               onClick={handleLogout}
             >
               <Icon name="RiLogoutBoxLine" size={20} />
