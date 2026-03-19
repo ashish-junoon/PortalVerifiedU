@@ -15,6 +15,7 @@ import Equifax from "./components/credit/Equifax";
 import TransUnion from "./components/credit/TransUnion";
 import LoginPage from "./components/pages/LoginPage";
 import CrifReport from "./components/credit/CrifReport";
+import Fusion from "./components/prefill/Fusion";
 import UserPrefill from "./components/kyc/UserPrefill";
 import PanToMobile from "./components/kyc/PanToMobile";
 import PanBasic from "./components/kyc/PanBasic";
@@ -115,6 +116,7 @@ function AppContent() {
           <Route path="/bureau/equifax" element={<ProtectedRoute><Equifax /></ProtectedRoute>} />
           {/* <Route path="/bureau/transunion" element={ <TransUnion />}/> */}
           <Route path="/bureau/transunion" element={<ProtectedRoute> <TransUnion /></ProtectedRoute>} />
+          <Route path="/bureau/fusion" element={<ProtectedRoute><Fusion /></ProtectedRoute>} />
           <Route path="/bureau/user-prefill" element={<ProtectedRoute><UserPrefill /></ProtectedRoute>} />
           <Route path="/bureau/pan" element={<ProtectedRoute><PanToMobile /></ProtectedRoute>} />
           <Route path="/bureau/pan-basic" element={<ProtectedRoute><PanBasic /></ProtectedRoute>} />

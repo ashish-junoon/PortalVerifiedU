@@ -8,6 +8,8 @@ import {
     FiChevronRight,
     FiFileText,
     FiBriefcase,
+    FiDatabase,
+    FiShield,
 } from "react-icons/fi";
 
 import { AuthContext } from "./Context/AuthContext";
@@ -64,7 +66,7 @@ const Sidebar = () => {
                     >
                         <div className="flex items-center gap-3 text-gray-100">
                             <FiCreditCard className="w-5" />
-                            Credit Score
+                           Credit Health
                         </div>
                         {openMenu === "credit" ? <FiChevronDown className="text-white" /> : <FiChevronRight className="text-white" />}
                     </div>
@@ -106,6 +108,39 @@ const Sidebar = () => {
                     )}
                 </li>
 
+                 {/* CREDIT MENU */}
+                <li>
+                    <div
+                        onClick={() => toggleMenu("prefill")}
+                        className="flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-100 hover:[&>*]:text-primary transition"
+                    >
+                        <div className="flex items-center gap-3 text-gray-100">
+                            <FiUserCheck className="w-5" />
+                           Prefill
+                        </div>
+                        {openMenu === "prefill" ? <FiChevronDown className="text-white" /> : <FiChevronRight className="text-white" />}
+                    </div>
+
+                    {openMenu === "prefill" && (
+                        <ul className="ml-8 mt-0 space-y-1">
+
+                            <Link onClick={closeOnMobile} to="/bureau/fusion">
+                                <li
+                                    className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
+                                    ${hasService("TransUnion") ? "text-primary" : "text-red-600"} 
+                                    ${isActive("/bureau/fusion")}`}
+                                >
+                                    Fusion
+                                </li>
+                            </Link>
+
+                            
+
+
+                        </ul>
+                    )}
+                </li>
+
                 {/* KYC MENU */}
                 <li>
                     <div
@@ -113,7 +148,7 @@ const Sidebar = () => {
                         className="flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-100 hover:[&>*]:text-primary transition"
                     >
                         <div className="flex items-center gap-3 text-gray-100">
-                            <FiUserCheck className="w-5" />
+                            <FiFileText className="w-5" />
                             KYC Services
                         </div>
                         {openMenu === "kyc" ? <FiChevronDown className="text-white" /> : <FiChevronRight className="text-white" />}
@@ -228,7 +263,7 @@ const Sidebar = () => {
                         className="flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-100 hover:[&>*]:text-primary transition"
                     >
                         <div className="flex items-center gap-3 text-gray-100">
-                            <FiFileText className="w-5" />
+                            <FiShield className="w-5" />
                             GST Verify
                         </div>
 
