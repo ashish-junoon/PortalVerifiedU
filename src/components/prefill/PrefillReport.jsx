@@ -33,7 +33,7 @@ const AccordionSection = ({ icon, title, children }) => {
   );
 };
 
-const PrefillReport = ({ report, type, onGetNewReport }) => {
+const PrefillReport = ({ report, type, onGetNewReport, onDownloadReport = () => console.log("Download report clicked") }) => {
   if (type !== "fusion") return null;
 
   const data = report?.CIRReportData?.IDAndContactInfo || {};
@@ -125,8 +125,8 @@ const PrefillReport = ({ report, type, onGetNewReport }) => {
             { name: "Seq", selector: (row) => row.seq },
             { name: "Reported Date", selector: (row) => row.ReportedDate },
             { name: "Address", selector: (row) => row.IdNumber, wrap: true },
-            { name: "State", selector: (row) => row.State },
-            { name: "Postal", selector: (row) => row.Postal },
+            // { name: "State", selector: (row) => row.State },
+            // { name: "Postal", selector: (row) => row.Postal },
           ]}
           data={addresses}
           dense
@@ -154,7 +154,7 @@ const PrefillReport = ({ report, type, onGetNewReport }) => {
           columns={[
             { name: "Seq", selector: (row) => row.seq },
             { name: "Reported Date", selector: (row) => row.ReportedDate },
-            { name: "Email Address", selector: (row) => row.EmailAddress },
+            { name: "Email Address", selector: (row) => row.IdNumber },
           ]}
           data={emails}
           dense
@@ -164,15 +164,31 @@ const PrefillReport = ({ report, type, onGetNewReport }) => {
       </AccordionSection>
 
       {/* Action Button */}
-      <div className="flex justify-center mt-10">
-        <button
-          onClick={onGetNewReport}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg shadow transition-all duration-200"
-        >
-          <FiRefreshCcw className="w-5 h-5" />
-          Get New Report
-        </button>
-      </div>
+      <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                    {/* { providerName && providerName=='TransUnion' || providerName=='CRIF Highmark'?'':  */}
+                    {/* {providerName && providerName == 'CRIF Highmark' ? '' : */}
+                        <button
+                            onClick={onDownloadReport}
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 shadow hover:shadow-md cursor-pointer"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            View Full Report
+                        </button>
+                        {/* } */}
+
+
+                    <button
+                        onClick={onGetNewReport}
+                        className="flex-1 flex items-center justify-center gap-2 bg-white  border border-gray-300  hover:bg-gray-50  text-gray-800  font-medium py-3 px-4 rounded-lg transition-all duration-200 cursor-pointer shadow hover:shadow-md"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Get New Report
+                    </button>
+                </div>
     </div>
   );
 };

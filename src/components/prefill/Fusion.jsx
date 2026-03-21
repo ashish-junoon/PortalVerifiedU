@@ -29,9 +29,9 @@ function Fusion() {
 
     const handleDownload = () => {
         // Check if the download link exists
-        if (res?.data?.credit_report_link) {
+        if (res?.data?.html_url) {
             const element = document.createElement("a");
-            element.href = res.data.credit_report_link;
+            element.href = res.data.html_url;
             element.target = "_blank";
             element.download = "report.pdf";
             document.body.appendChild(element);
@@ -65,119 +65,11 @@ function Fusion() {
             try {
                 setLoading(true);
                 const payload = {
-                    name: values.fullName,
-                    mobile: values.mobile
+                    customerName: values.fullName,
+                    customerMobile: values.mobile
                 }
-                // const respose = await GetFusionReport(payload);
-                const respose={
-    "timestamp": "2026-03-18T02:07:40.6836568+05:30",
-    "transaction_id": "d8ee1619-5804-4b50-9575-3e8938be97bf",
-    "status": "success",
-    "data": {
-        "client_id": "d8ee1619-5804-4b50-9575-3e8938be97bf",
-        "CIRReportData": {
-            "IDAndContactInfo": {
-                "PersonalInfo": {
-                    "Name": {
-                        "FullName": "REKHA DEVI",
-                        "FirstName": null,
-                        "LastName": null
-                    },
-                    "AliasName": null,
-                    "DateOfBirth": "22-05-2019",
-                    "Gender": null,
-                    "Age": {
-                        "age": 49
-                    },
-                    "PlaceOfBirthInfo": null,
-                    "IncomeRange": null,
-                    "Occupation": null
-                },
-                "Identityinfo": {
-                    "PANId": [
-                        {
-                            "seq": "1",
-                            "ReportedDate": "22-05-2019",
-                            "IdNumber": "ZOXPH5777Y"
-                        },
-                        {
-                            "seq": "2",
-                            "ReportedDate": "30-04-2016",
-                            "IdNumber": "DXNPS7104G"
-                        }
-                    ],
-                    "Addressinfo": [
-                        {
-                            "seq": "1",
-                            "ReportedDate": "31-07-2022",
-                            "IdNumber": "B 33/29K 6 N NARIA SUNDAR PUR VARANASI 221001 UP "
-                        },
-                        {
-                            "seq": "2",
-                            "ReportedDate": "31-05-2021",
-                            "IdNumber": "REKHA DECROTION CENTER  00  B 33/29-K-6 ROHIT NAGAR COLONY NARIYA ROHIT NAGAR COLONY NARIYA LANKA ROAD NEAR BABU GENERAL STORE  and  NEAR PAL JI GENERAL STORE  VARANASI 221005 UP "
-                        },
-                        {
-                            "seq": "3",
-                            "ReportedDate": "28-02-2021",
-                            "IdNumber": "MAID WORK    NARIYA  NQRIYA ROHIT NAGAR COLONY NEAR SAI SURGERIES NEAR CHAUDHARY LAWN  VARANASI 221005 UP "
-                        }
-                    ],
-                    "Phoneinfo": [
-                        {
-                            "seq": "1",
-                            "ReportedDate": "31-07-2022",
-                            "IdNumber": "5644122414"
-                        },
-                        {
-                            "seq": "2",
-                            "ReportedDate": "31-05-2021",
-                            "IdNumber": "5531465699"
-                        },
-                        {
-                            "seq": "3",
-                            "ReportedDate": "22-05-2019",
-                            "IdNumber": "5639173859"
-                        }
-                    ],
-                    "Emailaddressinfo": [],
-                    "DobInfo": [
-                        {
-                            "seq": "1",
-                            "ReportedDate": "22-05-2019",
-                            "IdNumber": "10-11-1977"
-                        },
-                        {
-                            "seq": "2",
-                            "ReportedDate": "28-02-2018",
-                            "IdNumber": "01-01-1973"
-                        },
-                        {
-                            "seq": "3",
-                            "ReportedDate": "30-04-2016",
-                            "IdNumber": "01-01-1980"
-                        }
-                    ],
-                    "Voterid": [
-                        {
-                            "seq": "1",
-                            "ReportedDate": "31-07-2022",
-                            "IdNumber": "IM853970745139"
-                        },
-                        {
-                            "seq": "2",
-                            "ReportedDate": "28-02-2018",
-                            "IdNumber": "XC112357118255"
-                        }
-                    ],
-                    "NationalIdCard": [],
-                    "OtherId": []
-                }
-            }
-        }
-    },
-    "message": "success"
-};
+                const respose = await GetFusionReport(payload);
+   
                 if (respose.status == "success") {
                     setLoading(false);
                     setRes(respose);
@@ -291,7 +183,7 @@ function Fusion() {
 
                     {isReport && Object.keys(res?.data?.client_id) && (
                         <div className="w-full mx-auto text-black  mt-0">
-                            <PrefillReport report={res.data} type="fusion" onGetNewReport={handleNewReport} />
+                            <PrefillReport report={res.data} type="fusion" onGetNewReport={handleNewReport} onDownloadReport={handleDownload}/>
                         </div>
                     )}
 

@@ -184,7 +184,6 @@ export const GetTransUnionReport = async (req) => {
 export const GetTUReport = async (req) => {
     try {
         const response = await api.post("/Cibil/GetCibilReport", req);
-        
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);
@@ -448,7 +447,7 @@ export const getBankCodeList = async (req) => {
 export const GetFusionReport = async (req) => {
     try {
         
-        const response = await api.post("CreditScore/customer-fusion", req);
+        const response = await api.post("Prefill/customer-fusion", req);
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);
