@@ -148,8 +148,7 @@ function AadhaarKyc() {
                         url: 'verifiedu/GetAadhaarDetailsById',
                     }
                     const respose = await GetUserAadhaarReport(payload);
-
-                    if (respose?.status) {
+                    if (respose.status) {
                         setLoading(false);
                         setAadhaarDetails(respose);
                         // console.log(respose.data.url);
@@ -318,7 +317,7 @@ function AadhaarKyc() {
 
 
                     {/* ================= Aadhaar Status Data UI ================= */}
-                    {isReport && aadhaarDetails?.aadhaar_Data && (
+                    {(isReport && aadhaarDetails ) && (
                         <div className="w-full mx-auto text-black  mt-2">
                             {/* <UserPrefillReport
                                 providerName="UserPrefill"

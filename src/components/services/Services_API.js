@@ -214,6 +214,7 @@ export const GetUserPanReport = async (req) => {
 export const GetUserAadhaarReport = async (req) => {
     try {
         const response = await api.post(req.url, req);
+        console.log('ddddddd')
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);

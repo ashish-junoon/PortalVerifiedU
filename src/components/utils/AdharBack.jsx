@@ -19,6 +19,9 @@ const AdharBack = ({
     images,
     address
 }) => {
+
+    const adr = address.complete_address?.house + " " + address.complete_address?.vtc + " " + address.complete_address?.state + " " + address.complete_address?.pc
+    
     return (
         <div className="w-[300px] sm:w-[400px] bg-white border border-gray-300 rounded-md shadow-sm px-4 py-1 text-xs font-sans">
             {/* Header */}
@@ -37,7 +40,7 @@ const AdharBack = ({
                     {/* <img src={imageUrl} alt="Profile" className="w-20 h-24 object-cover border border-gray-400 rounded-sm" /> */}
                     <div className="text-sm space-y-1 text-gray-800">
                         <p><strong>Address: </strong></p>
-                        <p>{address || "N/A"}</p>
+                        <p className="font-semibold">{adr || "N/A"}</p>
                     </div>
                 </div>
                 <img src={Images?.QR} alt="user" className="w-14 h-14 md:w-20 md:h-20 object-cover" />
