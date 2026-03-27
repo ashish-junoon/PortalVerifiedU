@@ -1,48 +1,108 @@
-import React from 'react';
+import React from "react";
 
-const ServiceCard = ({ service }) => {
+const ServiceCard = ({ service, setisfilter, isfilter, dateRange }) => {
+  const data = service && service[0] ? Object.values(service[0]).flat() : [];
+
   return (
-    <div className="py-2 w-full">
-      {/* Card Container with fixed height and vertical scroll only */}
-      <div className="bg-white rounded-lg shadow-xl w-full h-96 overflow-y-auto overflow-x-auto scroll">
-        <table className="w-full table-auto text-gray-800 border-collapse">
-          {/* <thead className="bg-gradient-to-r bg-[#0f3c64] to-blue-400 text-white sticky top-0"> */}
-          <thead className="bg-gradient-to-r bg-primarydark to-primary text-white sticky top-0">
-            <tr>
-              <th className="px-6 py-2 text-left text-sm font-semibold whitespace-nowrap">
-                Service Name
-              </th>
-              <th className="px-6 py-2 text-left text-sm font-semibold whitespace-nowrap">
-                Service Success Count
-              </th>
-              <th className="px-6 py-2 text-left text-sm font-semibold whitespace-nowrap">
-                Service Failed Count
-              </th>
-              <th className="px-6 py-2 text-left text-sm font-semibold whitespace-nowrap">
-                Total Service Charge Amount
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-sm">
-            {service &&
-              Object.keys(service[0]).map((serviceKey, i) => {
-                return service[0][serviceKey].map((serviceItem, index) => (
-                  <tr
-                    key={i}
-                    className={`border-b border-gray-200 transition duration-300 ease-in-out hover:bg-primarydark/10 ${i % 2 !== 0 ? 'bg-gray-100/50' : 'bg-white'
-                      } hover:bg-primary/80/70`}
-                  >
-                    <td className="px-6 py-2 text-gray-800 font-semibold">{serviceItem.service_name}</td>
-                    <td className="px-6 py-2 text-gray-600">{serviceItem.success_count}</td>
-                    <td className="px-6 py-2 text-gray-600">{serviceItem.failed_count}</td>
-                    <td className="px-6 py-2 text-gray-600">{(serviceItem.success_count * serviceItem.service_amount).toFixed(2)}
+    <div className="w-full">
+      {/* Container */}
+      <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+        {/* Header */}
+        <div className="px-4 pt-2 flex justify-between items-start border-b border-gray-200 bg-gray-200">
+          <h2 className="text-md font-semibold text-gray-800">
+            Service Analytics
+          </h2>
+          {/* <span className="text-xs text-gray-500">
+            Total: {data.length}
+          </span> */}
+          <div className="flex items-center gap-2 mb-1">
+            {/* Date Range */}
+            <div className="bg-gray-100 px-3 py-1.5 rounded-md text-xs font-medium text-gray-700">
+              {dateRange.from} → {dateRange.to}
+            </div>
 
+            {/* Filter Button */}
+            <button
+              onClick={() => setisfilter(!isfilter)}
+              className="cursor-pointer flex items-center gap-1 bg-primary hover:bg-primarydark text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition"
+            >
+              {/* Icon (optional) */}
+              {/* 🔍 */}
+              {isfilter ? "Hide" : "Filter"}
+            </button>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-auto max-h-[350px]">
+          <table className="w-full text-sm border-separate border-spacing-y-0 px-3 pt-1">
+            <thead >
+              <tr className="text-gray-500 text-xs uppercase">
+                <th className="text-left px-4 py-2 border-b border-gray-300">Service</th>
+                {/* <th className="text-left px-4 py-2 border-b border-gray-300">Description</th> */}
+                <th className="text-left px-4 py-2 border-b border-gray-300">Success</th>
+                <th className="text-left px-4 py-2 border-b border-gray-300">Failed</th>
+                <th className="text-left px-4 py-2 border-b border-gray-300">Revenue</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {data.map((item, index) => {
+                const revenue = (
+                  item.success_count * item.service_amount
+                ).toFixed(2);
+
+                const total = item.success_count + item.failed_count;
+
+                return (
+                  <tr key={index} className="bg-white transition">
+                    {/* Service */}
+                    {/* <td className="px-4 py-2.5 border-b border-gray-300/80 font-medium text-gray-700">
+                      {item.service_name}
+                    </td> */}
+                    
+                    <td className="px-4 py-2.5 border-b border-gray-300/80 font-medium text-gray-700">
+                      {item.description}
+                    </td>
+
+                    {/* Success */}
+                    <td className="px-4 py-2.5 border-b border-gray-300/80">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span className="font-semibold text-green-600">
+                          {item.success_count}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Failed */}
+                    <td className="px-4 py-2.5 border-b border-gray-300/80">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                        <span className="font-semibold text-red-500">
+                          {item.failed_count}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Revenue */}
+                    <td className="px-4 py-2.5 font-semibold text-gray-700 rounded-r-xl border-b border-gray-300/80">
+                      ₹ {revenue}
                     </td>
                   </tr>
-                ));
+                );
               })}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Footer */}
+        {/* <div className="px-6 py-3 border-t bg-gray-50 text-xs text-gray-500 flex justify-between">
+          <span>Showing all services</span>
+          <span className="text-primary font-semibold cursor-pointer hover:underline">
+            Refresh
+          </span>
+        </div> */}
       </div>
     </div>
   );

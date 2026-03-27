@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiHome, FiUsers, FiMenu } from "react-icons/fi";
+import { FaPlus } from "react-icons/fa";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { FaServicestack } from "react-icons/fa";
 import { useContext } from "react";
@@ -17,25 +18,35 @@ const menuItems = [
     icon: <FiHome size={20} />,
   },
   {
-    name: "User Assign Service",
-    path: "/admin/user-assign",
-    icon: <GrServices size={20} />,
+    name: "Users Master",
+    path: "/admin/user-list",
+    icon: <FiUsers size={20} />,
   },
+  {
+    name: "Roles Master",
+    path: "/admin/roles-list",
+    icon: <FaPlus size={20} />,
+  },
+  // {
+  //   name: "User Assign Service",
+  //   path: "/admin/user-assign",
+  //   icon: <GrServices size={20} />,
+  // },
   {
     name: "Service Master",
     path: "/admin/service-master",
     icon: <MdMiscellaneousServices size={20} />,
   },
-  {
-    name: "Service Type",
-    path: "/admin/service-type",
-    icon: <FaServicestack size={20} />,
-  },
-  {
-    name: "Users Master",
-    path: "/admin/user-list",
-    icon: <FiUsers size={20} />,
-  },
+  // {
+  //   name: "Service Type",
+  //   path: "/admin/service-type",
+  //   icon: <FaServicestack size={20} />,
+  // },
+  // {
+  //   name: "Users Master",
+  //   path: "/admin/user-list",
+  //   icon: <FiUsers size={20} />,
+  // },
   {
     name: "Reports",
     path: "/admin/service-report",
@@ -47,11 +58,11 @@ export default function Sidebar({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useContext(AuthContext);
-
+  const vendorDetails = JSON.parse(localStorage.getItem('authAdminData'));
   const [isOpen, setIsOpen] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [activePath, setActivePath] = useState("/admin");
-
+  
   // Hover effects
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
@@ -82,7 +93,7 @@ export default function Sidebar({ children }) {
   return (
     <>
       {/* TOP NAVBAR STYLE BUTTON (Optional) */}
-      <div className="w-full bg-white shadow-md py-3 px-4 flex items-center justify-between fixed top-0 left-0 z-50">
+      <div className="w-full bg-white shadow-md py-2 px-4 flex items-center justify-between fixed top-0 left-0 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-gray-700 text-2xl"
@@ -90,7 +101,29 @@ export default function Sidebar({ children }) {
           <FiMenu />
         </button>
 
-        <h1 className="text-lg font-semibold text-gray-700">Admin Panel</h1>
+        {/* <h1 className="text-lg font-semibold text-gray-700">Admin Panel</h1> */}
+        <div className="flex items-center gap-2 cursor-pointer px-3 rounded-full">
+          <span className="sr-only">Open user menu</span>
+
+          {/* Profile Image */}
+          <img
+            className="h-10 w-10 rounded-full bg-gray-800 outline outline-white/10 border border-gray-300 shadow-lg  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            src={
+              false ? `/images/${profileImages}` : `/images/profile_images.png`
+            }
+            alt="User"
+          />
+
+          {/* Name + Email */}
+          <div className="text-left hidden sm:block">
+            <p className="text-sm font-semibold text-gray-800">
+              {vendorDetails?.data?.VendorName || "N/A"}
+            </p>
+            <p className="text-xs text-gray-500">
+              {vendorDetails?.data?.role || "N/A"}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* SIDEBAR */}
@@ -113,7 +146,9 @@ export default function Sidebar({ children }) {
               alt="logo"
             /> */}
             {(isHovered || isOpen) && (
-              <h2 className="ml-3 text-xl font-bold text-gray-100">Admin Panel</h2>
+              <h2 className="ml-3 text-xl font-bold text-gray-100">
+                Admin Panel
+              </h2>
             )}
           </div>
 

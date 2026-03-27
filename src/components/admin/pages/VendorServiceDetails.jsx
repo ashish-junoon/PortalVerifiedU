@@ -12,7 +12,7 @@ import { FaEdit } from 'react-icons/fa';
 import DataTable from "react-data-table-component";
 import Loader from "../../utils/Loader";
 
-export default function VendorServiceDetails({ backButton }) {
+export default function VendorServiceDetails({ backButton, userVendorCode }) {
 
     const [users, setUsers] = useState([]);
     const [servicesTypeList, setServicesTypeList] = useState([]);
@@ -23,8 +23,8 @@ export default function VendorServiceDetails({ backButton }) {
     const [loading, setLoading] = useState(false);
     const [AssignUserService, setAssignUserService] = useState(false);
     const [editService, setEditService] = useState(null);
-    const [selectedVendor, setSelectedVendor] = useState("");
-
+    const [selectedVendor, setSelectedVendor] = useState(userVendorCode);
+    
     // -----------------------
     // API CALLS
     // -----------------------
@@ -75,7 +75,8 @@ export default function VendorServiceDetails({ backButton }) {
                 if (serviceRes.status) setServicesList(serviceRes.serviceNames);
 
                 const assignRes = await vendorFetchServiceAssignList({
-                    VendorCode: "",
+                    // VendorCode: "",
+                    VendorCode: userVendorCode,
                     url: "Admin/VendorServiceName",
                 });
                 if (assignRes.status) {
@@ -143,17 +144,17 @@ export default function VendorServiceDetails({ backButton }) {
                         checked={row.IsActive}
                         onChange={() => handleToggle(row.ServiceID, row.IsActive)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-green-600 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                    <span className={`ms-2 text-sm font-medium ${row.IsActive ? 'text-green-800' : 'text-red-800'}`}>
+                    <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                    {/* <span className={`ms-2 text-sm font-medium ${row.IsActive ? 'text-green-800' : 'text-red-800'}`}>
                         {row.IsActive ? 'Active' : 'Inactive'}
-                    </span>
+                    </span> */}
                 </label>
             )
         },
         {
             name: "Action",
             cell: row => (
-                <button className="px-3 py-1 text-xs" onClick={() => handleEdit(row)}>
+                <button className="px-3 py-1 text-xs" onClick={() => { handleEdit(row), console.log(row)}}>
                     <FaEdit className="w-6 h-6" /> {/* Or <FaEdit /> */}
 
                 </button>
@@ -173,19 +174,19 @@ export default function VendorServiceDetails({ backButton }) {
     };
     // if (loading) return <Loader message="Getting Report..." color="#63BB89" />
     return (
-        <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="p-2 bg-gray-100 min-h-screen">
 
             {/* ========================
                HEADER + ACTION BAR
             ========================== */}
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold text-gray-800">
+            <div className="flex justify-between mb-0">
+                <h2 className="text-xl font-semibold text-gray-800">
                     Vendor Service Active & Deactive
                 </h2>
 
                 <button
                     onClick={backButton}
-                    className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                    className="bg-primary text-white px-5 py-2 rounded-lg shadow hover:bg-primarydark transition"
                 >
                     Back
                 </button>
@@ -194,23 +195,23 @@ export default function VendorServiceDetails({ backButton }) {
             {/* ========================
                 SEARCH FIELD
             ========================== */}
-            <div className="flex flex-wrap items-center gap-4 mb-6">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
                 {/* Search Box */}
-                <div className="relative w-80">
+                <div className="relative w-70">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                         🔍
                     </span>
                     <input
                         type="text"
                         placeholder="Search vendor / service..."
-                        className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-300 bg-white shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
+                        className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
                         value={filterText}
                         onChange={(e) => setFilterText(e.target.value)}
                     />
                 </div>
 
                 {/* Vendor Select */}
-                <div className="relative w-64">
+                <div className="relative w-64 hidden">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                         👤
                     </span>
@@ -241,7 +242,7 @@ export default function VendorServiceDetails({ backButton }) {
                                 toast.error("Failed to fetch vendor services");
                             }
                         }}
-                        className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-300 bg-white shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
+                        className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
                     >
                         <option value="">Select Vendor</option>
                         {users.map((u, idx) => (
@@ -301,6 +302,7 @@ export default function VendorServiceDetails({ backButton }) {
                             editService={editService}
                             cancelClose={() => setAssignUserService(false)}
                             placeholder="Select a user"
+                            selectedVendor={selectedVendor}
                         />
                     </div>
                 </div>

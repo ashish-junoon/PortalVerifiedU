@@ -125,6 +125,17 @@ export const GetServicesUses = async (req) => {
     }
 };
 
+export const GetVendorServicesUsage = async (req) => {
+    
+    try {
+        const response = await api.post("/Admin/VendorServiceHistory",req);
+        return response.data;
+    } catch (error) {
+        console.error("Login error:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
 export const GetExprianReport = async (req) => {
     try {
         const response = await api.post("Experian/GetIndivisualCreditReportPdf", req);

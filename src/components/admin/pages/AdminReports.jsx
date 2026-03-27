@@ -103,10 +103,10 @@ export default function AdminReports() {
             <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden">
                 <div className="-mt-1"></div>
                 <Navbar />
-                <div className="p-3 md:p-6 bg-gray-100 min-h-screen">
+                <div className="p-2 md:p-6 bg-gray-100 min-h-screen">
 
                     {/* FILTER BAR */}
-                    <div className="bg-white shadow-md rounded-xl p-4 mb-4">
+                    <div className="bg-white shadow-md rounded-md p-2 mb-4">
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
                             {/* Search */}
@@ -114,7 +114,7 @@ export default function AdminReports() {
                                 <input
                                     type="text"
                                     placeholder="Search by name, email, username..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-primary focus:outline-none transition"
                                     value={filterText}
                                     onChange={(e) => setFilterText(e.target.value)}
                                 />
@@ -142,7 +142,7 @@ export default function AdminReports() {
                                     name="status"
                                     value={userStatus}
                                     onChange={(e) => setUserStatus(e.target.value)}
-                                    className="border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                                    className="border border-gray-300 px-2 py-1.5 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
                                 >
                                     <option value="">All Users</option>
                                     <option value="active">Active Users</option>
@@ -161,7 +161,7 @@ export default function AdminReports() {
                     </div>
 
                     {/* STATUS PROGRESS BAR */}
-                    <div className="bg-white shadow-md rounded-xl p-2 mb-4">
+                    <div className="bg-white shadow-md rounded-md p-2 mb-4">
                         <div className="flex justify-between mb-2 text-sm font-medium">
                             <span className="text-green-700">
                                 Active: {activeCount} ({activePercentage}%)
@@ -184,7 +184,7 @@ export default function AdminReports() {
                     </div>
 
                     {/* TABLE CARD */}
-                    <div className="bg-white shadow-lg rounded-xl p-4 w-full">
+                    <div className="bg-white shadow-lg rounded-md p-4 w-full">
                         <DataTable
                             columns={columns}
                             data={filteredData}

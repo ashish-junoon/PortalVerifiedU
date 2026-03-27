@@ -131,10 +131,13 @@ export const AuthProvider = ({ children }) => {
 
     };
     const ServicesUses = async () => {
+        const todayDate = new Date().toLocaleDateString("en-CA")
+        
         const payload ={
-                    from_date: "string",
-                    to_date: "string"
-                    };
+            // from_date: "2025-01-01",
+            from_date: todayDate,
+            to_date: todayDate
+        };
         const response = await GetServicesUses(payload);
 
         if (response.status === true) {
@@ -158,7 +161,7 @@ export const AuthProvider = ({ children }) => {
         );
     };
     return (
-        <AuthContext.Provider value={{ authData, login, logout, wallet, deductAmount, updateWallet, hasPermission, vendorDetails, servicesDetails, getVendorList, vendorcode, profileImages,serviceHistory }}>
+        <AuthContext.Provider value={{ authData, login, logout, wallet, deductAmount, updateWallet, hasPermission, vendorDetails, servicesDetails, getVendorList, vendorcode, profileImages,serviceHistory, setServiceHistory }}>
             {children}
         </AuthContext.Provider>
     );

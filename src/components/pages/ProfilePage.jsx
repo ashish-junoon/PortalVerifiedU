@@ -9,10 +9,10 @@ import { vendorPayment } from "../services/Services_API";
 import { useSidebar } from "../Context/SidebarContext";
 import TransactionHistory from "../TransactionHistory";
 export default function ProfilePage() {
-    const { vendorDetails, servicesDetails } = useContext(AuthContext);
+    const { vendorDetails, servicesDetails, serviceHistory } = useContext(AuthContext);
     const [activeTab, setActiveTab] = useState("profile");
     const { isOpenSidebar } = useSidebar()
-
+    const services = serviceHistory;
     return (
         <div>
             <Helmet>
@@ -86,7 +86,7 @@ export default function ProfilePage() {
 
                         {/* Tab Content */}
                         {activeTab === "profile" && <ProfileTab vendorDetails={vendorDetails} />}
-                        {activeTab === "services" && <ServiceListTab servicesDetails={servicesDetails} />}
+                        {activeTab === "services" && <ServiceListTab service={services} />}
                         {activeTab === "transactions" && <TransactionsListTab />}
                         {activeTab === "password" && <ForgotPasswordTab />}
                         {activeTab === "wallet" && <WalletRecharge />}
@@ -163,18 +163,20 @@ function ProfileTab({ vendorDetails }) {
    SERVICE LIST TAB
 ================================================ */
 
-function ServiceListTab({ servicesDetails }) {
-    // const services = [
-    //     { id: 1, name: "PAN Verification", status: "Active" },
-    //     { id: 2, name: "Aadhaar Verification", status: "Inactive" },
-    //     { id: 3, name: "GST Validation", status: "Active" },
-    // ];
+function ServiceListTab({ service }) {
+  // const services = [
+  //     { id: 1, name: "PAN Verification", status: "Active" },
+  //     { id: 2, name: "Aadhaar Verification", status: "Inactive" },
+  //     { id: 3, name: "GST Validation", status: "Active" },
+  // ];
 
-    return (
-        <div>
-            <h2 className="text-xl font-semibold text-gray-700 mb-2">Your Services</h2>
+  return (
+    <div>
+      <h2 className="text-xl font-semibold text-gray-700 mb-2">
+        Your Services
+      </h2>
 
-            <div className="border border-gray-100 rounded-lg shadow-sm overflow-y-auto max-h-96">
+      {/* <div className="border border-gray-100 rounded-lg shadow-sm overflow-y-auto max-h-96">
                 {servicesDetails.map((s, index) => (
                     <div
                         key={s.id}
@@ -189,9 +191,74 @@ function ServiceListTab({ servicesDetails }) {
                         </span>
                     </div>
                 ))}
-            </div>
+            </div> */}
+
+      {false && (
+        <div className="bg-white rounded-lg shadow-xl w-full h-96 overflow-y-auto scroll border border-gray-200">
+          {service &&
+            Object.keys(service[0]).map((serviceKey, i) =>
+              service[0][serviceKey].map((serviceItem, index) => (
+                <div
+                  key={`${i}-${index}`}
+                  className={`flex justify-between items-center px-4 py-2 border-b border-gray-200 last:border-none transition duration-200 
+          ${index % 2 === 0 ? "bg-gray-50" : "bg-white"} 
+          hover:bg-primary/10`}
+                >
+                  {/* Service Name */}
+                  <span className="text-gray-700 font-medium">
+                    {serviceItem.service_name}
+                  </span>
+
+                  {/* Amount Badge */}
+                  <span className="px-3 py-1 text-sm rounded-full bg-green-100 text-green-700 font-semibold">
+                    ₹ {serviceItem.service_amount}
+                  </span>
+                </div>
+              )),
+            )}
         </div>
-    );
+      )}
+
+      <div className="bg-white rounded-lg shadow-xl w-full h-96 overflow-y-auto scroll border border-gray-200">
+        {service &&
+          (() => {
+            const seen = new Set(); // track unique service_name
+
+            return Object.keys(service[0]).flatMap((key) =>
+              service[0][key]
+                .filter((item) => {
+                  if (!item?.service_name) return false;
+
+                  if (seen.has(item.service_name)) {
+                    return false; // skip duplicate
+                  }
+
+                  seen.add(item.service_name);
+                  return true;
+                })
+                .map((serviceItem, index) => (
+                  <div
+                    key={`${key}-${index}`}
+                    className={`flex justify-between items-center px-4 py-1.5 border-b border-gray-200 
+              ${index % 2 === 0 ? "bg-gray-50" : "bg-white"} 
+              hover:bg-primary/10`}
+                  >
+                    {/* Service Name */}
+                    <span className="text-gray-700 font-medium">
+                      {serviceItem.service_name}
+                    </span>
+
+                    {/* Amount */}
+                    <span className="px-3 py-1 text-sm rounded-full bg-green-100 text-green-700 font-semibold">
+                      ₹ {serviceItem.service_amount}
+                    </span>
+                  </div>
+                )),
+            );
+          })()}
+      </div>
+    </div>
+  );
 }
 
 /* ================================================

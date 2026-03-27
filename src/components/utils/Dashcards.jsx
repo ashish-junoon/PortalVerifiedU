@@ -1,53 +1,85 @@
+import { useNavigate } from "react-router-dom";
 import Icon from "./Icon";
 
 const Dashcards = ({ wallet, service }) => {
+  const navigate = useNavigate();
+
   const dashcards = [
     {
       name: "Credit Balance",
       count: `₹${wallet || 0}`,
       icon: "FaWallet",
+      gradient: "from-[#1dcd9f] to-[#0ea5e9]",
+      view:"/profile"
     },
     {
-      name: "Total services",
+      name: "Total Services",
       count: service?.total_services || 0,
       icon: "MdMiscellaneousServices",
+      gradient: "from-[#6366f1] to-[#8b5cf6]",
     },
     {
-      name: "Success count",
+      name: "Success Count",
       count: service?.success_count || 0,
       icon: "MdLibraryAddCheck",
+      gradient: "from-[#22c55e] to-[#1dcd9f]",
     },
     {
-      name: "Failure count",
+      name: "Failure Count",
       count: service?.failed_count || 0,
       icon: "GoAlertFill",
+      gradient: "from-[#ef4444] to-[#f97316]",
     },
   ];
-  
-
 
   return (
-    <div>
-      <div className="grid grid-cols-4 gap-2 max-lg:grid-cols-2">
-        {dashcards?.map((item, index) => {
-          return (
+    <div className="grid grid-cols-4 gap-2 max-lg:gap-1 max-lg:grid-cols-2 max-md:grid-cols-1">
+      {dashcards.map((item, index) => (
+        <div
+          key={index}
+          className="relative group rounded-2xl bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-500"
+        >
+          {/* Inner Card */}
+          <div className="bg-white/90 rounded-lg p-3 h-full flex flex-col justify-between relative overflow-hidden border border-gray-200">
+
+            {/* Gradient Glow */}
             <div
-              key={index}
-              className="shadow-md px-5 py-6 rounded-lg flex items-center justify-between border border-gray-300/60"
-            >
+              className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-r ${item.gradient} opacity-20 blur-3xl group-hover:opacity-40 transition`}
+            />
+
+            {/* Content */}
+            <div className="flex items-center justify-between">
               <div>
-                <p className="font-bold text-2xl max-md:text-lg text-gray-600">
-                  {item?.count}
+                <p className="text-sm font-semibold text-gray-500 tracking-wide">
+                  {item.name}
                 </p>
-                <p className="text-gray-400 max-md:text-sm">{item?.name}</p>
+
+                <h2 className="text-xl font-bold text-gray-700 mt-1 transition">
+                  {item.count}
+                </h2>
               </div>
-              <div className="bg-primary/20 p-2 rounded-sm max-md:p-1">
-                <Icon name={item?.icon} color="#04bd8c" size={20} />
+
+              {/* Icon */}
+              <div
+                className={`p-2 max-lg:p-2 rounded-lg bg-gradient-to-r ${item.gradient} text-white shadow-md group-hover:scale-110 transition`}
+              >
+                <Icon name={item.icon} size={18} />
               </div>
             </div>
-          );
-        })}
-      </div>
+
+            {/* Bottom Line */}
+            <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
+              <span>Updated just now</span>
+              {item.view && <span onClick={()=> navigate(item?.view)} className="cursor-pointer text-primary font-semibold group-hover:translate-x-1 transition">
+                Recharge →
+              </span>}
+            </div>
+
+            {/* Hover Border Effect */}
+            {/* <div className="absolute inset-0 border border-transparent group-hover:border-primary/40 transition"></div> */}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

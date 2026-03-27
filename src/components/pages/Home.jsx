@@ -7,12 +7,23 @@ import { AuthContext } from "../Context/AuthContext";
 import Sidebar from "../Sidebar";
 import { useSidebar } from "../Context/SidebarContext";
 import Dashcards from "../utils/Dashcards";
+import DateFilter from "../utils/DateFilter";
 import DashboardCharts from "../utils/DashboardCharts";
+import { GetServicesUses } from "../services/Services_API";
 function Home() {
   const { isOpenSidebar } = useSidebar();
-  const { wallet, vendorDetails, serviceHistory } = useContext(AuthContext);
+  const { wallet, vendorDetails, serviceHistory, setServiceHistory } =
+    useContext(AuthContext);
   const [alertStatus, setAlertStatus] = useState(true);
+  const [dateRange, setDateRange] = useState({
+    from: new Date().toISOString().split("T")[0],
+    to: new Date().toISOString().split("T")[0],
+  });
+  const [isfilter, setisfilter] = useState(false);
   const token = JSON.parse(localStorage.getItem("authData"));
+  console.log(serviceHistory);
+  
+
   useEffect(() => {
     if (!token?.data?.vendorLogin?.token && !token?.data?.Status) {
       window.location.href = "/login";
@@ -38,6 +49,23 @@ function Home() {
       },
       { success_count: 0, failed_count: 0, total_services: 0 },
     );
+
+  const handleFilterChange = async (range) => {
+    console.log("Filtered Data:", range);
+    setDateRange(range);
+    // const todayDate = new Date().toLocaleDateString("en-CA");
+    const payload = {
+      from_date: range.from,
+      to_date: range.to,
+    };
+    const response = await GetServicesUses(payload);
+
+    if (response.status === true) {
+      setServiceHistory(response.dashboardVendors);
+    } else {
+      console.error(response.message);
+    }
+  };
 
   // const services = {
   //     users: {
@@ -80,20 +108,23 @@ function Home() {
       <div className="lg:flex">
         {isOpenSidebar && <Sidebar />}
 
-        <div className={`${isOpenSidebar && "lg:ml-64"} md:px-6 flex-1`}>
+        <div className={`${isOpenSidebar && "lg:ml-64"} px-2 md:px-6 flex-1 bg-gradient-to-br from-slate-100 via-slate-0 to-slate-100`}>
           {wallet < 100 && (
             <div className="animate-pulse bg-red-100 w-full mt-2 border-l-4 border-l-red-500 flex items-center justify-between pr-6">
               <p className="pl-2 py-2 text-red-600 font-semibold">
                 Your Credit Balance is less than ₹ 100, Please recharge your
                 wallet.
               </p>
-
-              {/* <p className="cursor-pointer text-xl" onClick={()=> setAlertStatus(false)}>x</p> */}
             </div>
           )}
 
-          <div className="my-3">
-            <div className="bg-white md:py-4 px-2 py-6 shadow-xs w-full max-md:w-full m-auto rounded-md">
+          <div className="py-3">
+            <h1 className="text-xl font-bold text-gray-700">Welcome Back</h1>
+            <p className="text-gray-600 text-sm font-medium">
+              Here's your dashboard overview for today
+            </p>
+
+            <div className="max-md:py-0 mt-4 mb-2 w-full max-md:w-full m-auto rounded-md">
               <Dashcards wallet={wallet} service={totals} />
             </div>
 
@@ -101,8 +132,36 @@ function Home() {
               <DashboardCharts data={serviceHistory} />
             </div> */}
 
-            <div className=" bg-gray-100 md:px-6 md:py-3 px-3 py-3 rounded-xl">
-              <h1 className="text-2xl font-bold text-gray-800">Services</h1>
+            <div className="flex">
+              {isfilter && (
+                <div className="mt-0 w-full max-md:w-full m-auto rounded-md">
+                  <DateFilter setisfilter={setisfilter} onFilterChange={handleFilterChange} />
+                </div>
+              )}
+            </div>
+
+            <div className="md:px-0 md:py-2 px-0 py-0 rounded-xl">
+              {/* <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-gray-800">Services</h1>
+                <p className="text-xs font-semibold">{dateRange.from} to {dateRange.to}</p>
+              </div> */}
+{/* 
+              <div className="flex items-center justify-between flex-wrap gap-2 px-2">
+                <h1 className="text-2xl font-bold text-gray-600 font-mono">Services</h1>
+
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="bg-gray-100 px-3 py-1.5 rounded-md text-xs font-medium text-gray-700">
+                    {dateRange.from} → {dateRange.to}
+                  </div>
+
+                  <button
+                    onClick={() => setisfilter(!isfilter)}
+                    className="cursor-pointer flex items-center gap-1 bg-primary hover:bg-primarydark text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition"
+                  >
+                    {isfilter ? "Hide" : "Filter"}
+                  </button>
+                </div>
+              </div> */}
 
               {serviceHistory?.length === 0 ? (
                 <p className="text-gray-500 text-center">
@@ -110,7 +169,7 @@ function Home() {
                 </p>
               ) : (
                 <div className="">
-                  <ServiceCard service={serviceHistory} />
+                  <ServiceCard dateRange={dateRange} setisfilter={setisfilter} isfilter={isfilter} service={serviceHistory} />
                 </div>
               )}
             </div>

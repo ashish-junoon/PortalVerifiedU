@@ -12,6 +12,7 @@ import {
     vendorGetServiceTypeList,
     vendorServiceType
 } from "../../services/Services_API";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function ServiceMaster() {
     const [servicesTypeList, setServicesTypeList] = useState([]);
@@ -20,6 +21,7 @@ export default function ServiceMaster() {
     const [loading, setLoading] = useState(false);
     const [openForm, setOpenForm] = useState(false);
     const [editService, setEditService] = useState(null);
+    const navigate = useNavigate()
 
     // ----------------- Fetch Data -----------------
     useEffect(() => {
@@ -130,8 +132,8 @@ export default function ServiceMaster() {
             <Sidebar />
 
             {/* Main Content */}
-            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden">
-                <Navbar />
+            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden mt-10">
+                {/* <Navbar /> */}
 
                 <div className="md:p-6 p-3">
                     {/* Header + Action */}
@@ -139,16 +141,26 @@ export default function ServiceMaster() {
                         <h2 className="md:text-2xl text-xl font-semibold text-gray-800">
                             Service Master Management
                         </h2>
+                        <div className="flex gap-2">
+                            <button
+                            onClick={() => {
+                                navigate("/admin/service-type")
+                            }}
+                            className="bg-black text-white px-5 max-md:px-3 py-2 rounded-lg shadow hover:bg-black/70 font-semibold cursor-pointer transition"
+                        >
+                            Service Types
+                        </button>
                         <button
                             onClick={() => {
                                 form.resetForm();
                                 setEditService(null);
                                 setOpenForm(true);
                             }}
-                            className="bg-blue-600 text-white px-5 max-md:px-3 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                            className="bg-primary text-white px-5 max-md:px-3 py-2 rounded-lg shadow hover:bg-primarydark font-semibold cursor-pointer transition"
                         >
                             + Add Service
                         </button>
+                        </div>
                     </div>
 
                     {/* Search */}
@@ -260,7 +272,7 @@ export default function ServiceMaster() {
 
                                 <button
                                     type="submit"
-                                    className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                                    className="bg-primary text-white py-2 rounded-md hover:bg-primarydark cursor-pointer font-semibold transition"
                                 >
                                     {editService ? "Update Service" : "Add Service"}
                                     

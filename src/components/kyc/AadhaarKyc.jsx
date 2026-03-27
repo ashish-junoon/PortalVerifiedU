@@ -317,7 +317,7 @@ function AadhaarKyc() {
 
 
                     {/* ================= Aadhaar Status Data UI ================= */}
-                    {(isReport && aadhaarDetails ) && (
+                    {(isReport && aadhaarDetails?.aadhaar_Data ) && (
                         <div className="w-full mx-auto text-black  mt-2">
                             {/* <UserPrefillReport
                                 providerName="UserPrefill"
@@ -346,7 +346,7 @@ function AadhaarKyc() {
 
 
                     {/* ================= Aadhaar Link Data UI ================= */}
-                    {isReport && aadhaarLinkData?.success && (
+                    {(isReport && aadhaarLinkData?.success) && (
                         <div className="md:w-full w-full mx-auto text-black">
                             <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
                                 {/* ================= Header ================= */}

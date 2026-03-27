@@ -212,7 +212,7 @@ const KycReport = ({ report, type, onGetNewReport, panno }) => {
     );
 
   } else if (type == "AadhaarKyc") { // AadhaarKyc Report Section
-    console.log("reddddddddddd",report)
+    // consaole.log("reddddddddddd",report)
     const columns = [
       {
         name: 'Field',

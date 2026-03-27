@@ -50,6 +50,8 @@ import ForgotPassword from "./components/pages/ForgotPassword";
 import AdminReports from "./components/admin/pages/AdminReports";
 import CrifReportUID from "./components/credit/CrifReportUid";
 import AdminDashboard from "./components/admin/pages/AdminDashboard";
+import AddMembers from "./components/admin/pages/AddMembers";
+import VendorDetails from "./components/admin/pages/VendorDetails";
 
 // import UserLocation from "./components/kyc/UserLocation";
 
@@ -91,6 +93,8 @@ function AppContent() {
             <Route path="/admin/user-list" element={<UserList />} />
             <Route path="/admin/user-assign" element={<AdminHome />} />
             <Route path="/admin/service-report" element={<AdminReports />} />
+            <Route path="/admin/roles-list" element={<AddMembers />} />
+            <Route path="/admin/user-details" element={<VendorDetails />} />
             <Route path="*" element={<Navigate to="/admin" />} />
           </>
         ) : (

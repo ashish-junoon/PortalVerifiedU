@@ -200,8 +200,8 @@ const Register = ({ cancelClose, userUpdate }) => {
 
       {/* Modal Card */}
       <div className="relative bg-white rounded-2xl shadow-2xl 
-                  w-full max-w-3xl max-h-[90vh] overflow-y-auto 
-                  p-8 animate-popup">
+                  w-full max-w-5xl max-h-[90vh] overflow-y-auto 
+                  px-8 py-6 animate-popup">
 
         {/* Close Button */}
         <button
@@ -213,16 +213,16 @@ const Register = ({ cancelClose, userUpdate }) => {
         </button>
 
         {/* Title */}
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 tracking-wide">
+        <h2 className="text-xl font-semibold mb-3 text-gray-900 tracking-wide">
           Vendor Registration
         </h2>
 
         {/* FORM */}
-        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-1">
 
           {/* FIRST NAME */}
           <div>
-            <label className="text-gray-700 font-medium">First Name</label>
+            <label className="text-gray-700 font-medium text-sm">First Name</label>
             <input
               type="text"
               name="firstName"
@@ -230,8 +230,8 @@ const Register = ({ cancelClose, userUpdate }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.firstName}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     focus:ring-1 focus:ring-primary focus:outline-none"
             />
             {formik.touched.firstName && formik.errors.firstName && (
               <p className="text-red-500 text-sm mt-1">{formik.errors.firstName}</p>
@@ -240,7 +240,7 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* LAST NAME */}
           <div>
-            <label className="text-gray-700 font-medium">Last Name</label>
+            <label className="text-gray-700 font-medium text-sm">Last Name</label>
             <input
               type="text"
               name="lastName"
@@ -248,8 +248,8 @@ const Register = ({ cancelClose, userUpdate }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.lastName}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     focus:ring-1 focus:ring-primary focus:outline-none"
             />
             {formik.touched.lastName && formik.errors.lastName && (
               <p className="text-red-500 text-sm mt-1">{formik.errors.lastName}</p>
@@ -258,7 +258,7 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* EMAIL — full width */}
           <div>
-            <label className="text-gray-700 font-medium">Email</label>
+            <label className="text-gray-700 font-medium text-sm">Email</label>
             <input
               type="email"
               name="email"
@@ -266,8 +266,8 @@ const Register = ({ cancelClose, userUpdate }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     focus:ring-1 focus:ring-primary"
             />
             {formik.touched.email && formik.errors.email && (
               <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
@@ -276,7 +276,7 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* USERNAME */}
           <div>
-            <label className="text-gray-700 font-medium">Username</label>
+            <label className="text-gray-700 font-medium text-sm">Username</label>
             <input
               type="text"
               name="username"
@@ -284,8 +284,8 @@ const Register = ({ cancelClose, userUpdate }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.username}
-              className={`mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     focus:ring-2 focus:ring-blue-500 ${userUpdate && 'bg-gray-50'}`}
+              className={`mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     focus:ring-1 focus:ring-primary ${userUpdate && 'bg-gray-50'}`}
             />
             {formik.touched.username && formik.errors.username && (
               <p className="text-red-500 text-sm mt-1">{formik.errors.username}</p>
@@ -294,15 +294,15 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* COMPANY */}
           <div>
-            <label className="text-gray-700 font-medium">Company Name</label>
+            <label className="text-gray-700 font-medium text-sm">Company Name</label>
             <input
               type="text"
               name="companyName"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.companyName}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     focus:ring-1 focus:ring-primary"
             />
             {formik.touched.companyName && formik.errors.companyName && (
               <p className="text-red-500 text-sm mt-1">{formik.errors.companyName}</p>
@@ -311,7 +311,7 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* GENDER */}
           <div>
-            <label className="text-gray-700 font-medium">PAN</label>
+            <label className="text-gray-700 font-medium text-sm">PAN</label>
             <input
               type="text"
               name="panNumber"
@@ -319,22 +319,22 @@ const Register = ({ cancelClose, userUpdate }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.panNumber.toUpperCase()}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     focus:ring-1 focus:ring-primary"
             />
             {formik.touched.panNumber && formik.errors.panNumber && (
               <p className="text-red-500 text-sm mt-1">{formik.errors.panNumber}</p>
             )}
           </div>
           <div>
-            <label className="text-gray-700 font-medium">Gender</label>
+            <label className="text-gray-700 font-medium text-sm">Gender</label>
             <select
               name="gender"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.gender}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     bg-white focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     bg-white focus:ring-1 focus:ring-primary"
             >
               <option value="">Select gender</option>
               <option>Male</option>
@@ -348,7 +348,7 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* MOBILE */}
           <div>
-            <label className="text-gray-700 font-medium">Mobile</label>
+            <label className="text-gray-700 font-medium text-sm">Mobile</label>
             <input
               type="text"
               name="mobile"
@@ -356,8 +356,8 @@ const Register = ({ cancelClose, userUpdate }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.mobile}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2
-                     focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2
+                     focus:ring-1 focus:ring-primary"
 
             />
             {formik.touched.mobile && formik.errors.mobile && (
@@ -367,15 +367,15 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* OFFICE LANDLINE */}
           <div>
-            <label className="text-gray-700 font-medium">Office Landline</label>
+            <label className="text-gray-700 font-medium text-sm">Office Landline</label>
             <input
               type="text"
               name="officeLandline"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.officeLandline}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2
-                     focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2
+                     focus:ring-1 focus:ring-primary"
             />
             {formik.touched.officeLandline && formik.errors.officeLandline && (
               <p className="text-red-500 text-sm">{formik.errors.officeLandline}</p>
@@ -383,14 +383,14 @@ const Register = ({ cancelClose, userUpdate }) => {
           </div>
 
           <div>
-            <label className="text-gray-700 font-medium">Vendor Type</label>
+            <label className="text-gray-700 font-medium text-sm">Vendor Type</label>
             <select
               name="vendortype"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.vendortype}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 
-                     bg-white focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     bg-white focus:ring-1 focus:ring-primary"
             >
               <option value="">Select Vendor Type</option>
               <option>Api_Vendor</option>
@@ -403,14 +403,14 @@ const Register = ({ cancelClose, userUpdate }) => {
           </div>
 
           {/* HOME ADDRESS - TITLE */}
-          <div className="md:col-span-2 mt-4">
+          <div className="md:col-span-4 mt-2 border-b-2 border-gray-200 pb-1">
             <h3 className="text-lg font-semibold text-gray-800">Home Address</h3>
           </div>
 
           {/* HOME ADDRESS FIELDS */}
           {["address", "city", "state", "zipCode"].map((field) => (
             <div key={field}>
-              <label className="text-gray-700 font-medium">
+              <label className="text-gray-700 font-medium text-sm">
                 {field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
 
@@ -419,8 +419,8 @@ const Register = ({ cancelClose, userUpdate }) => {
                 value={formik.values.address[field]}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2
-                       focus:ring-2 focus:ring-blue-500"
+                className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2
+                       focus:ring-1 focus:ring-primary"
               />
               {formik.touched.address?.[field] &&
                 formik.errors.address?.[field] && (
@@ -432,8 +432,8 @@ const Register = ({ cancelClose, userUpdate }) => {
           ))}
 
           {/* OFFICE ADDRESS TITLE */}
-          <div className="md:col-span-2 mt-4">
-            <h3 className="text-lg font-semibold text-gray-800">Office Address</h3>
+          <div className="md:col-span-4 mt-2">
+            <h3 className="text-lg font-semibold text-gray-800 border-b-2 border-gray-200 pb-1">Office Address</h3>
             <input
               type="checkbox"
               id="check"
@@ -447,7 +447,7 @@ const Register = ({ cancelClose, userUpdate }) => {
           {/* OFFICE ADDRESS FIELDS */}
           {["address", "city", "state", "zipCode"].map((field) => (
             <div key={field}>
-              <label className="text-gray-700 font-medium">
+              <label className="text-gray-700 font-medium text-sm">
                 {field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
 
@@ -457,8 +457,8 @@ const Register = ({ cancelClose, userUpdate }) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 disabled={isChecked}
-                className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2
-                       focus:ring-2 focus:ring-blue-500"
+                className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2
+                       focus:ring-1 focus:ring-primary"
               />
               {formik.touched.officeAddress?.[field] &&
                 formik.errors.officeAddress?.[field] && (
@@ -473,8 +473,8 @@ const Register = ({ cancelClose, userUpdate }) => {
           <button
             type="submit"
             disabled={loading}
-            className="md:col-span-2 bg-blue-600 text-white py-3 rounded-lg mt-6  cursor-pointer
-                   font-semibold hover:bg-blue-700 transition"
+            className="md:col-span-4 bg-primary text-white py-3 rounded-md mt-4  cursor-pointer
+                   font-semibold hover:bg-primarydark transition px-10"
           >
             {loading ? "Registering..." : "Register User"}
           </button>

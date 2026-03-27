@@ -8,9 +8,11 @@ import {
   vendorUpdateRegistration,
 } from "../../services/Services_API";
 import { toast } from "react-toastify";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaEye } from "react-icons/fa";
 import Loader from "../../utils/Loader";
 import VendorData from "../components/VendorData";
+import VendorDetails from "./VendorDetails";
+import { useNavigate } from "react-router-dom";
 
 export default function UserList() {
   const [filterText, setFilterText] = useState("");
@@ -21,7 +23,8 @@ export default function UserList() {
   const [updateVendor, setUpdateVendor] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [openVendor, setOpenVendor] = useState(false);
-
+  const navigate = useNavigate()
+  
   // useEffect(() => {
   //     const fetchData = async () => {
   //         try {
@@ -74,7 +77,8 @@ export default function UserList() {
 
   const ViewVendor = (user) => {
     setUserDetails(user);
-    setOpenVendor(true);
+    // setOpenVendor(true);
+    navigate("/admin/user-details", {state : {userVendorCode : user.vendorcode}})
     // console.log(user);
   };
 
@@ -133,10 +137,10 @@ export default function UserList() {
       sortable: true,
       width: "60px",
     },
-    { name: "Vendor Name", selector: (row) => row.vendorname, sortable: true },
-    { name: "Code", selector: (row) => row.vendorcode },
-    { name: "Email", selector: (row) => row.vendoremail },
-    { name: "Mobile", selector: (row) => row.mobile },
+    { name: "Vendor Name", selector: (row) => row.vendorname || "N/A", sortable: true },
+    { name: "Code", selector: (row) => row.vendorcode || "N/A", width: "100px"},
+    { name: "Email", selector: (row) => row.vendoremail || "N/A" , width: "220px",},
+    { name: "Mobile", selector: (row) => row.mobile || "N/A"},
     {
       name: "Status",
       cell: (row) => (
@@ -147,12 +151,12 @@ export default function UserList() {
             checked={row.isactive}
             onChange={() => handleToggle(row.id, row.isactive)}
           />
-          <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-green-600 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-          <span
+          <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+          {/* <span
             className={`ms-2 text-sm font-medium ${row.isactive ? "text-green-800" : "text-red-800"}`}
           >
             {row.isactive ? "Active" : "Inactive"}
-          </span>
+          </span> */}
         </label>
       ),
     },
@@ -168,10 +172,21 @@ export default function UserList() {
       name: "View",
       cell: (row) => (
         <button
-          className="px-3 py-1 text-md cursor-pointer"
+          className="px-3 py-1 text-lg cursor-pointer flex items-center gap-1"
           onClick={() => ViewVendor(row)}
         >
-          View
+          <FaEye className="text-2xl" />
+        </button>
+      ),
+    },
+    {
+      name: "Services",
+      cell: (row) => (
+        <button
+          className="px-3 py-1 text-md cursor-pointer bg-primary text-white rounded-md font-semibold"
+          onClick={() => navigate("/admin/user-assign", {state: {vendorCode: row.vendorcode}})}
+        >
+          Assign
         </button>
       ),
     },
@@ -195,7 +210,7 @@ export default function UserList() {
             </h2>
             <button
               onClick={handleCreateUser}
-              className="bg-blue-600 text-white md:px-5 px-3 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+              className="bg-primary text-white md:px-3 px-3 py-1.5 rounded-lg shadow hover:bg-primarydark cursor-pointer font-semibold transition"
             >
               + Create User
             </button>
@@ -204,7 +219,7 @@ export default function UserList() {
           <input
             type="text"
             placeholder="Search by name, email, username"
-            className="mb-4 px-4 py-2 border border-gray-300 rounded w-80"
+            className="mb-4 px-4 py-1.5 border border-gray-200 bg-white rounded-md w-80"
             value={filterText}
             onChange={(e) => setFilterText(e.target.value)}
           />
@@ -242,9 +257,10 @@ export default function UserList() {
           </div>
         )}
 
-        {openVendor && (
-          <VendorData userDetails={userDetails} setOpenVendor={setOpenVendor} />
-        )}
+        {/* {openVendor && (
+          // <VendorData userDetails={userDetails} setOpenVendor={setOpenVendor} />
+          <VendorDetails handleEdit={handleEdit} userDetails={userDetails} setOpenVendor={setOpenVendor}/>
+        )} */}
       </div>
     </div>
   );

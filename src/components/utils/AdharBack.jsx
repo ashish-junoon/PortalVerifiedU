@@ -20,7 +20,7 @@ const AdharBack = ({
     address
 }) => {
 
-    const adr = address.complete_address?.house + " " + address.complete_address?.vtc + " " + address.complete_address?.state + " " + address.complete_address?.pc
+    const adr = address?.complete_address?.house + " " + address?.complete_address?.vtc + " " + address?.complete_address?.state + " " + address?.complete_address?.pc
     
     return (
         <div className="w-[300px] sm:w-[400px] bg-white border border-gray-300 rounded-md shadow-sm px-4 py-1 text-xs font-sans">
