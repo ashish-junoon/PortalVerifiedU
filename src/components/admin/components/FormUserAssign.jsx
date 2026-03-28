@@ -256,7 +256,7 @@ const FormUserAssign = ({
             type="text"
             name="price"
             value={report.values.price}
-            // onChange={report.handleChange}
+            onChange={report.handleChange}
             // onChange={(e) => {
             //   let value = e.target.value;
 
@@ -274,25 +274,25 @@ const FormUserAssign = ({
 
             //   report.setFieldValue("price", value);
             // }}
-            // onBlur={report.handleBlur}
-            onChange={(e) => {
-              let value = e.target.value;
+            onBlur={report.handleBlur}
+            // onChange={(e) => {
+            //   let value = e.target.value;
 
-              // allow free typing
-              report.setFieldValue("price", value);
-            }}
-            onBlur={(e) => {
-              let value = e.target.value;
-              if (value === "") return;
-              value = Number(value);
+            //   // allow free typing
+            //   report.setFieldValue("price", value);
+            // }}
+            // onBlur={(e) => {
+            //   let value = e.target.value;
+            //   if (value === "") return;
+            //   value = Number(value);
 
-              // apply min condition only on blur
-              if (value < editService.price) {
-                value = editService.price;
-              }
-              report.setFieldValue("price", value);
-              report.handleBlur(e);
-            }}
+            //   // apply min condition only on blur
+            //   if (value < editService.price) {
+            //     value = editService.price;
+            //   }
+            //   report.setFieldValue("price", value);
+            //   report.handleBlur(e);
+            // }}
             placeholder="Enter service price"
             className={`w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 ${
               report.touched.price && report.errors.price

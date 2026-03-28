@@ -13,7 +13,7 @@ import Loader from "../../utils/Loader";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import VendorServiceDetails from "./VendorServiceDetails";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import FormUserAssign from "../components/FormUserAssign";
 
@@ -36,6 +36,13 @@ export default function UserAssign() {
   const [vendorService, setVendorService] = useState(false);
   const location = useLocation();
   const userVendorCode = location?.state?.vendorCode;
+  const navigate = useNavigate()
+  
+  useEffect(()=> {
+    if(!userVendorCode){
+      navigate("/admin/user-list")
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,8 +108,8 @@ export default function UserAssign() {
       }
     };
 
-    console.log("servicesList", servicesList);
-    console.log("selectedServices", selectedServices);
+    // console.log("servicesList", servicesList);
+    // console.log("selectedServices", selectedServices);
 
     fetchData();
   }, [AssignUserService]);
@@ -224,8 +231,6 @@ export default function UserAssign() {
       setSelectAll(true);
     }
   };
-
-  console.log(selectedServices);
 
   const handleEdit = (service) => {
     setEditService(service);
