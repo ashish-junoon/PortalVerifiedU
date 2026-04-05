@@ -21,7 +21,6 @@ function Home() {
   });
   const [isfilter, setisfilter] = useState(false);
   const token = JSON.parse(localStorage.getItem("authData"));
-  console.log(serviceHistory);
   
 
   useEffect(() => {
@@ -121,7 +120,7 @@ function Home() {
           <div className="py-3">
             <h1 className="text-xl font-bold text-gray-700">Welcome Back</h1>
             <p className="text-gray-600 text-sm font-medium">
-              Here's your dashboard overview for today
+              Here's your dashboard overview for selected Date
             </p>
 
             <div className="max-md:py-0 mt-4 mb-2 w-full max-md:w-full m-auto rounded-md">
@@ -163,15 +162,15 @@ function Home() {
                 </div>
               </div> */}
 
-              {serviceHistory?.length === 0 ? (
-                <p className="text-gray-500 text-center">
-                  No services available
+              {/* {serviceHistory?.length === 0 ? (
+                <p className="text-gray-500 text-center my-10">
+                  No services details available
                 </p>
-              ) : (
+              ) : ( */}
                 <div className="">
                   <ServiceCard dateRange={dateRange} setisfilter={setisfilter} isfilter={isfilter} service={serviceHistory} />
                 </div>
-              )}
+              {/* )} */}
             </div>
           </div>
 

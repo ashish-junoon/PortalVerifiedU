@@ -6,6 +6,7 @@ import {
   vendorGetServiceNameTypeList,
   vendorFetchServiceAssignList,
   vendorUpdateRegistration,
+  vendorAssingServiceArr,
 } from "../../services/Services_API";
 
 import DataTable from "react-data-table-component";
@@ -36,13 +37,13 @@ export default function UserAssign() {
   const [vendorService, setVendorService] = useState(false);
   const location = useLocation();
   const userVendorCode = location?.state?.vendorCode;
-  const navigate = useNavigate()
-  
-  useEffect(()=> {
-    if(!userVendorCode){
-      navigate("/admin/user-list")
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userVendorCode) {
+      navigate("/admin/user-list");
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,47 +71,45 @@ export default function UserAssign() {
   // Fetching all and user Services
   // and combining them
   // ==============================
+
+  const fetchData = async () => {
+    const serviceRes = await vendorGetServiceNameTypeList({
+      url: "Admin/GetServiceName",
+    });
+
+    const vendorRes = await vendorFetchServiceAssignList({
+      VendorCode: userVendorCode,
+      url: "Admin/VendorServiceName",
+    });
+
+    // const serviceListRes = await vendorGetServiceNameTypeList({ url: "Admin/GetServiceName" });
+    // if (serviceListRes.status) setServicesList(serviceListRes.serviceNames);
+
+    if (serviceRes.status) {
+      const services = serviceRes.serviceNames || [];
+      const vendorServices = vendorRes?.getVendorLists || [];
+
+      // 🔥 merge logic
+      const updatedServices = services.map((service) => {
+        const matchedVendorService = vendorServices.find(
+          (v) => v.service_name_id === service.service_name_id,
+        );
+
+        return {
+          ...service,
+          // realprice: matchedVendorService ? matchedVendorService.price : null,
+          realprice: matchedVendorService?.price ?? service.price,
+          ServiceID: matchedVendorService?.ServiceID || null,
+          IsActive: matchedVendorService?.IsActive || false,
+        };
+      });
+
+      setServicesList(updatedServices);
+      setServicesTypeList(serviceRes.serviceNames);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const serviceRes = await vendorGetServiceNameTypeList({
-        url: "Admin/GetServiceName",
-      });
-
-      const vendorRes = await vendorFetchServiceAssignList({
-        VendorCode: userVendorCode,
-        url: "Admin/VendorServiceName",
-      });
-
-      // const serviceListRes = await vendorGetServiceNameTypeList({ url: "Admin/GetServiceName" });
-      // if (serviceListRes.status) setServicesList(serviceListRes.serviceNames);
-
-      if (serviceRes.status) {
-        const services = serviceRes.serviceNames || [];
-        const vendorServices = vendorRes?.getVendorLists || [];
-
-        // 🔥 merge logic
-        const updatedServices = services.map((service) => {
-          const matchedVendorService = vendorServices.find(
-            (v) => v.service_name_id === service.service_name_id,
-          );
-
-          return {
-            ...service,
-            // realprice: matchedVendorService ? matchedVendorService.price : null,
-            realprice: matchedVendorService?.price ?? service.price,
-            ServiceID: matchedVendorService?.ServiceID || null,
-            IsActive: matchedVendorService?.IsActive || false,
-          };
-        });
-
-        setServicesList(updatedServices);
-        setServicesTypeList(serviceRes.serviceNames);
-      }
-    };
-
-    // console.log("servicesList", servicesList);
-    // console.log("selectedServices", selectedServices);
-
     fetchData();
   }, [AssignUserService]);
 
@@ -321,17 +320,6 @@ export default function UserAssign() {
               type="number"
               // max={3}
               value={editingPrice}
-              // onChange={(e) => setEditingPrice(e.target.value)}
-              // onChange={(e) => {
-              //   let value = Number(e.target.value);
-
-              //   if (value > row.realprice) {
-              //     setEditingPrice(value);
-              //   } else {
-              //     setEditingPrice(row.realprice);
-              //   }
-              // }}
-              // onBlur={() => saveUpdatedPrice(row.service_name_id)}
               onChange={(e) => {
                 setEditingPrice(e.target.value); // free typing allow
               }}
@@ -364,7 +352,7 @@ export default function UserAssign() {
               setEditingPrice(row.realprice);
             }}
           >
-            ₹ {row.realprice || "N/A"}
+            ₹ {row.realprice || 0}
           </span>
         ),
     },
@@ -376,7 +364,7 @@ export default function UserAssign() {
             type="checkbox"
             className="sr-only peer"
             checked={row.IsActive}
-            onChange={() => handleToggle(row.ServiceID, row.IsActive)}
+            onChange={() => {row.ServiceID ? handleToggle(row.ServiceID, row.IsActive) : toast.info("Assign Service First!")}}
           />
           <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
         </label>
@@ -419,6 +407,7 @@ export default function UserAssign() {
 
       if (res.status) {
         const assigned = res.getVendorLists || res.vendorServiceLists || [];
+        
         setSelectedServices(
           assigned.map((s) => ({
             service_type: s.service_type,
@@ -446,12 +435,13 @@ export default function UserAssign() {
       toast.error("Failed to fetch vendor services");
     }
   };
+  
 
   useEffect(() => {
     if (!userVendorCode) return;
     getSingleUserService(userVendorCode);
   }, []);
-
+  // console.log(selectedServices);
   if (loading) return <Loader />;
 
   return (
@@ -464,43 +454,38 @@ export default function UserAssign() {
             initialValues={{ vendorCode: "" }}
             // validationSchema={validationSchema}
             onSubmit={async (values) => {
+              let data = [];
               if (selectedServices.length === 0) {
                 toast.error("Please select at least one service");
                 return;
               }
+              console.log(selectedServices);
+              
+              for (const service of selectedServices) {
+                
+                let tempReq = {
+                  vendor_code: userVendorCode || values.vendorCode,
+                  service_type_id: service.service_type_id,
+                  service_name_id: service.service_name_id,
+                  api_end_point: service.api_end_point,
+                  service_amount: service.realprice,
+                  is_active: true,
+                  created_by: "Admin",
+                };
+                data = [...data, tempReq];
+              }
 
+              const payload = { servicesArray: data };
               setLoading(true);
               try {
-                // console.log(selectedServices);
-                let flag = false;
-                for (const service of selectedServices) {
-                  console.log(service.realprice, service.price);
-
-                  if (!service.ServiceID) {
-                    const payload = {
-                      VendorCode: userVendorCode || values.vendorCode,
-                      service_type_id: service.service_type_id,
-                      service_name_id: service.service_name_id,
-                      api_end_point: service.api_end_point,
-                      // ServiceAmount: service.price,
-                      // ServiceAmount: service.realprice || service.price,
-                      // ServiceAmount: service.realprice ?? service.price,
-                      ServiceAmount: service.realprice,
-                      IsActive: false,
-                      createdBy: "Admin",
-                    };
-                    flag = true;
-                    await vendorAssingService(payload);
-                  }
-                }
-
-                if(flag) {
+                const res = await vendorAssingServiceArr(payload);
+                if (res.status) {
+                  // console.log(payload);
                   toast.success("All services assigned successfully");
-                }else{
-                  toast.info("Select new services to assign!");
+                  fetchData();
                 }
-                // setSelectedServices([]);
               } catch (error) {
+                console.log("Error :", error);
                 toast.error("Error assigning services");
               } finally {
                 setLoading(false);

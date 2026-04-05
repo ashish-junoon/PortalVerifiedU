@@ -114,10 +114,21 @@ export const GetVendorRechargeHistory = async (req) => {
     }
 };
 
+// export const GetServicesUses = async (req) => {
+    
+//     try {
+//         const response = await api.post("Admin/VendorDashboard",req);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Login error:", error.response?.data || error.message);
+//         throw error;
+//     }
+// };
+
 export const GetServicesUses = async (req) => {
     
     try {
-        const response = await api.post("Admin/VendorDashboard",req);
+        const response = await api.post("Admin/VendorDashboard_V1",req);
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);
@@ -225,7 +236,6 @@ export const GetUserPanReport = async (req) => {
 export const GetUserAadhaarReport = async (req) => {
     try {
         const response = await api.post(req.url, req);
-        console.log('ddddddd')
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);
@@ -340,6 +350,17 @@ export const vendorAssingService = async (req) => {
     
     try {
         const response = await api.post("User/AssignService", req);
+        return response.data;
+    } catch (error) {
+        console.error("Login error:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const vendorAssingServiceArr = async (req) => {
+    
+    try {
+        const response = await api.post("User/AssignService_V1", req);
         return response.data;
     } catch (error) {
         console.error("Login error:", error.response?.data || error.message);

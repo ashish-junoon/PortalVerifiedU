@@ -234,7 +234,7 @@ const navigate = useNavigate()
       <Sidebar />
       <div className="flex-1 min-h-screen bg-gradient-to-br from-slate-100 via-slate-0 to-slate-100 mt-10">
         {/* <Navbar /> */}
-        <div className="px-2 md:px-10 py-8">
+        <div className="px-2 md:px-10 py-8  max-w-[1400px] m-auto">
           {/* Welcome Section */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -262,11 +262,11 @@ const navigate = useNavigate()
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="group relative overflow-hidden rounded-lg backdrop-blur-xl bg-white border border-gray-200 p-4 hover:border-blue-300 transition-all duration-300 shadow-sm hover:shadow-lg"
+                  className="group relative overflow-hidden rounded-lg backdrop-blur-xl bg-white border border-gray-200 p-4 hover:border-gray-200 transition-all duration-300 shadow-sm hover:shadow-lg"
                 >
                   {/* Animated gradient background */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-6 transition-opacity duration-300`}
                   ></div>
 
                   <div onClick={()=> {stat?.page && navigate(stat?.page)}} className="relative z-10 cursor-pointer">
@@ -301,7 +301,7 @@ const navigate = useNavigate()
               <AdminCharts chartsdata={cardSummary} />
             </div>
 
-            <div className="bg-gradient-to-br from-white to-white text-black p-5 rounded-2xl shadow-lg w-full lg:max-w-sm max-lg:flex-col">
+            <div className="bg-gradient-to-br from-white to-white text-black p-5 rounded-lg shadow-lg w-full lg:max-w-sm max-lg:flex-col">
               {/* Header */}
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-lg font-semibold">Our Vendors</h2>

@@ -49,7 +49,7 @@ const Register = ({ cancelClose, userUpdate }) => {
 
     validationSchema: Yup.object({
       firstName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").required("First name is required"),
-      lastName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").required("Last name is required"),
+      lastName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").notRequired("Last name is required"),
       email: Yup.string()
         .email('Invalid email')
         .test(
@@ -60,14 +60,14 @@ const Register = ({ cancelClose, userUpdate }) => {
         .required("Email is required"),
       username: Yup.string().required("Username is required").min(4, "Username must be at least 4 characters"),
       companyName: Yup.string().required("Company name is required"),
-      panNumber: Yup.string().required('PAN Number is required'),
+      // panNumber: Yup.string().required('PAN Number is required'),
       gender: Yup.string().required("Gender is required"),
       mobile: Yup.string()
         .matches(/^[6-9]\d{9}$/, 'Enter a valid mobile number')
         .required('Mobile number is required'),
       officeLandline: Yup.string()
         .matches(/^[0-9]{10}$/, "Must be a valid 10-digit number")
-        .required("Office landline is required"),
+        .notRequired("Office landline is required"),
       vendortype: Yup.string().required("Vendor type is required"),
       address: Yup.object({
         address: Yup.string().required("Address is required"),
@@ -207,7 +207,7 @@ const Register = ({ cancelClose, userUpdate }) => {
         <button
           onClick={cancelClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-red-600 
-                 hover:rotate-90 transition-all text-2xl font-bold"
+                 hover:rotate-90 transition-all text-2xl font-bold cursor-pointer"
         >
           ✕
         </button>

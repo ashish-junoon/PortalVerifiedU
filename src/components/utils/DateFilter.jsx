@@ -44,6 +44,7 @@ const DateFilter = ({ onFilterChange, setisfilter, allservices, setselectedServi
     setToDate("");
     onFilterChange({ from: today, to: today });
     setisfilter(false);
+    setselectedService("");
   };
 
   return (

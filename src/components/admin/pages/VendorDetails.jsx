@@ -155,6 +155,8 @@ const VendorDetails = ({ setOpenVendor }) => {
   ];
 
   const VendorServices = async (code) => {
+    console.log(code);
+    
     const req = {
       VendorCode: code,
       url: "Admin/VendorServiceName",
@@ -303,8 +305,9 @@ const VendorDetails = ({ setOpenVendor }) => {
   ];
 
   useEffect(() => {
-    VendorServices(userDetails?.vendorcode);
+    VendorServices(userVendorCode);
   }, []);
+  
   
   const filteredData = usageHistory?.filter((s)=> {
     
@@ -350,7 +353,7 @@ const VendorDetails = ({ setOpenVendor }) => {
             <InfoCard
               label="Status"
               value={
-                <span className="px-2 py-1 text-xs rounded-sm bg-green-100 text-green-600">
+                <span className={`px-2 py-1 text-xs uppercase rounded-sm  ${vendor.status ? "text-green-600 bg-green-100" : "text-red-500 bg-red-100"}`}>
                   {vendor.status ? "Active" : "Inactive"}
                 </span>
               }
@@ -419,7 +422,7 @@ const VendorDetails = ({ setOpenVendor }) => {
                   <div className="flex gap-2 items-center">
                     <button
                       onClick={() => setisfilter(!isfilter)}
-                      className="px-3 py-1.5 text-xs bg-gray-800 text-white rounded-md hover:opacity-90 font-semibold"
+                      className="px-3 py-1.5 text-xs bg-gray-800 text-white rounded-md hover:opacity-90 font-semibold cursor-pointer"
                     >
                       {isfilter ? "Hide Filter" : "Show Filter"}
                     </button>
@@ -489,17 +492,17 @@ const VendorDetails = ({ setOpenVendor }) => {
                 <div className="flex justify-end mb-2">
                   <button
                     onClick={() => setOpen(true)}
-                    className="bg-black px-4 py-1 rounded-sm text-white font-semibold cursor-pointer text-sm"
+                    className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-sm text-white font-semibold cursor-pointer text-sm"
                   >
                     Add Documents
                   </button>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-2">
+                <div className="grid lg:grid-cols-2 gap-1">
                   {documents.map((doc) => (
                     <div
                       key={doc.id}
-                      className="flex justify-between items-center border border-gray-200 p-4 rounded-xl hover:shadow-sm"
+                      className="flex justify-between items-center border border-gray-200 px-4 py-3 rounded-md hover:shadow-sm"
                     >
                       <div className="flex flex-col">
                         <p className="font-medium">{doc.name}</p>
@@ -585,11 +588,11 @@ const FileUploadModal = ({ isOpen, onClose, onUpload }) => {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       {/* MODAL */}
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 space-y-5 animate-fadeIn">
+      <div className="bg-white w-full max-w-md rounded-md shadow-xl p-6 space-y-5 animate-fadeIn">
         {/* HEADER */}
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Upload Document</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-black">
+          <button onClick={onClose} className="text-gray-400 hover:text-black cursor-pointer">
             ✕
           </button>
         </div>
@@ -604,17 +607,17 @@ const FileUploadModal = ({ isOpen, onClose, onUpload }) => {
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               placeholder="Enter file name"
-              className="w-full mt-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full mt-1 border border-gray-300 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
 
           {/* File Upload */}
-          <div>
-            <label className="text-sm text-gray-500">Upload File</label>
+          <div className="flex justify-center items-center bg-primary/10 rounded-md relative h-[80px]">
+            <label className="text-sm text-gray-500 font-semibold">Upload File</label>
             <input
               type="file"
               onChange={(e) => setFile(e.target.files[0])}
-              className="w-full mt-1 text-sm"
+              className="w-full mt-1 text-sm absolute left-0 top-0 bottom-0 opacity-0 cursor-pointer"
             />
 
             {file && (

@@ -308,7 +308,7 @@ const FormUserAssign = ({
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={loading || (report.values.price < editService.realprice)}
+          disabled={loading}
           className={`col-span-1 md:col-span-2 bg-primary text-white py-2 rounded-md hover:bg-primarydark transition`}
         >
           {loading ? "Submiting..." : "Submit"}

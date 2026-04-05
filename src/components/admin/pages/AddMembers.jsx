@@ -115,7 +115,7 @@ export default function Members() {
   ];
 
   return (
-    <div className="flex">
+    <div className="flex overflow-x-hidden">
       <Sidebar />
 
       <div className="flex-1 bg-gray-100 min-h-screen mt-10">
@@ -136,7 +136,7 @@ export default function Members() {
             </button>
           </div>
         
-        <div className="w-[300px]">
+        <div className="w-full md:w-[300px]">
           <input
             type="text"
             className="border border-gray-300 px-2 py-1 rounded-md bg-white w-full outline-none"
@@ -146,7 +146,7 @@ export default function Members() {
         />
         </div>
 
-          <div className="bg-white mt-2 p-4 rounded shadow">
+          <div className="bg-white mt-2 p-4 rounded shadow w-full overflow-x-auto">
             <DataTable columns={columns} data={filteredData} pagination />
           </div>
         </div>

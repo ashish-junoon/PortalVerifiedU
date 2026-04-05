@@ -226,7 +226,7 @@ export default function UserList() {
           {loading && (
             <span className="text-blue-600 font-medium">Loading...</span>
           )}
-          <div className="bg-white shadow-lg rounded-xl p-4">
+          <div className="bg-white shadow-lg rounded-xl p-3">
             <DataTable
               columns={columns}
               data={filteredData}
@@ -265,3 +265,6 @@ export default function UserList() {
     </div>
   );
 }
+
+
+

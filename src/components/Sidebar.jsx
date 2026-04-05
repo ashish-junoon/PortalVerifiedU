@@ -54,7 +54,7 @@ const Sidebar = () => {
                         Dashboard
                     </li>
                 </Link>
-                {servicesDetails && servicesDetails.length !== 0 && (
+                {/* {servicesDetails && servicesDetails.length !== 0 && ( */}
                     <>
 
                 
@@ -127,7 +127,7 @@ const Sidebar = () => {
                             <Link onClick={closeOnMobile} to="/bureau/fusion">
                                 <li
                                     className={`py-1 cursor-pointer hover:text-primary hover:bg-white pl-2 rounded-md transition 
-                                    ${hasService("TransUnion") ? "text-primary" : "text-red-600"} 
+                                    ${hasService("Fusion") ? "text-primary" : "text-red-600"} 
                                     ${isActive("/bureau/fusion")}`}
                                 >
                                     Fusion
@@ -449,7 +449,7 @@ const Sidebar = () => {
                     )}
                 </li>
                 </>
-)}
+{/* )} */}
             </ul>
         </div>
     );

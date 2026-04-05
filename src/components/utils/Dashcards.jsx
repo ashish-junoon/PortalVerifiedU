@@ -3,11 +3,12 @@ import Icon from "./Icon";
 
 const Dashcards = ({ wallet, service }) => {
   const navigate = useNavigate();
-
+  console.log(service);
+  
   const dashcards = [
     {
       name: "Credit Balance",
-      count: `₹${wallet || 0}`,
+      count: `₹${wallet?.toFixed(2) || 0}`,
       icon: "FaWallet",
       gradient: "from-[#1dcd9f] to-[#0ea5e9]",
       view:"/profile"
@@ -37,7 +38,8 @@ const Dashcards = ({ wallet, service }) => {
       {dashcards.map((item, index) => (
         <div
           key={index}
-          className="relative group rounded-2xl bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-500"
+           onClick={()=> {item.view && navigate(item?.view)}}
+          className="cursor-pointer relative group rounded-2xl bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-xl shadow-md hover:shadow-lg transition-all duration-500"
         >
           {/* Inner Card */}
           <div className="bg-white/90 rounded-lg p-3 h-full flex flex-col justify-between relative overflow-hidden border border-gray-200">
@@ -70,7 +72,7 @@ const Dashcards = ({ wallet, service }) => {
             {/* Bottom Line */}
             <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
               <span>Updated just now</span>
-              {item.view && <span onClick={()=> navigate(item?.view)} className="cursor-pointer text-primary font-semibold group-hover:translate-x-1 transition">
+              {item.view && <span className="cursor-pointer text-primary font-semibold group-hover:translate-x-1 transition">
                 Recharge →
               </span>}
             </div>

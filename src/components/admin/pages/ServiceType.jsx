@@ -25,7 +25,7 @@ export default function ServiceTypeMaster() {
                 setLoading(true);
                 const res = await vendorGetServiceTypeList({ url: "Admin/GetServiceType" });
                 if (res.status) setServices(res.serviceTypes);
-                else toast.error(res.message);
+                // else toast.error(res.message);
             } catch (err) {
                 toast.error(err.message);
             } finally {
@@ -62,7 +62,9 @@ export default function ServiceTypeMaster() {
                     toast.success(editService ? "Service updated successfully" : "Service added successfully");
                     setOpenForm(false);
                     setEditService(null);
-                } else toast.error(response.message);
+                } else {
+                    toast.error(response.message);
+                }
             } catch (error) {
                 console.log(error)
                 toast.error(error?.response?.data || error?.message || "Something went wrong!");

@@ -132,13 +132,13 @@ export default function ServiceMaster() {
             <Sidebar />
 
             {/* Main Content */}
-            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden mt-10">
+            <div className="flex-1 bg-gray-100 min-h-screen w-full overflow-hidden mt-12">
                 {/* <Navbar /> */}
 
                 <div className="md:p-6 p-3">
                     {/* Header + Action */}
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="md:text-2xl text-xl font-semibold text-gray-800">
+                    <div className="flex justify-between items-center mb-6 max-md:flex-col max-md:items-start max-md:gap-2">
+                        <h2 className="md:text-xl text-xl font-semibold text-gray-800">
                             Service Master Management
                         </h2>
                         <div className="flex gap-2">
