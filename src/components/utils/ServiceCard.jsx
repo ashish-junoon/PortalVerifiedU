@@ -17,8 +17,6 @@ const ServiceCard = ({ service, setisfilter, isfilter, dateRange }) => {
       return acc;
     }, {}),
   );
-
-  console.log(service);
   
 
   return (

@@ -9,11 +9,11 @@ import { vendorPayment } from "../services/Services_API";
 import { useSidebar } from "../Context/SidebarContext";
 import TransactionHistory from "../TransactionHistory";
 export default function ProfilePage() {
-  const { vendorDetails, servicesDetails, serviceHistory } =
+  const { vendorDetails, servicesDetails, totalserviceHistory } =
     useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("profile");
   const { isOpenSidebar } = useSidebar();
-  const services = serviceHistory;
+  const services = totalserviceHistory;
 
   return (
     <div>

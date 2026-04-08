@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     const [authData, setAuthData] = useState(getStoredAuth());
     const [wallet, setWallet] = useState(); // starting balance
     const [serviceHistory, setServiceHistory] = useState(); 
+    const [totalserviceHistory, settotalServiceHistory] = useState(); 
     const token = JSON.parse(localStorage.getItem("authData"));
     const vendorDetails = token?.data?.vendorLogin;
     const servicesDetails = token?.data?.services;
@@ -113,6 +114,7 @@ export const AuthProvider = ({ children }) => {
 
         updateWallet();
         ServicesUses();
+        TotalServicesUses()
     }, []);
 
     const deductAmount = (amount) => {
@@ -148,6 +150,26 @@ export const AuthProvider = ({ children }) => {
         }
 
     };
+    
+    const TotalServicesUses = async () => {
+        const todayDate = new Date().toLocaleDateString("en-CA")
+        
+        const payload ={
+            from_date: "2025-01-01",
+            // from_date: todayDate,
+            to_date: todayDate
+        };
+        const response = await GetServicesUses(payload);
+
+        if (response.status === true) {
+            settotalServiceHistory(response.dashboardVendors);
+            // console.log(response.dashboardVendors)
+        } else {
+            console.error(response.message);
+        }
+
+    };
+
     const hasPermission = (path) => {
         const serviceNames = servicesDetails?.map(service => service.servicename.toLowerCase().replaceAll(" ", "-")) || [];
             
@@ -161,7 +183,7 @@ export const AuthProvider = ({ children }) => {
         );
     };
     return (
-        <AuthContext.Provider value={{ authData, login, logout, wallet, deductAmount, updateWallet, hasPermission, vendorDetails, servicesDetails, getVendorList, vendorcode, profileImages,serviceHistory, setServiceHistory }}>
+        <AuthContext.Provider value={{ authData, login, logout, wallet, deductAmount, updateWallet, hasPermission, vendorDetails, servicesDetails, getVendorList, vendorcode, profileImages,serviceHistory, totalserviceHistory, setServiceHistory }}>
             {children}
         </AuthContext.Provider>
     );

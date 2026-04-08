@@ -3,7 +3,6 @@ import Icon from "./Icon";
 
 const Dashcards = ({ wallet, service }) => {
   const navigate = useNavigate();
-  console.log(service);
   
   const dashcards = [
     {
