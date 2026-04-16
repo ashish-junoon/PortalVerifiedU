@@ -43,7 +43,7 @@ function AdminLoginPage() {
             };
 
             try {
-                const response = await UserLogin(payload);s
+                const response = await UserLogin(payload);
 
                 if (response.status === true) {
                     response.allowedUrls= [ "/bureau/crif", "/bureau/equifax"]

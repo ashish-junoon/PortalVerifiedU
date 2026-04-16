@@ -35,12 +35,12 @@ function Home() {
     (sum, item) => sum + (item.success_count || 0) * (item.service_amount || 0),
     0,
   );
-
+  
   const totals = serviceHistory?.reduce(
   (acc, item) => {
     acc.success_count += item?.success_count || 0;
     acc.failed_count += item?.failed_count || 0;
-    acc.total_services = totalserviceHistory?.length;
+    // acc.total_services = totalserviceHistory?.length;
     acc.total_amount += item?.service_amount || 0;
     acc.assign_amount += item?.service_assign_amt || 0;
 
@@ -49,7 +49,7 @@ function Home() {
   {
     success_count: 0,
     failed_count: 0,
-    total_services: 0,
+    total_services: totalserviceHistory?.length,
     total_amount: 0,
     assign_amount: 0,
   }

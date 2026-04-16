@@ -468,8 +468,8 @@ export default function UserAssign() {
                   service_type_id: service.service_type_id,
                   service_name_id: service.service_name_id,
                   api_end_point: service.api_end_point,
-                  service_amount: service.realprice,
-                  is_active: true,
+                  service_amount: service.price,
+                  is_active: service.IsActive,
                   created_by: "Admin",
                 };
                 data = [...data, tempReq];
