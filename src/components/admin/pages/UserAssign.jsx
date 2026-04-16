@@ -273,6 +273,12 @@ export default function UserAssign() {
             item.ServiceID === id ? { ...item, IsActive: newStatus } : item,
           ),
         );
+
+        setSelectedServices((prev) =>
+          prev.map((item) =>
+            item.ServiceID === id ? { ...item, IsActive: newStatus } : item,
+          ),
+        );
       } else {
         toast.error(res.message);
       }
@@ -364,7 +370,11 @@ export default function UserAssign() {
             type="checkbox"
             className="sr-only peer"
             checked={row.IsActive}
-            onChange={() => {row.ServiceID ? handleToggle(row.ServiceID, row.IsActive) : toast.info("Assign Service First!")}}
+            onChange={() => {
+              row.ServiceID
+                ? handleToggle(row.ServiceID, row.IsActive)
+                : toast.info("Assign Service First!");
+            }}
           />
           <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
         </label>
@@ -407,7 +417,7 @@ export default function UserAssign() {
 
       if (res.status) {
         const assigned = res.getVendorLists || res.vendorServiceLists || [];
-        
+
         setSelectedServices(
           assigned.map((s) => ({
             service_type: s.service_type,
@@ -435,7 +445,6 @@ export default function UserAssign() {
       toast.error("Failed to fetch vendor services");
     }
   };
-  
 
   useEffect(() => {
     if (!userVendorCode) return;
@@ -460,9 +469,8 @@ export default function UserAssign() {
                 return;
               }
               console.log(selectedServices);
-              
+
               for (const service of selectedServices) {
-                
                 let tempReq = {
                   vendor_code: userVendorCode || values.vendorCode,
                   service_type_id: service.service_type_id,

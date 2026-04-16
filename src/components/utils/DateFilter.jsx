@@ -65,6 +65,7 @@ const DateFilter = ({ onFilterChange, setisfilter, allservices, setselectedServi
         <input
           type="date"
           value={fromDate}
+          max={new Date().toLocaleDateString("en-CA")}
           onChange={(e) => setFromDate(e.target.value)}
           className="border border-gray-300/70 rounded-md px-2 py-1 text-sm"
         />
