@@ -11,58 +11,15 @@ import Icon from "../utils/Icon"; // If you want custom icons
 import { TbFile } from "react-icons/tb";
 import { GrServices } from "react-icons/gr";
 
-const menuItems = [
-  {
-    name: "Dashboard",
-    path: "/admin",
-    icon: <FiHome size={20} />,
-  },
-  {
-    name: "Users Master",
-    path: "/admin/user-list",
-    icon: <FiUsers size={20} />,
-  },
-  {
-    name: "Roles Master",
-    path: "/admin/roles-list",
-    icon: <FaPlus size={20} />,
-  },
-  // {
-  //   name: "User Assign Service",
-  //   path: "/admin/user-assign",
-  //   icon: <GrServices size={20} />,
-  // },
-  {
-    name: "Service Master",
-    path: "/admin/service-master",
-    icon: <MdMiscellaneousServices size={20} />,
-  },
-  // {
-  //   name: "Service Type",
-  //   path: "/admin/service-type",
-  //   icon: <FaServicestack size={20} />,
-  // },
-  // {
-  //   name: "Users Master",
-  //   path: "/admin/user-list",
-  //   icon: <FiUsers size={20} />,
-  // },
-  {
-    name: "Reports",
-    path: "/admin/service-report",
-    icon: <TbFile size={20} />,
-  },
-];
-
 export default function Sidebar({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useContext(AuthContext);
-  const vendorDetails = JSON.parse(localStorage.getItem('authAdminData'));
+  const { logout, isAdministrator } = useContext(AuthContext);
+  const vendorDetails = JSON.parse(localStorage.getItem("authAdminData"));
   const [isOpen, setIsOpen] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [activePath, setActivePath] = useState("/admin");
-  
+
   // Hover effects
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
@@ -89,6 +46,72 @@ export default function Sidebar({ children }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const menuItems = [
+    {
+      name: "Dashboard",
+      path: "/admin",
+      icon: <FiHome size={20} />,
+    },
+    {
+      name: "Users Master",
+      path: "/admin/user-list",
+      icon: <FiUsers size={20} />,
+    },
+    // ...(isAdministrator
+    //   ? [
+    //       {
+    //         name: "Roles Master",
+    //         path: "/admin/roles-list",
+    //         icon: <FaPlus size={20} />,
+    //       },
+    //     ]
+    //   : []),
+    // {
+    //   name: "Roles Master",
+    //   path: "/admin/roles-list",
+    //   icon: <FaPlus size={20} />,
+    // },
+    // {
+    //   name: "User Assign Service",
+    //   path: "/admin/user-assign",
+    //   icon: <GrServices size={20} />,
+    // },
+    ...(isAdministrator
+      ? [
+          {
+            name: "Service Master",
+            path: "/admin/service-master",
+            icon: <MdMiscellaneousServices size={20} />,
+          },
+        ]
+      : []),
+    // {
+    //   name: "Service Master",
+    //   path: "/admin/service-master",
+    //   icon: <MdMiscellaneousServices size={20} />,
+    // },
+    // {
+    //   name: "Service Type",
+    //   path: "/admin/service-type",
+    //   icon: <FaServicestack size={20} />,
+    // },
+    // {
+    //   name: "Users Master",
+    //   path: "/admin/user-list",
+    //   icon: <FiUsers size={20} />,
+    // },
+    {
+      name: "Reports",
+      path: "/admin/service-report",
+      icon: <TbFile size={20} />,
+    },
+    // {
+    //   name: "Reports",
+    //   path: "/admin/service-report",
+    //   icon: <TbFile size={20} />,
+    // },
+  ];
 
   return (
     <>

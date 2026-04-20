@@ -106,7 +106,7 @@ function Fusion() {
 
             <div className="flex">
                 {isOpenSidebar && <Sidebar />}
-                <div className="lg:ml-64 md:p-6 p-2 flex-1 "> 
+                <div className="lg:ml-64 md:p-0 p-2 flex-1 "> 
                     {!isReport && Object.keys(res).length === 0 && (
                         <div className="md:w-full w-5xl mx-auto text-black  mt-0">
                             <div className="relative overflow-hidden border border-gray-100  md:w-full mx-auto p-8 shadow-md rounded">

@@ -41,7 +41,12 @@ function LoginPage() {
                 const response = await VendorLogin(payload);
                 if (response.status === true) {
                     // response.allowedUrls= ["transunion","crif", "userprefill"]
-                    response.role = "user";
+                    if(response?.role=="vendor" || response?.role=="admin" || response?.role=="administrator"){
+                        response.role = "vendor";
+                    }else{
+                        toast.info("You are Not Allowed to Login in Vendor Dashboard!")
+                        return;
+                    }
                     login(response);
                     setIsAuthenticated(true);
                     window.location.reload();
@@ -53,6 +58,8 @@ function LoginPage() {
             } catch (error) {
                 setIsPending(false);
                 toast.error(error.message);
+            }finally{
+                setIsPending(false)
             }
         },
     });

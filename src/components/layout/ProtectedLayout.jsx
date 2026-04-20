@@ -31,7 +31,7 @@ export default function ProtectedLayout() {
   const { logout, profileImages, vendorDetails } = useContext(AuthContext);
 
   const handleLogout = () => {
-    logout();
+    logout("vendor");
     window.location.href = "/login";
   };
 

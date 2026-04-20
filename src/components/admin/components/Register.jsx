@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { vendorRegistration } from "../../services/Services_API";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../Context/AuthContext";
 
 const generatePassword = (length = 10) => {
   const chars =
@@ -19,6 +20,13 @@ const Register = ({ cancelClose, userUpdate }) => {
   const [isReport, setIsReport] = useState(false);
   const [res, setRes] = useState({});
   const [isChecked, setIsChecked] = useState(false);
+  const { isAdmin, isEployee, isAdministrator } = useContext(AuthContext);
+  
+
+  const roleMenu = isAdministrator
+    ? ["admin", "vendor", "employee"]
+    : ["vendor", "employee"];
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -31,6 +39,7 @@ const Register = ({ cancelClose, userUpdate }) => {
       mobile: "",
       officeLandline: "",
       vendortype: "",
+      role: "",
       // password: generatePassword(),
       address: {
         address: "",
@@ -48,38 +57,50 @@ const Register = ({ cancelClose, userUpdate }) => {
     },
 
     validationSchema: Yup.object({
-      firstName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").required("First name is required"),
-      lastName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").notRequired("Last name is required"),
+      // firstName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").required("First name is required"),
+      // lastName: Yup.string().matches(/^[A-Za-z]+$/, "Only alphabets are allowed").notRequired("Last name is required"),
+      firstName: Yup.string()
+        .matches(/^[A-Za-z ]+$/, "Only alphabets and spaces are allowed")
+        .required("First name is required"),
+
+      lastName: Yup.string()
+        .matches(/^[A-Za-z ]*$/, "Only alphabets and spaces are allowed")
+        .notRequired(),
       email: Yup.string()
-        .email('Invalid email')
-        .test(
-          'has-tld',
-          'Email must include a valid domain',
-          value => value ? /\.[a-zA-Z]{2,}$/.test(value) : false
+        .email("Invalid email")
+        .test("has-tld", "Email must include a valid domain", (value) =>
+          value ? /\.[a-zA-Z]{2,}$/.test(value) : false,
         )
         .required("Email is required"),
-      username: Yup.string().required("Username is required").min(4, "Username must be at least 4 characters"),
+      username: Yup.string()
+        .required("Username is required")
+        .min(4, "Username must be at least 4 characters"),
       companyName: Yup.string().required("Company name is required"),
       // panNumber: Yup.string().required('PAN Number is required'),
       gender: Yup.string().required("Gender is required"),
       mobile: Yup.string()
-        .matches(/^[6-9]\d{9}$/, 'Enter a valid mobile number')
-        .required('Mobile number is required'),
+        .matches(/^[6-9]\d{9}$/, "Enter a valid mobile number")
+        .required("Mobile number is required"),
       officeLandline: Yup.string()
         .matches(/^[0-9]{10}$/, "Must be a valid 10-digit number")
         .notRequired("Office landline is required"),
       vendortype: Yup.string().required("Vendor type is required"),
+      role: Yup.string().required("role is required"),
       address: Yup.object({
         address: Yup.string().required("Address is required"),
         city: Yup.string().required("City is required"),
         state: Yup.string().required("State is required"),
-        zipCode: Yup.string().matches(/^[0-9]+$/, "Only numbers are allowed").required("Zip code is required"),
+        zipCode: Yup.string()
+          .matches(/^[0-9]+$/, "Only numbers are allowed")
+          .required("Zip code is required"),
       }),
       officeAddress: Yup.object({
         address: Yup.string().required("Office address is required"),
         city: Yup.string().required("Office city is required"),
         state: Yup.string().required("Office state is required"),
-        zipCode: Yup.string().matches(/^[0-9]+$/, "Only numbers are allowed").required("Office zip code is required"),
+        zipCode: Yup.string()
+          .matches(/^[0-9]+$/, "Only numbers are allowed")
+          .required("Office zip code is required"),
       }),
     }),
     validateOnChange: true,
@@ -100,6 +121,7 @@ const Register = ({ cancelClose, userUpdate }) => {
           mobile: values.mobile,
           officeLandline: values.officeLandline,
           vendortype: values.vendortype,
+          role: values.role,
           addressLine: values.address.address,
           city: values.address.city,
           state: values.address.state,
@@ -108,8 +130,8 @@ const Register = ({ cancelClose, userUpdate }) => {
           officeCity: values.officeAddress.city,
           officeState: values.officeAddress.state,
           officeZipCode: values.officeAddress.zipCode,
-          createdBy: "Admin"
-        }
+          createdBy: "Admin",
+        };
         const respose = await vendorRegistration(payload);
 
         if (respose.status) {
@@ -140,7 +162,6 @@ const Register = ({ cancelClose, userUpdate }) => {
 
   useEffect(() => {
     if (userUpdate) {
-
       formik.setValues({
         id: userUpdate.id,
         firstName: userUpdate.vendorfirstname,
@@ -153,6 +174,7 @@ const Register = ({ cancelClose, userUpdate }) => {
         mobile: userUpdate.mobile || "",
         officeLandline: userUpdate.officelandline || "",
         vendortype: userUpdate.vendortype || "",
+        role: userUpdate.role || "",
         address: {
           address: userUpdate.address || "",
           city: userUpdate.city || "",
@@ -172,7 +194,7 @@ const Register = ({ cancelClose, userUpdate }) => {
   }, [userUpdate]);
 
   const handleSelectChange = (e) => {
-    console.log(e.target.checked)
+    console.log(e.target.checked);
 
     const fields = ["address", "city", "state", "zipCode"];
     // assign home to office address if checked
@@ -181,7 +203,7 @@ const Register = ({ cancelClose, userUpdate }) => {
       fields.forEach((field) => {
         formik.setFieldValue(
           `officeAddress.${field}`,
-          formik.values.address[field]
+          formik.values.address[field],
         );
       });
     } else {
@@ -190,19 +212,19 @@ const Register = ({ cancelClose, userUpdate }) => {
         formik.setFieldValue(`officeAddress.${field}`, "");
       });
     }
-  }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-
       {/* Background Overlay + Blur */}
       <div className="absolute inset-0 bg-black/5 backdrop-blur-sm"></div>
 
       {/* Modal Card */}
-      <div className="relative bg-white rounded-2xl shadow-2xl 
+      <div
+        className="relative bg-white rounded-2xl shadow-2xl 
                   w-full max-w-5xl max-h-[90vh] overflow-y-auto 
-                  px-8 py-6 animate-popup">
-
+                  px-8 py-6 animate-popup"
+      >
         {/* Close Button */}
         <button
           onClick={cancelClose}
@@ -218,11 +240,15 @@ const Register = ({ cancelClose, userUpdate }) => {
         </h2>
 
         {/* FORM */}
-        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-1">
-
+        <form
+          onSubmit={formik.handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-4 gap-1"
+        >
           {/* FIRST NAME */}
           <div>
-            <label className="text-gray-700 font-medium text-sm">First Name</label>
+            <label className="text-gray-700 font-medium text-sm">
+              First Name
+            </label>
             <input
               type="text"
               name="firstName"
@@ -234,13 +260,17 @@ const Register = ({ cancelClose, userUpdate }) => {
                      focus:ring-1 focus:ring-primary focus:outline-none"
             />
             {formik.touched.firstName && formik.errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.firstName}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.firstName}
+              </p>
             )}
           </div>
 
           {/* LAST NAME */}
           <div>
-            <label className="text-gray-700 font-medium text-sm">Last Name</label>
+            <label className="text-gray-700 font-medium text-sm">
+              Last Name
+            </label>
             <input
               type="text"
               name="lastName"
@@ -252,7 +282,9 @@ const Register = ({ cancelClose, userUpdate }) => {
                      focus:ring-1 focus:ring-primary focus:outline-none"
             />
             {formik.touched.lastName && formik.errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.lastName}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.lastName}
+              </p>
             )}
           </div>
 
@@ -276,7 +308,9 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* USERNAME */}
           <div>
-            <label className="text-gray-700 font-medium text-sm">Username</label>
+            <label className="text-gray-700 font-medium text-sm">
+              Username
+            </label>
             <input
               type="text"
               name="username"
@@ -285,16 +319,20 @@ const Register = ({ cancelClose, userUpdate }) => {
               onBlur={formik.handleBlur}
               value={formik.values.username}
               className={`mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
-                     focus:ring-1 focus:ring-primary ${userUpdate && 'bg-gray-50'}`}
+                     focus:ring-1 focus:ring-primary ${userUpdate && "bg-gray-50"}`}
             />
             {formik.touched.username && formik.errors.username && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.username}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.username}
+              </p>
             )}
           </div>
 
           {/* COMPANY */}
           <div>
-            <label className="text-gray-700 font-medium text-sm">Company Name</label>
+            <label className="text-gray-700 font-medium text-sm">
+              Company Name
+            </label>
             <input
               type="text"
               name="companyName"
@@ -305,7 +343,9 @@ const Register = ({ cancelClose, userUpdate }) => {
                      focus:ring-1 focus:ring-primary"
             />
             {formik.touched.companyName && formik.errors.companyName && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.companyName}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.companyName}
+              </p>
             )}
           </div>
 
@@ -323,7 +363,9 @@ const Register = ({ cancelClose, userUpdate }) => {
                      focus:ring-1 focus:ring-primary"
             />
             {formik.touched.panNumber && formik.errors.panNumber && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.panNumber}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.panNumber}
+              </p>
             )}
           </div>
           <div>
@@ -342,7 +384,9 @@ const Register = ({ cancelClose, userUpdate }) => {
               <option>Other</option>
             </select>
             {formik.touched.gender && formik.errors.gender && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.gender}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.gender}
+              </p>
             )}
           </div>
 
@@ -358,7 +402,6 @@ const Register = ({ cancelClose, userUpdate }) => {
               value={formik.values.mobile}
               className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2
                      focus:ring-1 focus:ring-primary"
-
             />
             {formik.touched.mobile && formik.errors.mobile && (
               <p className="text-red-500 text-sm">{formik.errors.mobile}</p>
@@ -367,7 +410,9 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* OFFICE LANDLINE */}
           <div>
-            <label className="text-gray-700 font-medium text-sm">Office Landline</label>
+            <label className="text-gray-700 font-medium text-sm">
+              Office Landline
+            </label>
             <input
               type="text"
               name="officeLandline"
@@ -378,12 +423,16 @@ const Register = ({ cancelClose, userUpdate }) => {
                      focus:ring-1 focus:ring-primary"
             />
             {formik.touched.officeLandline && formik.errors.officeLandline && (
-              <p className="text-red-500 text-sm">{formik.errors.officeLandline}</p>
+              <p className="text-red-500 text-sm">
+                {formik.errors.officeLandline}
+              </p>
             )}
           </div>
 
           <div>
-            <label className="text-gray-700 font-medium text-sm">Vendor Type</label>
+            <label className="text-gray-700 font-medium text-sm">
+              Vendor Type
+            </label>
             <select
               name="vendortype"
               onChange={formik.handleChange}
@@ -398,13 +447,41 @@ const Register = ({ cancelClose, userUpdate }) => {
               <option>LMS_Vendor</option>
             </select>
             {formik.touched.vendortype && formik.errors.vendortype && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.vendortype}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.vendortype}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="text-gray-700 font-medium text-sm">
+              User Role
+            </label>
+            <select
+              name="role"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.role}
+              disabled={formik.values.role === "administrator"}
+              className="mt-1 w-full border border-gray-200 shadow-xs text-sm rounded-md px-2 py-2 
+                     bg-white focus:ring-1 focus:ring-primary capitalize"
+            >
+              <option value="">Select Vendor Type</option>
+
+              {roleMenu?.map((role, index) => (
+                <option key={index}>{role}</option>
+              ))}
+            </select>
+            {formik.touched.role && formik.errors.role && (
+              <p className="text-red-500 text-sm mt-1">{formik.errors.role}</p>
             )}
           </div>
 
           {/* HOME ADDRESS - TITLE */}
           <div className="md:col-span-4 mt-2 border-b-2 border-gray-200 pb-1">
-            <h3 className="text-lg font-semibold text-gray-800">Home Address</h3>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Home Address
+            </h3>
           </div>
 
           {/* HOME ADDRESS FIELDS */}
@@ -433,16 +510,18 @@ const Register = ({ cancelClose, userUpdate }) => {
 
           {/* OFFICE ADDRESS TITLE */}
           <div className="md:col-span-4 mt-2">
-            <h3 className="text-lg font-semibold text-gray-800 border-b-2 border-gray-200 pb-1">Office Address</h3>
+            <h3 className="text-lg font-semibold text-gray-800 border-b-2 border-gray-200 pb-1">
+              Office Address
+            </h3>
             <input
               type="checkbox"
               id="check"
               // checked={true}
               onChange={handleSelectChange}
               className="cursor-pointer accent-blue-600 mr-2"
-            /> <label htmlFor="check">Same as Home Address</label>
+            />{" "}
+            <label htmlFor="check">Same as Home Address</label>
           </div>
-
 
           {/* OFFICE ADDRESS FIELDS */}
           {["address", "city", "state", "zipCode"].map((field) => (
@@ -480,9 +559,7 @@ const Register = ({ cancelClose, userUpdate }) => {
           </button>
         </form>
       </div>
-
     </div>
-
   );
 };
 

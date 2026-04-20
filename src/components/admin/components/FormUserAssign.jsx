@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { vendorAssingService } from "../../services/Services_API";
+import { AuthContext } from "../../Context/AuthContext";
 const FormUserAssign = ({
   user = [],
   servicesTypeList = [],
@@ -16,6 +17,7 @@ const FormUserAssign = ({
   const [res, setRes] = useState({});
   const [list, setList] = useState([]);
   const [price, setPrice] = useState([]);
+  const { isAdministrator } = useContext(AuthContext);
   const handleServiceTypeChange = (e) => {
     const selectedId = e.target.value;
     const filteredNames = servicesList?.filter(
@@ -49,13 +51,26 @@ const FormUserAssign = ({
       service_type: Yup.string().required("Service type is required"),
       service: Yup.string().required("Service name is required"),
       // price: Yup.string().required("Price is required"),
+      // price: Yup.number()
+      //   .typeError("Price must be a number")
+      //   .required("Price is required")
+      //   .min(
+      //     editService?.price,
+      //     "Price should not be less than existing price",
+      //   ),
+
       price: Yup.number()
         .typeError("Price must be a number")
         .required("Price is required")
-        .min(
-          editService?.price,
-          "Price should not be less than existing price",
-        ),
+        .when([], {
+          is: () => !isAdministrator,
+          then: (schema) =>
+            schema.min(
+              editService?.price,
+              "Price should not be less than existing price",
+            ),
+          otherwise: (schema) => schema,
+        }),
     }),
     onSubmit: async (values) => {
       try {
@@ -123,7 +138,7 @@ const FormUserAssign = ({
       price: editService.realprice || editService.price,
     });
   }, [editService]);
-  
+
   // console.log(editService)
 
   return (

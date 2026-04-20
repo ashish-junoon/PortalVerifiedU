@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
+  FetchVendorDocuments,
   GetServicesUses,
   GetVendorServicesUsage,
   vendorFetchServiceAssignList,
@@ -11,10 +12,11 @@ import Sidebar from "../Sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Register from "../components/Register";
-import { BiExport } from "react-icons/bi";
 import DateFilter from "../../utils/DateFilter";
 import { CSVLink } from "react-csv";
 import Icon from "../../utils/Icon";
+import { AuthContext } from "../../Context/AuthContext";
+import FileUploadModal from "../../utils/FileUploadModal";
 
 const VendorDetails = ({ setOpenVendor }) => {
   const [activeTab, setActiveTab] = useState("details");
@@ -27,7 +29,9 @@ const VendorDetails = ({ setOpenVendor }) => {
   const [isfilter, setisfilter] = useState(false);
   const [usageHistory, setusageHistory] = useState([]);
   const [allServices, setAllServices] = useState([]);
+  const [Documents, setDocuments] = useState([]);
   const [selectedService, setselectedService] = useState("");
+
   const [dateRange, setDateRange] = useState({
     from: new Date().toISOString().split("T")[0],
     to: new Date().toISOString().split("T")[0],
@@ -35,6 +39,8 @@ const VendorDetails = ({ setOpenVendor }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const userVendorCode = location.state.userVendorCode;
+
+  const {isEmployee, isAdmin, isAdministrator} = useContext(AuthContext)
 
   const vendor = {
     user: userDetails?.username,
@@ -78,15 +84,36 @@ const VendorDetails = ({ setOpenVendor }) => {
     fetchData();
   }, [openForm]);
 
+  const fetchDocuments = async () => {
+    const req = {
+      vendor_code: userVendorCode,
+      url:"/Admin/GetVendorDocument"
+    }
+
+    try {
+      const response = await FetchVendorDocuments(req)
+
+      if(response.status){
+        setDocuments(response.documents)
+      }
+    } catch (error) {
+      console.error("Error in Fetching Documents: ", error)
+    }
+  }
+
+  useEffect(()=> {
+    fetchDocuments()
+  }, [])
+
   const handleEdit = (user) => {
     setUserUpdate(user);
     setOpenForm(true);
   };
 
-  const handleUpload = (data) => {
-    console.log("Uploaded:", data);
-    // API call here
-  };
+  // const handleUpload = (data) => {
+  //   console.log("Uploaded:", data);
+  //   // API call here
+  // };
 
   const columns = [
     { name: "Service Id", selector: (row, index) => index + 1 },
@@ -155,7 +182,7 @@ const VendorDetails = ({ setOpenVendor }) => {
   ];
 
   const VendorServices = async (code) => {
-    console.log(code);
+    // console.log(code);
     
     const req = {
       VendorCode: code,
@@ -296,12 +323,10 @@ const VendorDetails = ({ setOpenVendor }) => {
       name: "Pin Code",
       value: userDetails?.zipcode,
     },
-  ];
-
-  const documents = [
-    { id: 1, name: "Agreement_1", url: "#" },
-    { id: 2, name: "Agreement_2", url: "#" },
-    { id: 3, name: "Agreement_3", url: "#" },
+    {
+      name: "Token",
+      value: userDetails?.Token,
+    },
   ];
 
   useEffect(() => {
@@ -335,12 +360,12 @@ const VendorDetails = ({ setOpenVendor }) => {
               >
                 Back
               </button>
-              <button
+              {!isEmployee && <button
                 onClick={() => handleEdit(userDetails)}
                 className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:opacity-90 cursor-pointer"
               >
                 Edit Vendor
-              </button>
+              </button>}
             </div>
           </div>
 
@@ -491,6 +516,7 @@ const VendorDetails = ({ setOpenVendor }) => {
               <div>
                 <div className="flex justify-end mb-2">
                   <button
+                  disabled={isEmployee}
                     onClick={() => setOpen(true)}
                     className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-sm text-white font-semibold cursor-pointer text-sm"
                   >
@@ -499,30 +525,36 @@ const VendorDetails = ({ setOpenVendor }) => {
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-1">
-                  {documents.map((doc) => (
+                  {Documents?.length ? (Documents?.map((doc, index) => (
                     <div
-                      key={doc.id}
+                      key={doc?.id || index}
                       className="flex justify-between items-center border border-gray-200 px-4 py-3 rounded-md hover:shadow-sm"
                     >
                       <div className="flex flex-col">
-                        <p className="font-medium">{doc.name}</p>
+                        <p className="font-medium">{doc.document_name}</p>
                         <p className="text-xs text-gray-500 font-semibold">
-                          {"12-02-2026"}
+                          {doc?.created_date}
+                        </p>
+                        <p className="text-xs text-gray-500 font-semibold">
+                          Uploaded by: {doc?.created_by}
                         </p>
                       </div>
                       <div className="flex gap-3">
                         <a
-                          href={doc.url}
+                          href={doc?.file_name}
+                          target="_blank"
                           className="text-sm text-primary hover:underline"
                         >
                           View
                         </a>
-                        <button className="text-sm text-gray-500 hover:text-black cursor-pointer">
+                        {/* <a href={doc?.file_name} download className="text-sm text-gray-500 hover:text-black cursor-pointer">
                           Download
-                        </button>
+                        </a> */}
                       </div>
                     </div>
-                  ))}
+                  ))): 
+                  <div className="text-center py-5 font-semibold text-gray-800">No Documents Available</div>
+                }
                 </div>
               </div>
             )}
@@ -531,7 +563,9 @@ const VendorDetails = ({ setOpenVendor }) => {
           <FileUploadModal
             isOpen={open}
             onClose={() => setOpen(false)}
-            onUpload={handleUpload}
+            // onUpload={handleUpload}
+            userVendorCode={userVendorCode}
+            fetchDocuments={fetchDocuments}
           />
 
           {openForm && (
@@ -568,85 +602,6 @@ const DetailItem = ({ label, value }) => (
   </div>
 );
 
-const FileUploadModal = ({ isOpen, onClose, onUpload }) => {
-  const [fileName, setFileName] = useState("");
-  const [file, setFile] = useState(null);
 
-  if (!isOpen) return null;
-
-  const handleUpload = () => {
-    if (!fileName || !file) return alert("Please fill all fields");
-
-    onUpload({ fileName, file });
-
-    // reset
-    setFileName("");
-    setFile(null);
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      {/* MODAL */}
-      <div className="bg-white w-full max-w-md rounded-md shadow-xl p-6 space-y-5 animate-fadeIn">
-        {/* HEADER */}
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Upload Document</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-black cursor-pointer">
-            ✕
-          </button>
-        </div>
-
-        {/* INPUTS */}
-        <div className="space-y-4">
-          {/* File Name */}
-          <div>
-            <label className="text-sm text-gray-500">File Name</label>
-            <input
-              type="text"
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              placeholder="Enter file name"
-              className="w-full mt-1 border border-gray-300 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-          </div>
-
-          {/* File Upload */}
-          <div className="flex justify-center items-center bg-primary/10 rounded-md relative h-[80px]">
-            <label className="text-sm text-gray-500 font-semibold">Upload File</label>
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="w-full mt-1 text-sm absolute left-0 top-0 bottom-0 opacity-0 cursor-pointer"
-            />
-
-            {file && (
-              <p className="text-xs text-gray-500 mt-1">
-                Selected: {file.name}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* ACTIONS */}
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer"
-          >
-            Cancel
-          </button>
-
-          <button
-            onClick={handleUpload}
-            className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary hover:bg-primarydark text-white hover:opacity-90 cursor-pointer"
-          >
-            Upload
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default VendorDetails;

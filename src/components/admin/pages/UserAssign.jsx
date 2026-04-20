@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
   vendorAssingService,
@@ -17,12 +17,14 @@ import VendorServiceDetails from "./VendorServiceDetails";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import FormUserAssign from "../components/FormUserAssign";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function UserAssign() {
   const [users, setUsers] = useState([]);
   const [servicesList, setServicesList] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [pending, setpending] = useState(false);
   const [AssignUserService, setAssignUserService] = useState(false);
   const [servicesTypeList, setServicesTypeList] = useState([]);
   const [editService, setEditService] = useState(null);
@@ -38,6 +40,7 @@ export default function UserAssign() {
   const location = useLocation();
   const userVendorCode = location?.state?.vendorCode;
   const navigate = useNavigate();
+  const { isEmployee, isAdmin, isAdministrator } = useContext(AuthContext);
 
   useEffect(() => {
     if (!userVendorCode) {
@@ -82,14 +85,10 @@ export default function UserAssign() {
       url: "Admin/VendorServiceName",
     });
 
-    // const serviceListRes = await vendorGetServiceNameTypeList({ url: "Admin/GetServiceName" });
-    // if (serviceListRes.status) setServicesList(serviceListRes.serviceNames);
-
     if (serviceRes.status) {
       const services = serviceRes.serviceNames || [];
       const vendorServices = vendorRes?.getVendorLists || [];
 
-      // 🔥 merge logic
       const updatedServices = services.map((service) => {
         const matchedVendorService = vendorServices.find(
           (v) => v.service_name_id === service.service_name_id,
@@ -97,8 +96,13 @@ export default function UserAssign() {
 
         return {
           ...service,
-          // realprice: matchedVendorService ? matchedVendorService.price : null,
+
+          // ✅ Base price fix
+          price: matchedVendorService?.base_price ?? service.price,
+
+          // ✅ Vendor price fix (UI ke liye realprice use ho raha hai)
           realprice: matchedVendorService?.price ?? service.price,
+
           ServiceID: matchedVendorService?.ServiceID || null,
           IsActive: matchedVendorService?.IsActive || false,
         };
@@ -133,11 +137,10 @@ export default function UserAssign() {
       ),
     );
 
-    // 🔥 SYNC selectedServices
     setSelectedServices((prev) =>
       prev.map((item) =>
         item.service_name_id === service_name_id
-          ? { ...item, realprice: value, price: value }
+          ? { ...item, price: value }
           : item,
       ),
     );
@@ -192,9 +195,9 @@ export default function UserAssign() {
           service_name_id: service.service_name_id,
           api_end_point: service.api_end_point,
 
-          // 🔥 THIS IS THE FIX
-          realprice: service.realprice ?? service.price,
-          price: service.realprice ?? service.price,
+          // ✅ correct mapping
+          price: service.realprice ?? service.price, // vendor price
+          base_price: service.price,
         },
       ];
     });
@@ -223,8 +226,8 @@ export default function UserAssign() {
           service_name_id: s.service_name_id,
           api_end_point: s.api_end_point,
 
-          realprice: s.realprice ?? s.price,
-          price: s.realprice ?? s.price,
+          price: s.realprice ?? s.price, // vendor price
+          base_price: s.price,
         })),
       );
       setSelectAll(true);
@@ -256,7 +259,7 @@ export default function UserAssign() {
     const newStatus = !isActive;
 
     try {
-      setLoading(true);
+      setpending(true);
 
       const payload = {
         Id: id,
@@ -268,24 +271,28 @@ export default function UserAssign() {
       const res = await vendorUpdateRegistration(payload);
       if (res.Status) {
         // ✅ Update only that row locally
-        setServicesList((prev) =>
-          prev.map((item) =>
-            item.ServiceID === id ? { ...item, IsActive: newStatus } : item,
-          ),
-        );
+        // setServicesList((prev) =>
+        //   prev.map((item) =>
+        //     item.ServiceID === id ? { ...item, IsActive: newStatus } : item,
+        //   ),
+        // );
 
-        setSelectedServices((prev) =>
-          prev.map((item) =>
-            item.ServiceID === id ? { ...item, IsActive: newStatus } : item,
-          ),
-        );
+        // setSelectedServices((prev) =>
+        //   prev.map((item) =>
+        //     item.ServiceID === id ? { ...item, IsActive: newStatus } : item,
+        //   ),
+        // );
+
+        fetchData()
+        getSingleUserService(userVendorCode)
+        
       } else {
         toast.error(res.message);
       }
     } catch (err) {
       toast.error(err.message);
     } finally {
-      setLoading(false);
+      setpending(false);
     }
   };
 
@@ -293,6 +300,7 @@ export default function UserAssign() {
     {
       name: (
         <input
+        disabled={isEmployee}
           type="checkbox"
           checked={selectAll}
           onChange={handleSelectAll}
@@ -302,6 +310,7 @@ export default function UserAssign() {
       width: "100px",
       cell: (row) => (
         <input
+          disabled={isEmployee}
           type="checkbox"
           checked={selectedServices.some(
             (s) => s.service_name_id === row.service_name_id,
@@ -323,6 +332,7 @@ export default function UserAssign() {
           <div className="flex items-center gap-1 bg-blue-50 rounded-full px-2">
             <span className="text-gray-500">₹</span>
             <input
+              disabled={isEmployee}
               type="number"
               // max={3}
               value={editingPrice}
@@ -330,13 +340,14 @@ export default function UserAssign() {
                 setEditingPrice(e.target.value); // free typing allow
               }}
               onBlur={() => {
+                if (isAdministrator) return;
+                
                 let value = Number(editingPrice);
-
                 // ❗ minimum base price lock
                 if (value < row.price) {
-                  value = row.price;
+                  value = row.price; // row.price = base_price now ✅
                 }
-
+                
                 // ❗ agar empty ya NaN ho
                 if (!value) {
                   value = row.price;
@@ -367,6 +378,7 @@ export default function UserAssign() {
       cell: (row) => (
         <label className="inline-flex items-center cursor-pointer">
           <input
+            disabled={isEmployee || pending}
             type="checkbox"
             className="sr-only peer"
             checked={row.IsActive}
@@ -384,6 +396,7 @@ export default function UserAssign() {
       name: "Action",
       cell: (row) => (
         <button
+          disabled={isEmployee}
           className="px-3 py-1 text-xs"
           type="button"
           onClick={() => {
@@ -425,7 +438,9 @@ export default function UserAssign() {
             service_name: s.service_name,
             service_name_id: s.service_name_id,
             api_end_point: s.api_end_point,
-            price: s.price,
+
+            price: s.price, // vendor price
+            base_price: s.base_price,
             IsActive: s.IsActive,
             ServiceID: s.ServiceID,
           })),
@@ -468,7 +483,7 @@ export default function UserAssign() {
                 toast.error("Please select at least one service");
                 return;
               }
-              console.log(selectedServices);
+              // console.log(selectedServices);
 
               for (const service of selectedServices) {
                 let tempReq = {
@@ -588,15 +603,17 @@ export default function UserAssign() {
 
                   <div className="flex justify-end gap-4 max-md:gap-1 mb-6 max-md:flex-col w-full">
                     {/* Assign Services Button */}
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-primary to-primarydark text-white px-6 py-2 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out focus:outline-none"
-                    >
-                      <span className="text-md font-semibold">
-                        {loading ? "Assigning..." : "Assign Services"}
-                      </span>
-                    </button>
+                    {!isEmployee && (
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="flex items-center max-md:w-full gap-2 bg-gradient-to-r from-primary to-primarydark text-white px-6 py-2 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out focus:outline-none"
+                      >
+                        <span className="text-md font-semibold">
+                          {loading ? "Assigning..." : "Assign Services"}
+                        </span>
+                      </button>
+                    )}
 
                     {/* Vendor Services Button */}
                     {/* <button

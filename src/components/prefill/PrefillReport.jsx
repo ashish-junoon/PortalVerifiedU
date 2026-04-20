@@ -15,12 +15,12 @@ const AccordionSection = ({ icon, title, children }) => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="bg-white shadow rounded-lg mb-4">
+    <div className="bg-white shadow rounded-lg mb-2">
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center justify-between w-full px-6 py-4 text-left font-semibold text-gray-700 hover:bg-gray-50 transition"
       >
-        <div className="flex items-center gap-2 text-indigo-600">
+        <div className="flex items-center gap-2 text-primary">
           {icon}
           <span>{title}</span>
         </div>
@@ -67,7 +67,7 @@ const PrefillReport = ({ report, type, onGetNewReport, onDownloadReport = () => 
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-bold text-gray-900 text-center mb-8">
+      <h1 className="text-2xl font-bold text-gray-900 text-center mb-4">
         User Fusion Report
       </h1>
 
@@ -75,15 +75,15 @@ const PrefillReport = ({ report, type, onGetNewReport, onDownloadReport = () => 
       <AccordionSection icon={<FiUser />} title="Personal Info">
         <table className="w-full border border-gray-200 rounded-md">
           <tbody>
-            <tr className="border-b odd:bg-white even:bg-gray-50">
+            <tr className="border-b border-gray-200 odd:bg-white even:bg-gray-50">
               <td className="px-4 py-2 font-medium">Full Name</td>
-              <td className="px-4 py-2 text-indigo-600">{personal?.Name?.FullName}</td>
+              <td className="px-4 py-2 text-primary">{personal?.Name?.FullName}</td>
             </tr>
-            <tr className="border-b odd:bg-white even:bg-gray-50">
+            <tr className="border-b border-gray-200 odd:bg-white even:bg-gray-50">
               <td className="px-4 py-2 font-medium">Date of Birth</td>
               <td className="px-4 py-2">{personal?.DateOfBirth}</td>
             </tr>
-            <tr className="border-b odd:bg-white even:bg-gray-50">
+            <tr className="border-b border-gray-200 odd:bg-white even:bg-gray-50">
               <td className="px-4 py-2 font-medium">Age</td>
               <td className="px-4 py-2">{personal?.Age?.age}</td>
             </tr>

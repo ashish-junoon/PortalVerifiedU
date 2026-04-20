@@ -5,7 +5,7 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // User Components
 import Home from "./components/pages/Home";
@@ -52,9 +52,9 @@ import CrifReportUID from "./components/credit/CrifReportUid";
 import AdminDashboard from "./components/admin/pages/AdminDashboard";
 import AddMembers from "./components/admin/pages/AddMembers";
 import VendorDetails from "./components/admin/pages/VendorDetails";
+import { AuthContext } from "./components/Context/AuthContext";
 
 // import UserLocation from "./components/kyc/UserLocation";
-
 
 // Wrapper for routing based on URL
 function AppContent() {
@@ -64,6 +64,7 @@ function AppContent() {
 
   const path = location.pathname;
   const isAdminRoute = path.startsWith("/admin");
+  const { isAdministrator } = useContext(AuthContext);
 
   // useEffect(() => {
   //   const token = JSON.parse(localStorage.getItem("authData"));
@@ -87,13 +88,25 @@ function AppContent() {
       <Routes>
         {isAdminAuthenticated ? (
           <>
+            {isAdministrator ? (
+              <>
+                <Route path="/admin/service-type" element={<ServiceType />} />
+                <Route
+                  path="/admin/service-master"
+                  element={<ServiceMaster />}
+                />
+                {/* <Route path="/admin/roles-list" element={<AddMembers />} /> */}
+              </>
+            ) : (
+              <>
+                <Route path="/admin" element={<AdminDashboard />} />
+              </>
+            )}
+
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/service-type" element={<ServiceType />} />
-            <Route path="/admin/service-master" element={<ServiceMaster />} />
             <Route path="/admin/user-list" element={<UserList />} />
             <Route path="/admin/user-assign" element={<AdminHome />} />
             <Route path="/admin/service-report" element={<AdminReports />} />
-            <Route path="/admin/roles-list" element={<AddMembers />} />
             <Route path="/admin/user-details" element={<VendorDetails />} />
             <Route path="*" element={<Navigate to="/admin" />} />
           </>
@@ -114,35 +127,189 @@ function AppContent() {
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Home />} />
           {/* <Route path="/bureau/experian" element={<Experian />} /> */}
-          <Route path="/bureau/experian" element={<ProtectedRoute><Experian /></ProtectedRoute>} />
+          <Route
+            path="/bureau/experian"
+            element={
+              <ProtectedRoute>
+                <Experian />
+              </ProtectedRoute>
+            }
+          />
           {/* <Route path="/bureau/crif" element={<ProtectedRoute><CrifReport /></ProtectedRoute>} /> */}
-          <Route path="/bureau/crif" element={<ProtectedRoute><CrifReportUID /></ProtectedRoute>} />
-          <Route path="/bureau/equifax" element={<ProtectedRoute><Equifax /></ProtectedRoute>} />
+          <Route
+            path="/bureau/crif"
+            element={
+              <ProtectedRoute>
+                <CrifReportUID />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/equifax"
+            element={
+              <ProtectedRoute>
+                <Equifax />
+              </ProtectedRoute>
+            }
+          />
           {/* <Route path="/bureau/transunion" element={ <TransUnion />}/> */}
-          <Route path="/bureau/transunion" element={<ProtectedRoute> <TransUnion /></ProtectedRoute>} />
-          <Route path="/bureau/fusion" element={<ProtectedRoute><Fusion /></ProtectedRoute>} />
-          <Route path="/bureau/user-prefill" element={<ProtectedRoute><UserPrefill /></ProtectedRoute>} />
-          <Route path="/bureau/pan" element={<ProtectedRoute><PanToMobile /></ProtectedRoute>} />
-          <Route path="/bureau/pan-basic" element={<ProtectedRoute><PanBasic /></ProtectedRoute>} />
-          <Route path="/bureau/pancomp" element={<ProtectedRoute><PanComprehensive /></ProtectedRoute>} />
-          <Route path="/bureau/bank-account" element={<ProtectedRoute><BankDetails /></ProtectedRoute>} />
-          <Route path="/bureau/aadhar-verification" element={<ProtectedRoute><AadhaarKyc /></ProtectedRoute>} />
-          <Route path="/bureau/driving-license" element={<ProtectedRoute><DrivingLicence /></ProtectedRoute>} />
-          <Route path="/bureau/gst" element={<ProtectedRoute><Gst /></ProtectedRoute>} />
-          <Route path="/bureau/ifsc" element={<ProtectedRoute><IfscVerify /></ProtectedRoute>} />
+          <Route
+            path="/bureau/transunion"
+            element={
+              <ProtectedRoute>
+                {" "}
+                <TransUnion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/fusion"
+            element={
+              <ProtectedRoute>
+                <Fusion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/user-prefill"
+            element={
+              <ProtectedRoute>
+                <UserPrefill />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/pan"
+            element={
+              <ProtectedRoute>
+                <PanToMobile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/pan-basic"
+            element={
+              <ProtectedRoute>
+                <PanBasic />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/pancomp"
+            element={
+              <ProtectedRoute>
+                <PanComprehensive />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/bank-account"
+            element={
+              <ProtectedRoute>
+                <BankDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/aadhar-verification"
+            element={
+              <ProtectedRoute>
+                <AadhaarKyc />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/driving-license"
+            element={
+              <ProtectedRoute>
+                <DrivingLicence />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/gst"
+            element={
+              <ProtectedRoute>
+                <Gst />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/ifsc"
+            element={
+              <ProtectedRoute>
+                <IfscVerify />
+              </ProtectedRoute>
+            }
+          />
           {/* <Route path="/bureau/upi" element={<ProtectedRoute><UpiVerify /></ProtectedRoute>} /> */}
-          <Route path="/bureau/aadhar-masked" element={<ProtectedRoute><AadhaarMasked /></ProtectedRoute>} />
-          <Route path="/bureau/registeremandate" element={<ProtectedRoute><Enach /></ProtectedRoute>} />
-          <Route path="/bureau/cancelemandate" element={<ProtectedRoute><CancleEnach /></ProtectedRoute>} />
-          <Route path="/bureau/pullpaymentusingemandate" element={<ProtectedRoute><PullPayement /></ProtectedRoute>} />
+          <Route
+            path="/bureau/aadhar-masked"
+            element={
+              <ProtectedRoute>
+                <AadhaarMasked />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/registeremandate"
+            element={
+              <ProtectedRoute>
+                <Enach />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/cancelemandate"
+            element={
+              <ProtectedRoute>
+                <CancleEnach />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/pullpaymentusingemandate"
+            element={
+              <ProtectedRoute>
+                <PullPayement />
+              </ProtectedRoute>
+            }
+          />
           {/* <Route path="/payment/payment-gateway" element={<PaymentGateway />} /> */}
-          <Route path="/bureau/createpaymentlink" element={<ProtectedRoute><CreatePaymentLink /></ProtectedRoute>} />
-          <Route path="/bureau/createpaymentqr" element={<ProtectedRoute><CreatePaymentQR /></ProtectedRoute>} />
-          <Route path="/bureau/initiatequicktransfer" element={<ProtectedRoute><QuickTransfer /></ProtectedRoute>} />
+          <Route
+            path="/bureau/createpaymentlink"
+            element={
+              <ProtectedRoute>
+                <CreatePaymentLink />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/createpaymentqr"
+            element={
+              <ProtectedRoute>
+                <CreatePaymentQR />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bureau/initiatequicktransfer"
+            element={
+              <ProtectedRoute>
+                <QuickTransfer />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/profile" element={<ProfilePage />} />
           {/* <Route path="/location" element={<UserLocation />} /> */}
-          <Route path="/success" element={<SuccessPage fromAction={location.state?.fromAction} />} />
-          <Route path="/failure" element={<FailurePage fromAction={location.state?.fromAction} />} />
+          <Route
+            path="/success"
+            element={<SuccessPage fromAction={location.state?.fromAction} />}
+          />
+          <Route
+            path="/failure"
+            element={<FailurePage fromAction={location.state?.fromAction} />}
+          />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>

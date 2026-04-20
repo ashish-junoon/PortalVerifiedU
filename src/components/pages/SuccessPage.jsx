@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
-import { GetMandateDetailsById } from '../services/Services_API';
+import { GetMandateDetailsById, GetTransactionById } from '../services/Services_API';
 import { toast } from 'react-toastify';
 
 const SuccessPage = () => {
@@ -28,11 +28,25 @@ const SuccessPage = () => {
     }
   }
 
+  const getTransactionDetailsById = async (req) => {
+    try {
+      const response = await GetTransactionById(req)
+      if(response.status){
+        setmandate(response?.data?.id)
+      }else{
+        toast.error(response?.message)
+      }
+    } catch (error) {
+      console.error("Error in Mandate", error)
+    }
+  }
+
   // Set message and redirect page
   useEffect(() => {
     if (type === "pg") {
       setPage("/");
       setMsg("Your Transaction was successful.");
+      getTransactionDetailsById({TransactionId:tid})
     }else if(type === "ENACH"){
       setPage("/enach/register");
       setMsg("Your ENach Registration was successful.");

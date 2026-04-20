@@ -79,7 +79,7 @@ export default function ProfilePage() {
                                         }`}
                 >
                   {tab === "password"
-                    ? "Password Reset"
+                    ? "Change Password"
                     : tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
               ))}
@@ -365,33 +365,122 @@ function WalletRecharge() {
    FORGOT PASSWORD TAB
 ================================================ */
 
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
 function ForgotPasswordTab() {
-  const [email, setEmail] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+    validationSchema: Yup.object({
+      oldPassword: Yup.string().required("Old password is required"),
+
+      newPassword: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("New password is required"),
+
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("newPassword")], "Passwords must match")
+        .required("Confirm password is required"),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      // console.log(values);
+      try {
+        // const response = await ChangeVendorPassword()
+        if(response.status){
+          toast.success(response.message || "Password changed successfully.")
+        }else{
+          toast.info(response.message || "Problem in Chnaging password!")
+        }
+      } catch (error) {
+        console.error("Error in Changing Password:", error)
+      }
+      resetForm();
+    },
+  });
 
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold text-gray-700 mb-2">
-        Password Reset
+        Change Password
       </h2>
 
-      <div>
-        <label className="text-gray-500 text-sm">Registered Email</label>
-        <input
-          type="email"
-          maxLength={35}
-          className="w-full mt-1 border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 outline-none"
-          placeholder="Enter your email..."
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
+      <form onSubmit={formik.handleSubmit}>
+        <div className="grid grid-cols-3 max-md:grid-cols-1 gap-2">
 
-      <button
-        className="bg-primary hover:bg-primarydark text-white px-5 py-2 rounded-lg transition"
-        onClick={() => alert("Reset link sent")}
-      >
-        Send Reset Link
-      </button>
+          {/* Old Password */}
+          <div>
+            <label className="text-gray-500 text-sm">Old Password</label>
+            <input
+              type="password"
+              name="oldPassword"
+              maxLength={35}
+              value={formik.values.oldPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 outline-none"
+              placeholder="Enter old password"
+            />
+            {formik.touched.oldPassword && formik.errors.oldPassword && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors.oldPassword}
+              </p>
+            )}
+          </div>
+
+          {/* New Password */}
+          <div>
+            <label className="text-gray-500 text-sm">New Password</label>
+            <input
+              type="password"
+              name="newPassword"
+              maxLength={35}
+              value={formik.values.newPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 outline-none"
+              placeholder="Enter new password"
+            />
+            {formik.touched.newPassword && formik.errors.newPassword && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors.newPassword}
+              </p>
+            )}
+          </div>
+
+          {/* Confirm Password */}
+          <div>
+            <label className="text-gray-500 text-sm">Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              maxLength={35}
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 outline-none"
+              placeholder="Confirm password"
+            />
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  {formik.errors.confirmPassword}
+                </p>
+              )}
+          </div>
+
+        </div>
+
+        <button
+          type="submit"
+          className="bg-primary hover:bg-primarydark text-white px-5 py-2 rounded-lg transition mt-4 cursor-pointer"
+        >
+          Change Password
+        </button>
+      </form>
     </div>
   );
 }

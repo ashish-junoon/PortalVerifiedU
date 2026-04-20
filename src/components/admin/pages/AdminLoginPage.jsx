@@ -47,7 +47,7 @@ function AdminLoginPage() {
 
                 if (response.status === true) {
                     response.allowedUrls= [ "/bureau/crif", "/bureau/equifax"]
-                    response.role="admin";
+                    // response.role="admin";
                     login(response);
                     setIsAdminAuthenticated(true);
                     window.location.reload();

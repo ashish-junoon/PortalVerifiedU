@@ -29,14 +29,22 @@ export const AuthProvider = ({ children }) => {
     const [serviceHistory, setServiceHistory] = useState(); 
     const [totalserviceHistory, settotalServiceHistory] = useState(); 
     const token = JSON.parse(localStorage.getItem("authData"));
+    const AdminToken = JSON.parse(localStorage.getItem("authAdminData"));
     const vendorDetails = token?.data?.vendorLogin;
     const servicesDetails = token?.data?.services;
     const vendorcode = token?.data?.vendorLogin?.vendorcode;
+    const loginRole = token?.data?.role;
+    
+
+    const isAdministrator = AdminToken?.data?.role == "administrator";
+    const isAdmin = AdminToken?.data?.role == "admin";
+    const isEmployee = AdminToken?.data?.role == "employee";
+    
     const [profileImages, setProfileImages] = useState(); // starting balance
     const login = (data) => {
         const expiry = new Date().getTime() + 12 * 60 * 60 * 1000; // 12 hours
         const storedData = { data, expiry };
-        if (data.role == 'admin') {
+        if (data.role != 'vendor') {
             localStorage.setItem('authAdminData', JSON.stringify(storedData));
             setAuthData(data);
         } else {
@@ -45,9 +53,10 @@ export const AuthProvider = ({ children }) => {
         }
 
     };
+    
 
     const logout = (data) => {
-        if (data == 'admin') {
+        if (data != 'vendor') {
             localStorage.removeItem('authAdminData');
             setAuthData(null);
         } else {
@@ -82,7 +91,7 @@ export const AuthProvider = ({ children }) => {
             const now = new Date().getTime();
 
             if (now > expiry) {
-                logout();
+                logout(loginRole);
             }
         }, 60 * 1000); // check every 1 minute
 
@@ -183,7 +192,7 @@ export const AuthProvider = ({ children }) => {
         );
     };
     return (
-        <AuthContext.Provider value={{ authData, login, logout, wallet, deductAmount, updateWallet, hasPermission, vendorDetails, servicesDetails, getVendorList, vendorcode, profileImages,serviceHistory, totalserviceHistory, setServiceHistory }}>
+        <AuthContext.Provider value={{ authData, login, logout, wallet, deductAmount, updateWallet, hasPermission, vendorDetails, servicesDetails, getVendorList, vendorcode, profileImages,serviceHistory, totalserviceHistory, setServiceHistory, loginRole, isAdministrator, isAdmin, isEmployee, AdminToken }}>
             {children}
         </AuthContext.Provider>
     );
