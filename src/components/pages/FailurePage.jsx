@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { XCircleIcon } from '@heroicons/react/24/solid'; // Heroicons v2
-import { GetMandateDetailsById, GetPaymentDetailsById } from '../services/Services_API';
+import { GetMandateDetailsById, GetPaymentDetailsById, GetTransactionById } from '../services/Services_API';
 import { toast } from 'react-toastify';
 
 const FailurePage = ({ fromAction }) => {
@@ -17,6 +17,19 @@ const FailurePage = ({ fromAction }) => {
   const [mandateResponse, setMandateResponse] = useState(null);
 
   // functions based on type parameter
+
+  const getTransactionDetailsById = async (req) => {
+      try {
+        const response = await GetTransactionById(req)
+        if(response.status){
+          setmandate(response?.data?.id)
+        }else{
+          toast.error(response?.message)
+        }
+      } catch (error) {
+        console.error("Error in Mandate", error)
+      }
+    }
 
   const GetMandateDetails = async () => {
 
@@ -48,6 +61,7 @@ const FailurePage = ({ fromAction }) => {
     if (type === "pg") {
       setPage("/profile");
       setMsg("Your Transaction was not successful. Please try again!")
+      getTransactionDetailsById({TransactionId:id})
     } else if (type === "ENACH") {
       GetMandateDetails();
     } else if (type === "aadhaar") {
